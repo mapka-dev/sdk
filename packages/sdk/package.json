@@ -1,0 +1,51 @@
+{
+  "name": "@mapka/sdk",
+  "version": "0.14.1",
+  "type": "module",
+  "description": "MapLibre react web component",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mapka-dev/web-components.git"
+  },
+  "exports": {
+    ".": "./lib/index.js"
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "build:watch": "tsc --watch --build"
+  },
+  "keywords": [
+    "map",
+    "maplibre",
+    "react",
+    "component"
+  ],
+  "author": "chyzwar",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@mapka/react-map-shared": "^0.14.1",
+    "@maplibre/maplibre-gl-style-spec": "^24.3.1",
+    "es-toolkit": "^1.41.0",
+    "maplibre-gl": "^5.11.0"
+  },
+  "devDependencies": {
+    "@chyzwar/tsconfig": "^0.4.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "files": [
+    "src/",
+    "lib/",
+    "!**/__tests__/",
+    "!lib/buildInfo.json"
+  ]
+}

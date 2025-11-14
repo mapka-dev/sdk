@@ -1,0 +1,7 @@
+{
+  "extends": "@chyzwar/tsconfig/react.json",
+  "compilerOptions": {
+    "skipLibCheck": true
+  },
+  "include": ["src"]
+}

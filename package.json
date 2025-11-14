@@ -1,0 +1,38 @@
+{
+  "name": "@mapka/sdk",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "chyzwar",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "lint": "runner lint",
+    "check": "runner check",
+    "start": "runner start",
+    "build": "runner build",
+    "build:watch": "runner build:watch",
+    "prepare": "husky"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/**"
+    ]
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@chyzwar/biome-config": "^0.2.31",
+    "@chyzwar/runner": "^0.4.35",
+    "@lerna-lite/cli": "^3.10.1",
+    "@lerna-lite/publish": "^3.10.1",
+    "@lerna-lite/version": "^3.10.1",
+    "@types/node": "^22.10.2",
+    "conventional-changelog-conventionalcommits": "^7.0.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.11",
+    "typescript": "^5.7.2"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": "yarn lint"
+  },
+  "packageManager": "yarn@4.5.2"
+}

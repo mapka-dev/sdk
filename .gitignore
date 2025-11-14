@@ -1,0 +1,20 @@
+# Yarn
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+
+# Folders #
+coverage
+node_modules
+dist
+lib
+
+# Logs and env files#
+*.log
+*.tfvars
+*.env
