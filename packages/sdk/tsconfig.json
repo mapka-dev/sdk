@@ -1,5 +1,5 @@
 {
-  "extends": "@chyzwar/tsconfig/react.json",
+  "extends": "@chyzwar/tsconfig/lib.json",
   "compilerOptions": {
     "skipLibCheck": true
   },

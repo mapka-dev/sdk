@@ -1,4 +1,23 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
-  "extends": ["@chyzwar/biome-config/react"]
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": ["@chyzwar/biome-config/react"], 
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "off"
+      }
+    }
+  }, 
+  "linter": {
+    "rules": {
+      "correctness": {
+        "useUniqueElementIds": {
+          "level": "error", 
+          "options": {
+            "excludedComponents": ["FormattedMessage"]
+          }
+        }
+      }
+    }
+  }
 }

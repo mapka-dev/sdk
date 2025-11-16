@@ -1,16 +1,12 @@
-# Mapka map components (ALPHA)
+# Mapka JS SDK
 
-![Publish](https://github.com/mapka-dev/web-components/actions/workflows/publish.yaml/badge.svg)
+![Publish](https://github.com/mapka-dev/sdk/actions/workflows/publish.yaml/badge.svg)
 
-Collection of react map components
+Additional features for Mapka JS SDK on top of MapLibre GL JS
 
 ## Packages
 
-- [@mapka/deckgl-map](packages/deckgl-map/README.md)
-- [@mapka/map-shared](packages/map-shared/README.md)
-- [@mapka/maplibre-map](packages/maplibre-map/README.md)
-- [@mapka/leaflet-map](packages/leaflet-map/README.md)
-- [@mapka/split-panel](packages/split-panel/README.md)
+- [@mapka/sdk](packages/sdk/README.md)
 
 ## License
 
