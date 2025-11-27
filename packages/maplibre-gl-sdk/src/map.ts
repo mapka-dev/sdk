@@ -4,6 +4,7 @@ import { loadLayersIcons } from "./modules/icons.js";
 
 export interface MapkaMapOptions extends MapOptions {
   apiKey: string;
+  env?: "dev" | "prod" | "local";
 }
 
 const noopTransformRequest: RequestTransformFunction = (url) => {
@@ -27,7 +28,9 @@ const createTransformRequest =
   };
 
 export class MapkaMap extends maplibregl.Map {
-  constructor({ transformRequest, apiKey, ...props }: MapkaMapOptions) {
+  static env: string = "prod";
+
+  public constructor({ transformRequest, apiKey, ...props }: MapkaMapOptions) {
     super({
       ...props,
       transformRequest: createTransformRequest(apiKey, transformRequest),

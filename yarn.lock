@@ -524,6 +524,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mapka/maplibre-gl-sdk@workspace:packages/maplibre-gl-sdk":
+  version: 0.0.0-use.local
+  resolution: "@mapka/maplibre-gl-sdk@workspace:packages/maplibre-gl-sdk"
+  dependencies:
+    "@chyzwar/tsconfig": "npm:^0.4.0"
+    "@maplibre/maplibre-gl-style-spec": "npm:^24.3.1"
+    es-toolkit: "npm:^1.42.0"
+    maplibre-gl: "npm:^5.13.0"
+    typescript: "npm:^5.9.3"
+  languageName: unknown
+  linkType: soft
+
 "@mapka/root-sdk@workspace:.":
   version: 0.0.0-use.local
   resolution: "@mapka/root-sdk@workspace:."
@@ -538,18 +550,6 @@ __metadata:
     conventional-changelog-conventionalcommits: "npm:^9.1.0"
     husky: "npm:^9.1.7"
     lint-staged: "npm:^16.2.7"
-    typescript: "npm:^5.9.3"
-  languageName: unknown
-  linkType: soft
-
-"@mapka/sdk@workspace:packages/sdk":
-  version: 0.0.0-use.local
-  resolution: "@mapka/sdk@workspace:packages/sdk"
-  dependencies:
-    "@chyzwar/tsconfig": "npm:^0.4.0"
-    "@maplibre/maplibre-gl-style-spec": "npm:^24.3.1"
-    es-toolkit: "npm:^1.42.0"
-    maplibre-gl: "npm:^5.13.0"
     typescript: "npm:^5.9.3"
   languageName: unknown
   linkType: soft
