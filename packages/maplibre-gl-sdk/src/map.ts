@@ -2,7 +2,7 @@ import * as maplibregl from "maplibre-gl";
 import type { RequestTransformFunction, MapOptions } from "maplibre-gl";
 import { loadLayersIcons } from "./modules/icons.js";
 
-interface MapkaMapOptions extends MapOptions {
+export interface MapkaMapOptions extends MapOptions {
   apiKey: string;
 }
 
@@ -33,8 +33,8 @@ export class MapkaMap extends maplibregl.Map {
       transformRequest: createTransformRequest(apiKey, transformRequest),
     });
 
-    super.on("load", () => {
-      loadLayersIcons(this);
+    super.on("styleimagemissing", (event: maplibregl.MapStyleImageMissingEvent) => {
+      loadLayersIcons(this, event);
     });
   }
 }

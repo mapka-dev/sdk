@@ -1,5 +1,5 @@
 {
-  "name": "@mapka/sdk",
+  "name": "@mapka/maplibre-gl-sdk",
   "version": "0.1.0",
   "type": "module",
   "description": "Mapka JS SDK",
@@ -28,7 +28,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@maplibre/maplibre-gl-style-spec": "^24.3.1",
-    "es-toolkit": "^1.41.0",
+    "es-toolkit": "^1.42.0",
     "maplibre-gl": "^5.13.0"
   },
   "devDependencies": {
