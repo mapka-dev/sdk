@@ -19,20 +19,20 @@
     ]
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.5",
+    "@biomejs/biome": "^2.3.7",
     "@chyzwar/biome-config": "^0.4.0",
     "@chyzwar/runner": "^0.10.0",
-    "@lerna-lite/cli": "^4.9.2",
-    "@lerna-lite/publish": "^4.9.2",
-    "@lerna-lite/version": "^4.9.2",
+    "@lerna-lite/cli": "^4.9.3",
+    "@lerna-lite/publish": "^4.9.3",
+    "@lerna-lite/version": "^4.9.3",
     "@types/node": "^24.10.1",
     "conventional-changelog-conventionalcommits": "^9.1.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.6",
+    "lint-staged": "^16.2.7",
     "typescript": "^5.9.3"
   },
   "lint-staged": {
     "*.{js,ts,tsx}": "yarn lint"
   },
-  "packageManager": "yarn@4.5.2"
+  "packageManager": "yarn@4.12.0"
 }

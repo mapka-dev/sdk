@@ -6,7 +6,7 @@ Additional features for Mapka JS SDK on top of MapLibre GL JS
 
 ## Packages
 
-- [@mapka/sdk](packages/sdk/README.md)
+- [@mapka/maplibre-gl-sdk](packages/maplibre-gl-sdk/README.md)
 
 ## License
 
