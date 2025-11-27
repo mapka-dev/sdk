@@ -21,13 +21,11 @@
   "keywords": [
     "map",
     "maplibre",
-    "react",
-    "component"
+    "sdk"
   ],
   "author": "chyzwar",
   "license": "Apache-2.0",
   "dependencies": {
-    "@maplibre/maplibre-gl-style-spec": "^24.3.1",
     "es-toolkit": "^1.42.0",
     "maplibre-gl": "^5.13.0"
   },

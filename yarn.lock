@@ -529,7 +529,6 @@ __metadata:
   resolution: "@mapka/maplibre-gl-sdk@workspace:packages/maplibre-gl-sdk"
   dependencies:
     "@chyzwar/tsconfig": "npm:^0.4.0"
-    "@maplibre/maplibre-gl-style-spec": "npm:^24.3.1"
     es-toolkit: "npm:^1.42.0"
     maplibre-gl: "npm:^5.13.0"
     typescript: "npm:^5.9.3"
