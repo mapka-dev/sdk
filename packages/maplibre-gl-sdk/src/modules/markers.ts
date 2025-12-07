@@ -3,6 +3,7 @@ import { get } from "es-toolkit/compat";
 import type { StyleSpecification } from "maplibre-gl";
 import type { MapkaMap } from "../map.js";
 import type { MapkaMarkerOptions } from "../types/marker.js";
+import { showTooltip, hideTooltip } from "./tooltip.js";
 
 const prevMarkers = new Set<maplibregl.Marker>();
 
@@ -12,13 +13,35 @@ function addMarkersToMap(map: MapkaMap, markers: MapkaMarkerOptions[]) {
   }
   prevMarkers.clear();
 
-  for (const marker of markers) {
-    const { position, color } = marker;
+  for (const markerConfig of markers) {
+    const { position, color, tooltip } = markerConfig;
     const newMarker = new maplibregl.Marker({
       color,
     })
       .setLngLat(position)
       .addTo(map);
+
+    if (tooltip?.trigger === "click") {
+      const markerElement = newMarker.getElement();
+
+      markerElement.style.cursor = "pointer";
+
+      markerElement.addEventListener("click", (e) => {
+        e.stopPropagation();
+        showTooltip(newMarker, tooltip, map);
+      });
+    } else if (tooltip?.trigger === "hover") {
+      const markerElement = newMarker.getElement();
+
+      markerElement.addEventListener("mouseenter", (e) => {
+        e.stopPropagation();
+        showTooltip(newMarker, tooltip, map);
+      });
+      markerElement.addEventListener("mouseleave", (e) => {
+        e.stopPropagation();
+        hideTooltip();
+      });
+    }
 
     prevMarkers.add(newMarker);
   }
