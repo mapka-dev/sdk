@@ -1,7 +1,7 @@
 {
   "extends": "@chyzwar/tsconfig/lib.json",
   "compilerOptions": {
-    "skipLibCheck": true
+    "skipLibCheck": true, 
   },
   "include": ["src"]
 }
