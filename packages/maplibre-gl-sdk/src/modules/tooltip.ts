@@ -30,6 +30,18 @@ function createTooltipContent(options: MapkaTooltipOptions): HTMLElement {
 
     carouselContainer.appendChild(carouselTrack);
 
+    // Add close button
+    const closeButton = document.createElement("button");
+    closeButton.className = "mapka-tooltip-action-btn mapka-tooltip-close";
+    closeButton.innerHTML = `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="display:block;fill:none;height:16px;width:16px;stroke:currentColor;stroke-width:3;overflow:visible"><path d="m6 6 20 20M26 6 6 26"></path></svg>`;
+    closeButton.setAttribute("aria-label", "Close");
+    closeButton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      hideTooltip();
+    });
+
+    carouselContainer.appendChild(closeButton);
+
     // Add navigation dots if multiple images
     if (options.imageUrls.length > 1) {
       const dotsContainer = document.createElement("div");
@@ -52,7 +64,7 @@ function createTooltipContent(options: MapkaTooltipOptions): HTMLElement {
       // Add prev/next buttons
       const prevButton = document.createElement("button");
       prevButton.className = "mapka-tooltip-carousel-btn mapka-tooltip-carousel-prev";
-      prevButton.innerHTML = "9";
+      prevButton.innerHTML = `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="display:block;fill:none;height:12px;width:12px;stroke:currentColor;stroke-width:4;overflow:visible"><path fill="none" d="M20 28 8.7 16.7a1 1 0 0 1 0-1.4L20 4"></path></svg>`;
       prevButton.setAttribute("aria-label", "Previous image");
       prevButton.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -63,7 +75,7 @@ function createTooltipContent(options: MapkaTooltipOptions): HTMLElement {
 
       const nextButton = document.createElement("button");
       nextButton.className = "mapka-tooltip-carousel-btn mapka-tooltip-carousel-next";
-      nextButton.innerHTML = ":";
+      nextButton.innerHTML = `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="display:block;fill:none;height:12px;width:12px;stroke:currentColor;stroke-width:4;overflow:visible"><path fill="none" d="m12 4 11.3 11.3a1 1 0 0 1 0 1.4L12 28"></path></svg>`;
       nextButton.setAttribute("aria-label", "Next image");
       nextButton.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -139,6 +151,10 @@ function injectStyles() {
       max-width: 320px;
     }
 
+    .maplibregl-popup-close-button {
+      display: none !important;
+    }
+
     .mapka-tooltip-content-wrapper {
       border-radius: 12px;
       overflow: hidden;
@@ -169,24 +185,47 @@ function injectStyles() {
       display: block;
     }
 
-    .mapka-tooltip-carousel-btn {
+    .mapka-tooltip-action-btn {
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(255, 255, 255, 0.9);
+      top: 12px;
+      right: 12px;
+      background: rgba(255, 255, 255, 0.95);
       border: none;
       border-radius: 50%;
       width: 32px;
       height: 32px;
       cursor: pointer;
-      font-size: 20px;
-      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+      transition: background 0.2s ease, transform 0.2s ease;
+      color: #222;
+      z-index: 3;
+    }
+
+    .mapka-tooltip-action-btn:hover {
+      background: white;
+      transform: scale(1.05);
+    }
+
+    .mapka-tooltip-carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.95);
+      border: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 2;
-      transition: background 0.2s ease;
+      transition: background 0.2s ease, transform 0.2s ease;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+      color: #222;
     }
 
     .mapka-tooltip-carousel-btn:hover {
@@ -233,12 +272,12 @@ function injectStyles() {
     }
 
     .mapka-tooltip-text {
-      padding: 16px;
+      padding: 12px 16px 16px;
     }
 
     .mapka-tooltip-title {
-      margin: 0 0 8px 0;
-      font-size: 16px;
+      margin: 0 0 4px 0;
+      font-size: 15px;
       font-weight: 600;
       color: #222;
       line-height: 1.3;
@@ -249,25 +288,6 @@ function injectStyles() {
       font-size: 14px;
       color: #717171;
       line-height: 1.4;
-    }
-
-    .maplibregl-popup-close-button {
-      font-size: 24px;
-      padding: 8px;
-      width: 32px;
-      height: 32px;
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 50%;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
-      transition: background 0.2s ease, transform 0.2s ease;
-      right: 12px !important;
-      top: 12px !important;
-      color: #222;
-    }
-
-    .maplibregl-popup-close-button:hover {
-      background: white;
-      transform: scale(1.05);
     }
   `;
 
