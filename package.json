@@ -15,17 +15,18 @@
   },
   "workspaces": {
     "packages": [
-      "packages/**"
+      "packages/**",
+      "packages/maplibre-gl-sdk/examples/**"
     ]
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.7",
+    "@biomejs/biome": "^2.3.8",
     "@chyzwar/biome-config": "^0.4.0",
     "@chyzwar/runner": "^0.10.0",
-    "@lerna-lite/cli": "^4.9.3",
-    "@lerna-lite/publish": "^4.9.3",
-    "@lerna-lite/version": "^4.9.3",
-    "@types/node": "^24.10.1",
+    "@lerna-lite/cli": "^4.10.1",
+    "@lerna-lite/publish": "^4.10.1",
+    "@lerna-lite/version": "^4.10.1",
+    "@types/node": "^24.10.3",
     "conventional-changelog-conventionalcommits": "^9.1.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
@@ -33,6 +34,5 @@
   },
   "lint-staged": {
     "*.{js,ts,tsx}": "yarn lint"
-  },
-  "packageManager": "yarn@4.12.0"
+  }
 }

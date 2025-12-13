@@ -12,7 +12,8 @@
     "url": "https://github.com/mapka-dev/sdk.git"
   },
   "exports": {
-    ".": "./lib/index.js"
+    ".": "./lib/index.js",
+    "./styles.css": "./src/styles.css"
   },
   "scripts": {
     "build": "tsc --build",
@@ -26,8 +27,9 @@
   "author": "chyzwar",
   "license": "Apache-2.0",
   "dependencies": {
-    "es-toolkit": "^1.42.0",
-    "maplibre-gl": "^5.13.0"
+    "es-toolkit": "^1.43.0",
+    "maplibre-gl": "^5.14.0",
+    "preact": "^10.28.0"
   },
   "devDependencies": {
     "@chyzwar/tsconfig": "^0.4.0",
