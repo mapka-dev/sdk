@@ -4,6 +4,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.0](https://github.com/mapka-dev/sdk/compare/v0.8.0...v0.9.0) (2025-12-13)
+
+### Features
+
+* used preact for rendering ([#7](https://github.com/mapka-dev/sdk/issues/7)) ([26c1a8b](https://github.com/mapka-dev/sdk/commit/26c1a8b041f220556a7f1b5b8d2d49c069b73d4b)) - by @chyzwar
+
 ## [0.8.0](https://github.com/mapka-dev/sdk/compare/v0.7.0...v0.8.0) (2025-12-13)
 
 ### Features
