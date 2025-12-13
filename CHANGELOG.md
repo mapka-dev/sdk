@@ -4,6 +4,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.0](https://github.com/mapka-dev/sdk/compare/v0.7.0...v0.8.0) (2025-12-13)
+
+### Features
+
+* **maplibre-gl-sdk:** improve docs ([#6](https://github.com/mapka-dev/sdk/issues/6)) ([ad984df](https://github.com/mapka-dev/sdk/commit/ad984df4a381916d04df40e53c7953e9ee011727)) - by @chyzwar
+
 ## [0.7.0](https://github.com/mapka-dev/sdk/compare/v0.6.0...v0.7.0) (2025-12-07)
 
 ### Features
