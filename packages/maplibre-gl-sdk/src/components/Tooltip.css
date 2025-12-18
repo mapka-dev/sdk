@@ -1,0 +1,221 @@
+
+/* Mapka Tooltip Styles */
+.mapka-tooltip {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.mapka-tooltip-icon {
+  display: block;
+  fill: none;
+  height: 16px;
+  width: 16px;
+  stroke: currentColor;
+  overflow: visible;
+}
+
+.mapka-tooltip-icon-sm {
+  height: 12px;
+  width: 12px;
+}
+
+.mapka-tooltip-icon-star {
+  height: 12px;
+  width: 12px;
+  fill: currentColor;
+  stroke: none;
+}
+
+/* Carousel */
+.mapka-tooltip-carousel {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+}
+
+.mapka-tooltip-carousel-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.mapka-tooltip-carousel-image {
+  min-width: 100%;
+  height: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.mapka-tooltip-carousel-actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+  z-index: 3;
+}
+
+.mapka-tooltip-action-btn {
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+  transition: background 0.2s ease, transform 0.2s ease;
+  color: #222;
+}
+
+.mapka-tooltip-action-btn:hover {
+  background: #fff;
+  transform: scale(1.05);
+}
+
+.mapka-tooltip-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: background 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+  color: #222;
+}
+
+.mapka-tooltip-carousel-btn:hover {
+  background: #fff;
+  transform: translateY(-50%) scale(1.05);
+}
+
+.mapka-tooltip-carousel-prev {
+  left: 12px;
+}
+
+.mapka-tooltip-carousel-next {
+  right: 12px;
+}
+
+.mapka-tooltip-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+}
+
+.mapka-tooltip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.mapka-tooltip-dot:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+.mapka-tooltip-dot-active {
+  background: #fff;
+}
+
+/* Content */
+.mapka-tooltip-content {
+  padding: 12px 16px 16px;
+}
+
+.mapka-tooltip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.mapka-tooltip-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+  line-height: 1.3;
+  flex: 1;
+}
+
+.mapka-tooltip-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #222;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.mapka-tooltip-rating-value {
+  font-weight: 600;
+}
+
+.mapka-tooltip-rating-count {
+  color: #717171;
+}
+
+.mapka-tooltip-description {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  color: #717171;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.mapka-tooltip-subtitle {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #717171;
+  line-height: 1.4;
+}
+
+.mapka-tooltip-price {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.mapka-tooltip-price-original {
+  color: #717171;
+  text-decoration: line-through;
+}
+
+.mapka-tooltip-price-current {
+  font-weight: 600;
+  color: #222;
+}
+
+.mapka-tooltip-price-suffix {
+  color: #717171;
+}

@@ -1,9 +1,9 @@
 /** biome-ignore-all lint/correctness/noUnusedImports: <explanation> */
 import { h, Fragment } from "preact";
 import { useState } from "preact/hooks";
-import type { MapkaTooltipOptions } from "../types/marker.js";
+import type { MapkaPopupOptions } from "../types/marker.js";
 
-interface TooltipProps extends MapkaTooltipOptions {
+interface TooltipProps extends MapkaPopupOptions {
   onClose?: () => void;
 }
 
