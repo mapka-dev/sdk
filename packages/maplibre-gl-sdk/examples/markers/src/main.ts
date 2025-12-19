@@ -1,7 +1,7 @@
 import "./main.css";
 import "@mapka/maplibre-gl-sdk/styles.css";
 
-import { Map } from "@mapka/maplibre-gl-sdk";
+import { Map, type MapkaMarkerOptions } from "@mapka/maplibre-gl-sdk";
 
 const map = new Map({
   apiKey: import.meta.env.VITE_MAPKA_PUBLIC_API_KEY,
@@ -39,7 +39,7 @@ const fullFeaturedMarker = {
   color: "#ef4444", // red
   popup: {
     id: "marker-3",
-    trigger: "hover" as const,
+    trigger: "click" as const,
     title: "Premium Hotel",
     subtitle: "Downtown Location",
     description:
@@ -144,8 +144,7 @@ const shopMarker = {
   },
 };
 
-// Set all markers on the map
-map.setMarkers([
+const markers: MapkaMarkerOptions[] = [
   simpleHoverMarker,
   clickTooltipMarker,
   fullFeaturedMarker,
@@ -154,4 +153,6 @@ map.setMarkers([
   simpleMarker,
   eventMarker,
   shopMarker,
-]);
+];
+
+map.setMarkers(markers);

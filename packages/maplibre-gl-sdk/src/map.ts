@@ -15,7 +15,6 @@ import type {
   StyleSpecification,
 } from "maplibre-gl";
 import type { MapkaMarkerOptions, MapkaPopupOptions } from "./types/marker.js";
-import { get } from "http";
 
 export interface MapkaMapOptions extends MapOptions {
   maxPopups?: number;
