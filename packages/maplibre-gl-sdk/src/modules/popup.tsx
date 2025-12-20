@@ -6,10 +6,9 @@ import { render } from "preact";
 import { remove } from "es-toolkit/array";
 import type { MapkaPopupOptions } from "../types/marker.js";
 import type { MapkaMap } from "../map.js";
-import { get } from "http";
 
-export function getPopupId(popup: MapkaPopupOptions) {
-  return popup.id ?? `popup-${popup.lngLat[0]}_${popup.lngLat[1]}`;
+export function getPopupId(popup: { id?: string }) {
+  return popup.id ?? `popup-${crypto.randomUUID()}`;
 }
 
 export function getOnClose(map: MapkaMap, id: string) {
@@ -82,13 +81,13 @@ export function updatePopup(
   { content, ...newOptions }: MapkaPopupOptions,
   id: string,
 ) {
+  console.log("updatePopup", content, id);
   if (content instanceof HTMLElement) {
     const mapkaPopups = map.popups.filter((popup) => popup.id === id);
     for (const { popup, options } of mapkaPopups) {
       updatePopupBaseOptions(popup, options, newOptions);
       popup.setDOMContent(content);
     }
-    return getPopupId(newOptions);
   } else if (content instanceof Object) {
     const onClose = getOnClose(map, id);
     const mapkaPopups = map.popups.filter((popup) => popup.id === id);
@@ -99,10 +98,18 @@ export function updatePopup(
       updatePopupBaseOptions(popup, options, newOptions);
       popup.setDOMContent(container);
     }
-    return getPopupId(newOptions);
   }
+}
 
-  throw new Error("Invalid popup content");
+export function closeOnMapClickPopups(map: MapkaMap) {
+  const popupsToCloseOnMapClick = remove(map.popups, (popup) =>
+    Boolean(popup.options.closeOnClick),
+  );
+
+  for (const popup of popupsToCloseOnMapClick) {
+    popup.popup.remove();
+    popup.container.remove();
+  }
 }
 
 export function closePopupsById(map: MapkaMap, id: string) {

@@ -5,17 +5,13 @@ import type { StyleSpecification } from "maplibre-gl";
 import type { MapkaMap } from "../map.js";
 import type { MapkaMarkerOptions, MapkaPopupOptions } from "../types/marker.js";
 
-export function openMarkerPopup(
-  map: MapkaMap,
-  marker: Marker,
-  options: Omit<MapkaPopupOptions, "lngLat">,
-) {
+const markerPopupOptions = (marker: Marker, popupOptions: Omit<MapkaPopupOptions, "lngLat">) => {
   const latLng = marker.getLngLat().toArray();
-  map.openPopup({
-    ...options,
+  return {
+    ...popupOptions,
     lngLat: latLng,
-  });
-}
+  };
+};
 
 export function addMarkersOnMap(currentMap: MapkaMap, markersOptions: MapkaMarkerOptions[]) {
   const markers: Marker[] = [];
@@ -27,79 +23,52 @@ export function addMarkersOnMap(currentMap: MapkaMap, markersOptions: MapkaMarke
     markers.push(newMarker);
     if (!popup) continue;
 
-    const initialPopupId = getPopupId({
-      ...popup,
-      lngLat,
-    });
-
+    const popupId = getPopupId(popup);
     const markerElement = newMarker.getElement();
-    let currentLngLat = newMarker.getLngLat().toArray();
-
-    let currentPopupId = initialPopupId;
 
     if (options.draggable) {
       newMarker.on("dragend", () => {
-        currentLngLat = newMarker.getLngLat().toArray();
-        currentPopupId = currentMap.updatePopup(
-          {
-            ...popup,
-            lngLat: currentLngLat,
-          },
-          currentPopupId,
-        );
+        console.log("dragend", currentMap.popups, popupId);
+        if (currentMap.popups.find((popup) => popup.id === popupId)) {
+          currentMap.updatePopup(markerPopupOptions(newMarker, popup), popupId);
+        }
       });
       newMarker.on("drag", () => {
-        currentLngLat = newMarker.getLngLat().toArray();
-        currentPopupId = currentMap.updatePopup(
-          {
-            ...popup,
-            lngLat: currentLngLat,
-          },
-          currentPopupId,
-        );
+        console.log("dragend", currentMap.popups, popupId);
+        if (currentMap.popups.find((popup) => popup.id === popupId)) {
+          currentMap.updatePopup(markerPopupOptions(newMarker, popup), popupId);
+        }
       });
     }
     if (popup.trigger === "always") {
-      openMarkerPopup(currentMap, newMarker, popup);
+      if (!currentMap.popups.find((popup) => popup.id === popupId)) {
+        currentMap.openPopup(markerPopupOptions(newMarker, popup), popupId);
+      }
 
       markerElement.addEventListener("click", (e) => {
         e.stopPropagation();
-        if (!currentMap.popups.find((popup) => popup.id === currentPopupId)) {
-          currentPopupId = currentMap.openPopup({
-            ...popup,
-            lngLat: currentLngLat,
-          });
+        if (!currentMap.popups.find((popup) => popup.id === popupId)) {
+          currentMap.openPopup(markerPopupOptions(newMarker, popup), popupId);
         }
       });
     } else if (popup.trigger === "click") {
       markerElement.style.cursor = "pointer";
-
-      // TODO handle mem leak
-      currentMap.on("click", () => {
-        currentMap.closePopup(currentPopupId);
-      });
       markerElement.addEventListener("click", (e) => {
         e.stopPropagation();
-        if (!currentMap.popups.find((popup) => popup.id === currentPopupId)) {
-          currentPopupId = currentMap.openPopup({
-            ...popup,
-            lngLat: currentLngLat,
-          });
+        if (!currentMap.popups.find((popup) => popup.id === popupId)) {
+          currentMap.openPopup(markerPopupOptions(newMarker, popup), popupId);
         }
       });
     } else if (popup?.trigger === "hover") {
       markerElement.addEventListener("mouseenter", (e) => {
         e.stopPropagation();
-        if (!currentMap.popups.find((popup) => popup.id === currentPopupId)) {
-          currentPopupId = currentMap.openPopup({
-            ...popup,
-            lngLat: currentLngLat,
-          });
+        if (!currentMap.popups.find((popup) => popup.id === popupId)) {
+          currentMap.openPopup(markerPopupOptions(newMarker, popup), popupId);
         }
       });
       markerElement.addEventListener("mouseleave", (e) => {
         e.stopPropagation();
-        currentMap.closePopup(currentPopupId);
+        currentMap.closePopup(popupId);
       });
     }
   }

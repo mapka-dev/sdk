@@ -1,6 +1,12 @@
 import * as maplibregl from "maplibre-gl";
 import { loadLayersIcons } from "./modules/icons.js";
-import { closePopupsById, getPopupId, openPopup, updatePopup } from "./modules/popup.js";
+import {
+  closeOnMapClickPopups,
+  closePopupsById,
+  getPopupId,
+  openPopup,
+  updatePopup,
+} from "./modules/popup.js";
 import {
   addMarkers,
   addMarkersStyleDiff,
@@ -77,6 +83,9 @@ export class MapkaMap extends maplibregl.Map {
 
     super.on("styleimagemissing", (event: MapStyleImageMissingEvent) => {
       loadLayersIcons(this, event);
+    });
+    super.on("click", () => {
+      closeOnMapClickPopups(this);
     });
 
     super.on("style.load", () => {
