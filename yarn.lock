@@ -972,9 +972,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@mapka/maplibre-gl-sdk-react-custom-popups@workspace:packages/maplibre-gl-sdk/examples/react-custom-popups":
+"@mapka/maplibre-gl-sdk-popups-react-custom@workspace:packages/maplibre-gl-sdk/examples/popups-react-custom":
   version: 0.0.0-use.local
-  resolution: "@mapka/maplibre-gl-sdk-react-custom-popups@workspace:packages/maplibre-gl-sdk/examples/react-custom-popups"
+  resolution: "@mapka/maplibre-gl-sdk-popups-react-custom@workspace:packages/maplibre-gl-sdk/examples/popups-react-custom"
   dependencies:
     "@mapka/maplibre-gl-sdk": "workspace:*"
     "@turf/random": "npm:^7.3.1"
