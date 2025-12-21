@@ -4,6 +4,7 @@ import { getPopupId } from "./popup.js";
 import type { Offset, StyleSpecification } from "maplibre-gl";
 import type { MapkaMap, MapMapkaMarker } from "../map.js";
 import type { MapkaMarkerOptions, MapkaPopupOptions } from "../types/marker.js";
+import { remove } from "es-toolkit";
 
 /**
  * Default marker offset
@@ -41,79 +42,98 @@ const markerPopupOptions = (marker: Marker, popupOptions: Omit<MapkaPopupOptions
   }
 };
 
+function setupMarkerPopupListeners(
+  map: MapkaMap,
+  marker: Marker,
+  popup: Omit<MapkaPopupOptions, "lngLat">,
+  options: MapkaMarkerOptions,
+) {
+  const popupId = getPopupId(popup);
+  const markerElement = marker.getElement();
+
+  if (options.draggable) {
+    marker.on("dragend", () => {
+      if (map.popups.find((p) => p.id === popupId)) {
+        map.updatePopup(markerPopupOptions(marker, popup), popupId);
+      }
+    });
+    marker.on("drag", () => {
+      if (map.popups.find((p) => p.id === popupId)) {
+        map.updatePopup(markerPopupOptions(marker, popup), popupId);
+      }
+    });
+  }
+
+  if (popup.trigger === "always") {
+    if (!map.popups.find((p) => p.id === popupId)) {
+      map.openPopup(markerPopupOptions(marker, popup), popupId);
+    }
+
+    markerElement.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (!map.popups.find((p) => p.id === popupId)) {
+        map.openPopup(markerPopupOptions(marker, popup), popupId);
+      }
+    });
+  } else if (popup.trigger === "click") {
+    markerElement.style.cursor = "pointer";
+    markerElement.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (!map.popups.find((p) => p.id === popupId)) {
+        map.openPopup(markerPopupOptions(marker, popup), popupId);
+      }
+    });
+  } else if (popup.trigger === "hover") {
+    markerElement.addEventListener("mouseenter", (e) => {
+      e.stopPropagation();
+      if (!map.popups.find((p) => p.id === popupId)) {
+        map.openPopup(markerPopupOptions(marker, popup), popupId);
+      }
+    });
+    markerElement.addEventListener("mouseleave", (e) => {
+      e.stopPropagation();
+      if (map.popups.find((p) => p.id === popupId)) {
+        map.closePopup(popupId);
+      }
+    });
+  }
+}
+
 export function addMarkers(currentMap: MapkaMap, markersOptions: MapkaMarkerOptions[]) {
   const markers: MapMapkaMarker[] = [];
 
-  for (const markerConfig of markersOptions) {
-    const { lngLat, popup, ...options } = markerConfig;
+  for (const markerOptions of markersOptions) {
+    const { lngLat, popup, ...options } = markerOptions;
     const newMarker = new Marker(options).setLngLat(lngLat).addTo(currentMap);
 
     markers.push({
-      id: getMarkerId(markerConfig),
-      options: markerConfig,
+      id: getMarkerId(markerOptions),
+      options: markerOptions,
       marker: newMarker,
     });
     if (!popup) continue;
 
-    const popupId = getPopupId(popup);
-    const markerElement = newMarker.getElement();
-
-    if (options.draggable) {
-      newMarker.on("dragend", () => {
-        if (currentMap.popups.find((popup) => popup.id === popupId)) {
-          currentMap.updatePopup(markerPopupOptions(newMarker, popup), popupId);
-        }
-      });
-      newMarker.on("drag", () => {
-        if (currentMap.popups.find((popup) => popup.id === popupId)) {
-          currentMap.updatePopup(markerPopupOptions(newMarker, popup), popupId);
-        }
-      });
-    }
-    if (popup.trigger === "always") {
-      if (!currentMap.popups.find((popup) => popup.id === popupId)) {
-        currentMap.openPopup(markerPopupOptions(newMarker, popup), popupId);
-      }
-
-      markerElement.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (!currentMap.popups.find((popup) => popup.id === popupId)) {
-          currentMap.openPopup(markerPopupOptions(newMarker, popup), popupId);
-        }
-      });
-    } else if (popup.trigger === "click") {
-      markerElement.style.cursor = "pointer";
-      markerElement.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (!currentMap.popups.find((popup) => popup.id === popupId)) {
-          currentMap.openPopup(markerPopupOptions(newMarker, popup), popupId);
-        }
-      });
-    } else if (popup?.trigger === "hover") {
-      markerElement.addEventListener("mouseenter", (e) => {
-        e.stopPropagation();
-        if (!currentMap.popups.find((popup) => popup.id === popupId)) {
-          currentMap.openPopup(markerPopupOptions(newMarker, popup), popupId);
-        }
-      });
-      markerElement.addEventListener("mouseleave", (e) => {
-        e.stopPropagation();
-        if (currentMap.popups.find((popup) => popup.id === popupId)) {
-          currentMap.closePopup(popupId);
-        }
-      });
-    }
+    setupMarkerPopupListeners(currentMap, newMarker, popup, markerOptions);
   }
   currentMap.markers.push(...markers);
 }
 
+export function removeMarkersByIds(map: MapkaMap, ids: string[]) {
+  const removedMarkers = remove(map.markers, (marker) => ids.includes(marker.id));
+  for (const marker of removedMarkers) {
+    marker.marker.remove();
+  }
+}
+
 export function updateMarkers(map: MapkaMap, markersOptions: MapkaMarkerOptions[]) {
-  throw new Error("Not implemented.", { cause: { map, markersOptions } });
+  const markersIds = markersOptions.map(getMarkerId);
+
+  removeMarkersByIds(map, markersIds);
+  addMarkers(map, markersOptions);
 }
 
 export function clearMarkers(map: MapkaMap) {
-  const { markers } = map;
-  for (const marker of markers) {
+  for (const marker of map.markers) {
     marker.marker.remove();
   }
   map.markers = [];

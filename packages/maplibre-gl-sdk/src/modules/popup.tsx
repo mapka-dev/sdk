@@ -6,6 +6,7 @@ import { render } from "preact";
 import { remove } from "es-toolkit/array";
 import type { MapkaPopupOptions } from "../types/marker.js";
 import type { MapkaMap } from "../map.js";
+import { isEqual } from "es-toolkit";
 
 export function getPopupId(popup: { id?: string }) {
   return popup.id ?? `popup-${crypto.randomUUID()}`;
@@ -90,13 +91,13 @@ export function updatePopupBaseOptions(
   options: MapkaPopupOptions,
   newOptions: Omit<MapkaPopupOptions, "content">,
 ) {
-  if (options.maxWidth !== newOptions.maxWidth) {
+  if (!isEqual(options.maxWidth, newOptions.maxWidth)) {
     popup.setMaxWidth(newOptions.maxWidth ?? DEFAULT_POPUP_MAX_WIDTH);
   }
-  if (options.offset !== newOptions.offset) {
+  if (!isEqual(options.offset, newOptions.offset)) {
     popup.setOffset(newOptions.offset);
   }
-  if (options.lngLat !== newOptions.lngLat) {
+  if (!isEqual(options.lngLat, newOptions.lngLat)) {
     popup.setLngLat(newOptions.lngLat);
   }
   return popup;

@@ -350,13 +350,4 @@ describe("markers", () => {
       expect(map.markers).toHaveLength(0);
     });
   });
-
-  describe("updateMarkers", () => {
-    it("should throw not implemented error", () => {
-      const map = createMockMap();
-      const markersOptions: MapkaMarkerOptions[] = [];
-
-      expect(() => updateMarkers(map, markersOptions)).toThrow("Not implemented.");
-    });
-  });
 });
