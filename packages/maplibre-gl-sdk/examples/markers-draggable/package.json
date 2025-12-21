@@ -1,5 +1,5 @@
 {
-  "name": "@mapka/maplibre-gl-sdk-example-basic",
+  "name": "@mapka/maplibre-gl-sdk-example-markers-draggable",
   "private": true,
   "version": "0.7.0",
   "type": "module",

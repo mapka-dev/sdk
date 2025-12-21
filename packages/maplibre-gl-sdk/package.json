@@ -16,8 +16,8 @@
     "./styles.css": "./src/styles.css"
   },
   "scripts": {
-    "build": "tsc --build",
-    "build:watch": "tsc --watch --build"
+    "build": "vite build",
+    "build:watch": "vite build --watch"
   },
   "keywords": [
     "map",
@@ -28,12 +28,17 @@
   "license": "Apache-2.0",
   "dependencies": {
     "es-toolkit": "^1.43.0",
-    "maplibre-gl": "^5.14.0",
+    "maplibre-gl": "^5.15.0",
     "preact": "^10.28.0"
   },
   "devDependencies": {
     "@chyzwar/tsconfig": "^0.4.0",
-    "typescript": "^5.9.3"
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/preact": "^3.2.4",
+    "happy-dom": "^20.0.11",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0"
   },
   "files": [
     "src/",

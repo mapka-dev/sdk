@@ -1,29 +1,28 @@
-export interface MapkaTooltipRating {
-  value: number;
-  count: number;
-}
+import type { MarkerOptions, PopupOptions } from "maplibre-gl";
 
-export interface MapkaTooltipPrice {
-  current: string;
-  original?: string;
-  suffix?: string;
-}
-
-export interface MapkaTooltipOptions {
-  id?: string;
-  trigger?: "hover" | "click";
+export interface MapkaPopupContent {
   title?: string;
-  rating?: MapkaTooltipRating;
   description?: string;
-  subtitle?: string;
-  price?: MapkaTooltipPrice;
   imageUrls?: string[];
   onFavorite?: (id: string) => void;
 }
 
-export interface MapkaMarkerOptions {
-  position: [number, number];
+type CreatePopupElement = (id: string) => HTMLElement;
+type CreatePopupContent = (id: string) => MapkaPopupContent;
+
+export interface MapkaPopupOptions extends PopupOptions {
+  id?: string;
+  lngLat: [number, number];
+  trigger?: "hover" | "click" | "always";
+  content: MapkaPopupContent | HTMLElement | CreatePopupElement | CreatePopupContent;
+}
+
+export type MapkaMarkerPopupOptions = Omit<MapkaPopupOptions, "lngLat">;
+
+export interface MapkaMarkerOptions extends MarkerOptions {
+  id?: string;
+  lngLat: [number, number];
   color?: string;
   icon?: string;
-  tooltip?: MapkaTooltipOptions;
+  popup?: Omit<MapkaPopupOptions, "lngLat">;
 }
