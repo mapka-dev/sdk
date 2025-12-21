@@ -74,7 +74,6 @@ export type MapMapkaMarker = {
 export class MapkaMap extends maplibregl.Map {
   static env: string = "prod";
 
-  public manualMarkers: boolean = false;
   public markers: MapMapkaMarker[] = [];
 
   public maxPopups: number = 1;

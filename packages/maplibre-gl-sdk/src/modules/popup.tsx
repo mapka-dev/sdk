@@ -16,6 +16,14 @@ export function getOnClose(map: MapkaMap, id: string) {
   return () => map.closePopup(id);
 }
 
+export function enforceMaxPopups(map: MapkaMap) {
+  if (map.popups.length > map.maxPopups) {
+    const popupToRemove = map.popups.shift();
+    popupToRemove?.popup.remove();
+    popupToRemove?.container.remove();
+  }
+}
+
 export function openPopup(map: MapkaMap, options: MapkaPopupOptions, id: string) {
   const { lngLat, content, closeButton, ...popupOptions } = options;
   if (content instanceof HTMLElement) {
@@ -34,16 +42,12 @@ export function openPopup(map: MapkaMap, options: MapkaPopupOptions, id: string)
       options,
       popup,
     });
-    if (map.popups.length > map.maxPopups) {
-      const popupToRemove = map.popups.shift();
-      popupToRemove?.popup.remove();
-      popupToRemove?.container.remove();
-    }
+    enforceMaxPopups(map);
     return id;
   } else if (typeof content === "object") {
     const onClose = getOnClose(map, id);
     const container = document.createElement("div");
-    container.classList.add("mapka-tooltip-container");
+    container.classList.add("mapka-popup-container");
 
     render(<PopupContent {...content} closeButton={closeButton} onClose={onClose} />, container);
 
@@ -62,12 +66,7 @@ export function openPopup(map: MapkaMap, options: MapkaPopupOptions, id: string)
       options,
       popup,
     });
-
-    if (map.popups.length > map.maxPopups) {
-      const popupToRemove = map.popups.shift();
-      popupToRemove?.popup.remove();
-      popupToRemove?.container.remove();
-    }
+    enforceMaxPopups(map);
     return id;
   } else if (typeof content === "function") {
     const newContent = content(id);
