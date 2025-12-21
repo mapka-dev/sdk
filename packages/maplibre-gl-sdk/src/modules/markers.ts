@@ -122,7 +122,6 @@ export function removeMarkersByIds(map: MapkaMap, ids: string[]) {
   const removedMarkers = remove(map.markers, (marker) => ids.includes(marker.id));
   for (const marker of removedMarkers) {
     marker.marker.remove();
-    marker.marker.getElement().remove();
   }
 }
 
@@ -136,7 +135,6 @@ export function updateMarkers(map: MapkaMap, markersOptions: MapkaMarkerOptions[
 export function clearMarkers(map: MapkaMap) {
   for (const marker of map.markers) {
     marker.marker.remove();
-    marker.marker.getElement().remove();
   }
   map.markers = [];
 }
