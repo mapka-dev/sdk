@@ -4,6 +4,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.0](https://github.com/mapka-dev/sdk/compare/v0.9.0...v0.10.0) (2025-12-21)
+
+### Features
+
+* **maplibre-gl-sdk:** add popup system and imperative marker API ([#9](https://github.com/mapka-dev/sdk/issues/9)) ([6ae4ac6](https://github.com/mapka-dev/sdk/commit/6ae4ac667cb4928ea42a263232fcc31d7d5decba)) - by @chyzwar
+
 ## [0.9.0](https://github.com/mapka-dev/sdk/compare/v0.8.0...v0.9.0) (2025-12-13)
 
 ### Features
