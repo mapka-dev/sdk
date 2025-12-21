@@ -1,5 +1,5 @@
 {
-  "name": "@mapka/maplibre-gl-sdk-example-popups",
+  "name": "@mapka/maplibre-gl-sdk-example-markers-dynamic",
   "private": true,
   "version": "0.7.0",
   "type": "module",

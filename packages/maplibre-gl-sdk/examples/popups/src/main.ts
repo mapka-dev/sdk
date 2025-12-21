@@ -1,4 +1,3 @@
-import "./main.css";
 import "@mapka/maplibre-gl-sdk/styles.css";
 
 import { Map, type MapkaMarkerOptions } from "@mapka/maplibre-gl-sdk";
@@ -13,7 +12,7 @@ const map = new Map({
 
 // Example 1: Simple marker with hover tooltip (title only)
 const simpleHoverMarker = {
-  position: [16.0, 51.0] as [number, number],
+  lngLat: [16.0, 51.0] as [number, number],
   color: "#3b82f6", // blue
   popup: {
     trigger: "hover" as const,
@@ -23,7 +22,7 @@ const simpleHoverMarker = {
 
 // Example 2: Marker with click tooltip (title + description)
 const clickTooltipMarker = {
-  position: [16.05, 51.0] as [number, number],
+  lngLat: [16.05, 51.0] as [number, number],
   color: "#10b981", // green
   popup: {
     trigger: "click" as const,
@@ -35,7 +34,7 @@ const clickTooltipMarker = {
 
 // Example 3: Marker with full tooltip (all features)
 const fullFeaturedMarker = {
-  position: [16.1, 51.0] as [number, number],
+  lngLat: [16.1, 51.0] as [number, number],
   color: "#ef4444", // red
   popup: {
     id: "marker-3",
@@ -68,7 +67,7 @@ const fullFeaturedMarker = {
 
 // Example 4: Restaurant with rating and price
 const restaurantMarker = {
-  position: [16.0, 50.95] as [number, number],
+  lngLat: [16.0, 50.95] as [number, number],
   color: "#f59e0b", // orange
   popup: {
     id: "restaurant-1",
@@ -89,7 +88,7 @@ const restaurantMarker = {
 
 // Example 5: Attraction with images
 const attractionMarker = {
-  position: [16.05, 50.95] as [number, number],
+  lngLat: [16.05, 50.95] as [number, number],
   color: "#8b5cf6", // purple
   popup: {
     trigger: "hover" as const,
@@ -104,13 +103,13 @@ const attractionMarker = {
 
 // Example 6: Simple marker without tooltip
 const simpleMarker = {
-  position: [16.1, 50.95] as [number, number],
+  lngLat: [16.1, 50.95] as [number, number],
   color: "#6b7280", // gray
 };
 
 // Example 7: Event with price (no discount)
 const eventMarker = {
-  position: [15.95, 51.0] as [number, number],
+  lngLat: [15.95, 51.0] as [number, number],
   color: "#ec4899", // pink
   popup: {
     trigger: "click" as const,
@@ -127,7 +126,7 @@ const eventMarker = {
 
 // Example 8: Shop with discounted price
 const shopMarker = {
-  position: [15.95, 50.95] as [number, number],
+  lngLat: [15.95, 50.95] as [number, number],
   color: "#14b8a6", // teal
   popup: {
     trigger: "hover" as const,
@@ -157,4 +156,4 @@ const markers: MapkaMarkerOptions[] = [
   shopMarker,
 ];
 
-map.setMarkers(markers);
+map.addMarkers(markers);

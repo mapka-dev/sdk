@@ -7,14 +7,17 @@ export interface MapkaPopupContent {
   onFavorite?: (id: string) => void;
 }
 
+type CreatePopupElement = (id: string) => HTMLElement;
+type CreatePopupContent = (id: string) => MapkaPopupContent;
+
 export interface MapkaPopupOptions extends PopupOptions {
   id?: string;
   lngLat: [number, number];
   trigger?: "hover" | "click" | "always";
-  content?: MapkaPopupContent | HTMLElement;
+  content: MapkaPopupContent | HTMLElement | CreatePopupElement | CreatePopupContent;
 }
 
-export type MapkaMarkerPopupOptions = Omit<MapkaPopupOptions, "lngLat">
+export type MapkaMarkerPopupOptions = Omit<MapkaPopupOptions, "lngLat">;
 
 export interface MapkaMarkerOptions extends MarkerOptions {
   id?: string;

@@ -104,4 +104,4 @@ const markers: MapkaMarkerOptions[] = [
   alwaysVisibleMarker,
 ];
 
-map.setMarkers(markers);
+map.addMarkers(markers);

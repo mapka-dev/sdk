@@ -9,9 +9,10 @@ import {
 } from "./modules/popup.js";
 import {
   addMarkers,
-  addMarkersStyleDiff,
-  removeMarkers,
-  addMarkersOnMap,
+  addStyleDiffMarkers,
+  addStyleMarkers,
+  clearMarkers,
+  updateMarkers,
 } from "./modules/markers.js";
 import type {
   Marker,
@@ -57,21 +58,27 @@ const noopTransformStyle: TransformStyleFunction = (_, next) => {
   return next;
 };
 
-type MapkaPopup = {
+export type MapMapkaPopup = {
   id: string;
   container: HTMLElement;
   options: MapkaPopupOptions;
   popup: Popup;
 };
 
+export type MapMapkaMarker = {
+  id: string;
+  options: MapkaMarkerOptions;
+  marker: Marker;
+};
+
 export class MapkaMap extends maplibregl.Map {
   static env: string = "prod";
 
   public manualMarkers: boolean = false;
-  public markers: Marker[] = [];
+  public markers: MapMapkaMarker[] = [];
 
   public maxPopups: number = 1;
-  public popups: MapkaPopup[] = [];
+  public popups: MapMapkaPopup[] = [];
 
   public constructor({ transformRequest, apiKey, maxPopups = 1, ...options }: MapkaMapOptions) {
     super({
@@ -89,10 +96,7 @@ export class MapkaMap extends maplibregl.Map {
     });
 
     super.on("style.load", () => {
-      if (!this.manualMarkers) {
-        removeMarkers(this);
-      }
-      this.markers = addMarkers(this);
+      addStyleMarkers(this);
     });
   }
 
@@ -105,10 +109,7 @@ export class MapkaMap extends maplibregl.Map {
     super.setStyle(style, {
       ...rest,
       transformStyle: (prev, next) => {
-        if (!this.manualMarkers) {
-          removeMarkers(this);
-        }
-        this.markers = addMarkersStyleDiff(this, next);
+        addStyleDiffMarkers(this, next);
         return transformStyle(prev, next);
       },
     });
@@ -116,10 +117,16 @@ export class MapkaMap extends maplibregl.Map {
     return this;
   }
 
-  public setMarkers(markers: MapkaMarkerOptions[]) {
-    removeMarkers(this);
-    this.manualMarkers = true;
-    this.markers = addMarkersOnMap(this, markers);
+  public addMarkers(markers: MapkaMarkerOptions[]) {
+    addMarkers(this, markers);
+  }
+
+  public updateMarkers(markers: MapkaMarkerOptions[]) {
+    updateMarkers(this, markers);
+  }
+
+  public clearMarkers() {
+    clearMarkers(this);
   }
 
   public openPopup(popup: MapkaPopupOptions, id: string = getPopupId(popup)) {
