@@ -84,10 +84,12 @@ function ImageCarousel({
   title,
   onFavorite,
   id,
+  closeButton,
   onClose,
 }: {
   imageUrls: string[];
   title?: string;
+  closeButton?: boolean;
   onFavorite?: (id: string) => void;
   id?: string;
   onClose?: () => void;
@@ -143,14 +145,16 @@ function ImageCarousel({
             <HeartIcon />
           </button>
         )}
-        <button
-          type="button"
-          class="mapka-popup-action-btn"
-          onClick={handleCloseClick}
-          aria-label="Close"
-        >
-          <CloseIcon />
-        </button>
+        {closeButton && (
+          <button
+            type="button"
+            class="mapka-popup-action-btn"
+            onClick={handleCloseClick}
+            aria-label="Close"
+          >
+            <CloseIcon />
+          </button>
+        )}
       </div>
 
       {imageUrls.length > 1 && (
@@ -192,7 +196,14 @@ function ImageCarousel({
   );
 }
 
-export function PopupContent({ title, description, imageUrls, onFavorite, onClose }: PopupProps) {
+export function PopupContent({
+  title,
+  description,
+  closeButton,
+  imageUrls,
+  onFavorite,
+  onClose,
+}: PopupProps) {
   const hasImages = imageUrls && imageUrls.length > 0;
 
   return (
@@ -201,6 +212,7 @@ export function PopupContent({ title, description, imageUrls, onFavorite, onClos
         <ImageCarousel
           imageUrls={imageUrls}
           title={title}
+          closeButton={closeButton}
           onFavorite={onFavorite}
           onClose={onClose}
         />

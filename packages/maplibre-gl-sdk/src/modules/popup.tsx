@@ -90,10 +90,10 @@ export function updatePopupBaseOptions(
   options: MapkaPopupOptions,
   newOptions: Omit<MapkaPopupOptions, "content">,
 ) {
-  if (options.maxWidth === newOptions.maxWidth) {
+  if (options.maxWidth !== newOptions.maxWidth) {
     popup.setMaxWidth(newOptions.maxWidth ?? DEFAULT_POPUP_MAX_WIDTH);
   }
-  if (options.offset === newOptions.offset) {
+  if (options.offset !== newOptions.offset) {
     popup.setOffset(newOptions.offset);
   }
   if (options.lngLat !== newOptions.lngLat) {

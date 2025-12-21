@@ -6,6 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a monorepo for the Mapka JS SDK, which provides additional features on top of MapLibre GL JS for working with Mapka mapping services. The repository uses Lerna for package management and publishes to npm.
 
+## General recommendations
+
+- Use mcp__ide__getDiagnostics to verify created code instead of running yarn build where possible
+
 ## Commands
 
 ### Building
@@ -20,12 +24,6 @@ yarn build:watch        # Build in watch mode
 ```bash
 yarn lint               # Lint and auto-fix with Biome
 yarn check              # Check code with Biome (includes linting + formatting)
-```
-
-### Development
-
-```bash
-yarn start              # Start development environment (build:watch + configurator)
 ```
 
 ### Testing & CI
