@@ -1,3 +1,39 @@
+/* Custom Marker Styles */
+.custom-marker {
+  cursor: pointer;
+}
+
+.marker-dot {
+  border-radius: 50%;
+  background-color: #dc2626;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.marker-dot-small {
+  width: 4px;
+  height: 4px;
+}
+
+.marker-dot-large {
+  width: 8px;
+  height: 8px;
+}
+
+.marker-price-label {
+  position: relative;
+  background-color: #dc2626;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border: 1px solid #fff;
+}
+
+
 /* Real Estate Popup Styles */
 .real-estate-popup {
   width: 280px;
@@ -128,7 +164,7 @@
 .view-details-btn:hover {
   background: #1d4ed8;
 }
-
+/* 
 /* Override maplibre popup styles for cleaner look */
 .maplibregl-popup-content {
   padding: 0 !important;
