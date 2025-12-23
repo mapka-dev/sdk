@@ -4,6 +4,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.0](https://github.com/mapka-dev/sdk/compare/v0.10.0...v0.11.0) (2025-12-23)
+
+### Features
+
+* **examples:** add advanced marker demo with zoom-responsive styling ([#10](https://github.com/mapka-dev/sdk/issues/10)) ([04dd9ec](https://github.com/mapka-dev/sdk/commit/04dd9ecfa3226c3d090233ebc0bc93518ef78596)) - by @chyzwar
+
 ## [0.10.0](https://github.com/mapka-dev/sdk/compare/v0.9.0...v0.10.0) (2025-12-21)
 
 ### Features
