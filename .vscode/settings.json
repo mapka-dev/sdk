@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "arcgis",
+    "BBOX",
     "configurator",
     "maki",
     "mantine",
@@ -9,6 +10,7 @@
     "maplibre",
     "maplibregl",
     "moderndash",
+    "sqft",
     "styledata",
     "styleimagemissing",
     "tabler",

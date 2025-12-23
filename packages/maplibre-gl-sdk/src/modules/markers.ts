@@ -2,7 +2,7 @@ import { Marker } from "maplibre-gl";
 import { get } from "es-toolkit/compat";
 import { getPopupId } from "./popup.js";
 import type { Offset, StyleSpecification } from "maplibre-gl";
-import type { MapkaMap, MapMapkaMarker } from "../map.js";
+import type { MapkaMap } from "../map.js";
 import type { MapkaMarkerOptions, MapkaPopupOptions } from "../types/marker.js";
 import { remove } from "es-toolkit";
 
@@ -100,13 +100,11 @@ function setupMarkerPopupListeners(
 }
 
 export function addMarkers(currentMap: MapkaMap, markersOptions: MapkaMarkerOptions[]) {
-  const markers: MapMapkaMarker[] = [];
-
   for (const markerOptions of markersOptions) {
     const { lngLat, popup, ...options } = markerOptions;
     const newMarker = new Marker(options).setLngLat(lngLat).addTo(currentMap);
 
-    markers.push({
+    currentMap.markers.push({
       id: getMarkerId(markerOptions),
       options: markerOptions,
       marker: newMarker,
@@ -115,7 +113,6 @@ export function addMarkers(currentMap: MapkaMap, markersOptions: MapkaMarkerOpti
 
     setupMarkerPopupListeners(currentMap, newMarker, popup, markerOptions);
   }
-  currentMap.markers.push(...markers);
 }
 
 export function removeMarkersByIds(map: MapkaMap, ids: string[]) {
@@ -143,10 +140,10 @@ export function addStyleMarkers(map: MapkaMap) {
   const style = map.getStyle();
 
   const markers = get(style, "metadata.mapka.markers", []) as MapkaMarkerOptions[];
-  return addMarkers(map, markers);
+  addMarkers(map, markers);
 }
 
 export function addStyleDiffMarkers(map: MapkaMap, next: StyleSpecification) {
   const markers = get(next, "metadata.mapka.markers", []) as MapkaMarkerOptions[];
-  return addMarkers(map, markers);
+  addMarkers(map, markers);
 }

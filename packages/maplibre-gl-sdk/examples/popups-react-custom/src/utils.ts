@@ -1,3 +1,4 @@
+import { randomInt, sample } from "es-toolkit";
 import type { RealEstateProperty } from "./components/RealEstatePopup";
 
 // US bounding box: [west, south, east, north]
@@ -83,20 +84,12 @@ const propertyImages = [
   "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&h=300&fit=crop",
 ];
 
-function randomInt(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function randomElement<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
 export function generateProperty(id: string): RealEstateProperty {
-  const city = randomElement(cities);
-  const propertyType = randomElement(propertyTypes);
+  const city = sample(cities);
+  const propertyType = sample(propertyTypes);
   const streetNumber = randomInt(100, 9999);
-  const streetName = randomElement(streetNames);
-  const streetType = randomElement(streetTypes);
+  const streetName = sample(streetNames);
+  const streetType = sample(streetTypes);
 
   // Price ranges based on property type
   const priceRanges: Record<RealEstateProperty["propertyType"], [number, number]> = {
@@ -140,7 +133,7 @@ export function generateProperty(id: string): RealEstateProperty {
     sqft,
     yearBuilt,
     propertyType,
-    imageUrl: randomElement(propertyImages),
+    imageUrl: sample(propertyImages),
     isFavorite: false,
   };
 }

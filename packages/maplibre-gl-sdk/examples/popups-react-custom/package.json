@@ -11,6 +11,7 @@
   "dependencies": {
     "@mapka/maplibre-gl-sdk": "workspace:*",
     "@turf/random": "^7.3.1",
+    "es-toolkit": "^1.43.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   },
