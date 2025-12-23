@@ -1,3 +1,4 @@
+import { random, sample } from "es-toolkit";
 import type { RealEstateProperty } from "./components/RealEstatePopup";
 
 // US bounding box: [west, south, east, north]
@@ -83,20 +84,12 @@ const propertyImages = [
   "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&h=300&fit=crop",
 ];
 
-function randomInt(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function randomElement<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
 export function generateProperty(id: string): RealEstateProperty {
-  const city = randomElement(cities);
-  const propertyType = randomElement(propertyTypes);
-  const streetNumber = randomInt(100, 9999);
-  const streetName = randomElement(streetNames);
-  const streetType = randomElement(streetTypes);
+  const city = sample(cities);
+  const propertyType = sample(propertyTypes);
+  const streetNumber = random(100, 9999);
+  const streetName = sample(streetNames);
+  const streetType = sample(streetTypes);
 
   // Price ranges based on property type
   const priceRanges: Record<RealEstateProperty["propertyType"], [number, number]> = {
@@ -107,7 +100,7 @@ export function generateProperty(id: string): RealEstateProperty {
   };
 
   const [minPrice, maxPrice] = priceRanges[propertyType];
-  const price = randomInt(minPrice / 1000, maxPrice / 1000) * 1000;
+  const price = random(minPrice / 1000, maxPrice / 1000) * 1000;
 
   // Size and features based on property type
   const bedroomRanges: Record<RealEstateProperty["propertyType"], [number, number]> = {
@@ -124,10 +117,10 @@ export function generateProperty(id: string): RealEstateProperty {
     apartment: [500, 1500],
   };
 
-  const bedrooms = randomInt(...bedroomRanges[propertyType]);
-  const bathrooms = Math.max(1, bedrooms - randomInt(0, 1));
-  const sqft = randomInt(...sqftRanges[propertyType]);
-  const yearBuilt = randomInt(1950, 2024);
+  const bedrooms = random(...bedroomRanges[propertyType]);
+  const bathrooms = Math.max(1, bedrooms - random(0, 1));
+  const sqft = random(...sqftRanges[propertyType]);
+  const yearBuilt = random(1950, 2024);
 
   return {
     id,
@@ -140,7 +133,7 @@ export function generateProperty(id: string): RealEstateProperty {
     sqft,
     yearBuilt,
     propertyType,
-    imageUrl: randomElement(propertyImages),
+    imageUrl: sample(propertyImages),
     isFavorite: false,
   };
 }

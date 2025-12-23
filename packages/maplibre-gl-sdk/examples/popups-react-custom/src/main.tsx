@@ -54,6 +54,11 @@ const propertyTypeColors: Record<RealEstateProperty["propertyType"], string> = {
   apartment: "#8b5cf6", // purple
 };
 
+const pointDiv = document.createElement("div");
+pointDiv.innerHTML = `
+  <div class="point-div" />
+`;
+
 // Create markers from generated points
 const markers: MapkaMarkerOptions[] = points.features.map((feature, index) => {
   const id = `property-${index}`;
@@ -66,6 +71,7 @@ const markers: MapkaMarkerOptions[] = points.features.map((feature, index) => {
     color: property ? propertyTypeColors[property.propertyType] : "#6b7280",
     popup: {
       id,
+      closeOnClick: true,
       maxWidth: "360px",
       trigger: "click" as const,
       content: createPopupElement,
@@ -85,4 +91,8 @@ const map = new MapkaMap({
 map.on("load", () => {
   console.log(`Adding ${markers.length} real estate markers to the map`);
   map.addMarkers(markers);
+});
+
+map.on("zoomend", () => {
+  console.log(`Zoom level: ${map.getZoom()}`);
 });
