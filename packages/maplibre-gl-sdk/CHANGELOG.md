@@ -4,6 +4,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.0](https://github.com/mapka-dev/sdk/compare/v0.11.0...v0.12.0) (2025-12-30)
+
+### Features
+
+* rename clearMarkers to removeMarkers and add removePopups method ([#11](https://github.com/mapka-dev/sdk/issues/11)) ([2214389](https://github.com/mapka-dev/sdk/commit/2214389d03503eb122d9c6481fc8735b0c4ed6f7)) - by @chyzwar
+
 ## [0.11.0](https://github.com/mapka-dev/sdk/compare/v0.10.0...v0.11.0) (2025-12-23)
 
 ### Features
