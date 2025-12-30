@@ -129,7 +129,7 @@ export function updateMarkers(map: MapkaMap, markersOptions: MapkaMarkerOptions[
   addMarkers(map, markersOptions);
 }
 
-export function clearMarkers(map: MapkaMap) {
+export function removeMarkers(map: MapkaMap) {
   for (const marker of map.markers) {
     marker.marker.remove();
   }
