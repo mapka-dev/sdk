@@ -153,3 +153,11 @@ export function closePopupsById(map: MapkaMap, id: string) {
     popup.container.remove();
   }
 }
+
+export function removePopups(map: MapkaMap) {
+  for (const popup of map.popups) {
+    popup.popup.remove();
+    popup.container.remove();
+  }
+  map.popups = [];
+}

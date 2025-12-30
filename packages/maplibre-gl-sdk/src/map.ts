@@ -5,13 +5,14 @@ import {
   closePopupsById,
   getPopupId,
   openPopup,
+  removePopups,
   updatePopup,
 } from "./modules/popup.js";
 import {
   addMarkers,
   addStyleDiffMarkers,
   addStyleMarkers,
-  clearMarkers,
+  removeMarkers,
   updateMarkers,
 } from "./modules/markers.js";
 import type {
@@ -124,8 +125,8 @@ export class MapkaMap extends maplibregl.Map {
     updateMarkers(this, markers);
   }
 
-  public clearMarkers() {
-    clearMarkers(this);
+  public removeMarkers() {
+    removeMarkers(this);
   }
 
   public openPopup(popup: MapkaPopupOptions, id: string = getPopupId(popup)) {
@@ -138,5 +139,9 @@ export class MapkaMap extends maplibregl.Map {
 
   public updatePopup(popup: MapkaPopupOptions, id: string = getPopupId(popup)) {
     return updatePopup(this, popup, id);
+  }
+
+  public removePopups() {
+    removePopups(this);
   }
 }

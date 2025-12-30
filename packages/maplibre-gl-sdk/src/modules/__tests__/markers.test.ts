@@ -4,10 +4,9 @@ import type { StyleSpecification, Offset } from "maplibre-gl";
 import {
   getMarkerId,
   addMarkers,
-  clearMarkers,
+  removeMarkers,
   addStyleMarkers,
   addStyleDiffMarkers,
-  updateMarkers,
 } from "../markers.js";
 import type { MapkaMap, MapMapkaMarker } from "../../map.js";
 import type { MapkaMarkerOptions } from "../../types/marker.js";
@@ -249,7 +248,7 @@ describe("markers", () => {
     });
   });
 
-  describe("clearMarkers", () => {
+  describe("removeMarkers", () => {
     it("should remove all markers from the map", () => {
       const mockMarker1 = { marker: { remove: vi.fn() } };
       const mockMarker2 = { marker: { remove: vi.fn() } };
@@ -257,7 +256,7 @@ describe("markers", () => {
         markers: [mockMarker1, mockMarker2] as unknown as MapMapkaMarker[],
       });
 
-      clearMarkers(map);
+      removeMarkers(map);
 
       expect(mockMarker1.marker.remove).toHaveBeenCalled();
       expect(mockMarker2.marker.remove).toHaveBeenCalled();
@@ -267,7 +266,7 @@ describe("markers", () => {
     it("should handle empty markers array", () => {
       const map = createMockMap({ markers: [] });
 
-      expect(() => clearMarkers(map)).not.toThrow();
+      expect(() => removeMarkers(map)).not.toThrow();
       expect(map.markers).toEqual([]);
     });
   });
