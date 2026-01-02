@@ -946,6 +946,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@mapka/maplibre-gl-sdk-example-export@workspace:packages/maplibre-gl-sdk/examples/export":
+  version: 0.0.0-use.local
+  resolution: "@mapka/maplibre-gl-sdk-example-export@workspace:packages/maplibre-gl-sdk/examples/export"
+  dependencies:
+    "@mapka/maplibre-gl-sdk": "workspace:*"
+    typescript: "npm:~5.9.3"
+    vite: "npm:^7.3.0"
+  languageName: unknown
+  linkType: soft
+
 "@mapka/maplibre-gl-sdk-example-markers-draggable@workspace:packages/maplibre-gl-sdk/examples/markers-draggable":
   version: 0.0.0-use.local
   resolution: "@mapka/maplibre-gl-sdk-example-markers-draggable@workspace:packages/maplibre-gl-sdk/examples/markers-draggable"
@@ -1013,6 +1023,7 @@ __metadata:
     "@testing-library/preact": "npm:^3.2.4"
     es-toolkit: "npm:^1.43.0"
     happy-dom: "npm:^20.0.11"
+    html-to-image: "npm:^1.11.13"
     maplibre-gl: "npm:^5.15.0"
     preact: "npm:^10.28.0"
     typescript: "npm:^5.9.3"
@@ -3376,6 +3387,13 @@ __metadata:
   dependencies:
     lru-cache: "npm:^11.1.0"
   checksum: 10c2/6dc89ba67505afdf275e8bbd63659b542e393799feb33b9807518332d8d3f982de0f1adfc1101629bb342cd9bb1dbc35523047d6037161729951656cf05f5580
+  languageName: node
+  linkType: hard
+
+"html-to-image@npm:^1.11.13":
+  version: 1.11.13
+  resolution: "html-to-image@npm:1.11.13"
+  checksum: 10c2/b4e15b63c521faba0146677a2b973dda58c57083efe2d23569dfc293b670f4b3e80437f5e3e31eb7ab08547b3d72e9f161ee902c1366e3dedefb1885aa1579b0
   languageName: node
   linkType: hard
 

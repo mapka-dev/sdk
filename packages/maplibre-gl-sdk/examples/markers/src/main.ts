@@ -1,6 +1,6 @@
 import "@mapka/maplibre-gl-sdk/styles.css";
 
-import { Map, type MapkaMarkerOptions } from "@mapka/maplibre-gl-sdk";
+import { Map, MapkaExportControl, type MapkaMarkerOptions } from "@mapka/maplibre-gl-sdk";
 
 const map = new Map({
   apiKey: import.meta.env.VITE_MAPKA_PUBLIC_API_KEY,
@@ -105,3 +105,5 @@ const markers: MapkaMarkerOptions[] = [
 ];
 
 map.addMarkers(markers);
+
+map.addControl(new MapkaExportControl());

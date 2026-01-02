@@ -27,6 +27,8 @@ import type {
   StyleSpecification,
 } from "maplibre-gl";
 import type { MapkaMarkerOptions, MapkaPopupOptions } from "./types/marker.js";
+import type { MapkaExportOptions } from "./types/export.js";
+import { exportMap } from "./modules/export.js";
 
 export interface MapkaMapOptions extends MapOptions {
   maxPopups?: number;
@@ -143,5 +145,9 @@ export class MapkaMap extends maplibregl.Map {
 
   public removePopups() {
     removePopups(this);
+  }
+
+  public async export(options: MapkaExportOptions) {
+    return exportMap(this, options);
   }
 }
