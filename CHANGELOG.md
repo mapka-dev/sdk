@@ -4,6 +4,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.2](https://github.com/mapka-dev/sdk/compare/v0.13.1...v0.13.2) (2026-01-02)
+
+### Bug Fixes
+
+* close popups on map click by default when closeOnClick is undefined ([#14](https://github.com/mapka-dev/sdk/issues/14)) ([68d63ef](https://github.com/mapka-dev/sdk/commit/68d63ef9f085f32540846f0373abe676d62e9ff0)) - by @chyzwar
+
 ## [0.13.1](https://github.com/mapka-dev/sdk/compare/v0.13.0...v0.13.1) (2026-01-02)
 
 **Note:** Version bump only for package @mapka/root-sdk
