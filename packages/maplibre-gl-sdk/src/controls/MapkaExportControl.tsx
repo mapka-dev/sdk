@@ -75,10 +75,18 @@ export class MapkaExportControl implements IControl {
 
   private render(): void {
     if (!this.container) {
-      this.map?.logger.error("Export control container not found");
+      this.map?.logger.error("Export control container not found for rendering");
       return;
     }
     render(<Button isExporting={this.isExporting} onClick={this.onClick} />, this.container);
+  }
+
+  private unmount(): void {
+    if (!this.container) {
+      this.map?.logger.error("Export control container not found during unmount");
+      return;
+    }
+    render(null, this.container);
   }
 
   public onAdd(map: MapkaMap): HTMLElement {
@@ -93,7 +101,11 @@ export class MapkaExportControl implements IControl {
   }
 
   public onRemove(): void {
-    this.container?.remove();
+    this.unmount();
+
+    this.container?.remove?.();
+
+    this.container = undefined;
     this.map = undefined;
   }
 }
