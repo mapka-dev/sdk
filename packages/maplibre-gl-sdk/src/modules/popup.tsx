@@ -24,8 +24,8 @@ export function enforceMaxPopups(map: MapkaMap) {
   }
 }
 
-export function openPopup(map: MapkaMap, options: MapkaPopupOptions, id: string) {
-  const { lngLat, content, closeButton, ...popupOptions } = options;
+export function openPopup(map: MapkaMap, options: MapkaPopupOptions) {
+  const { lngLat, content, closeButton, id = getPopupId(options), ...popupOptions } = options;
   if (content instanceof HTMLElement) {
     const popup = new Popup({
       ...popupOptions,
@@ -70,14 +70,10 @@ export function openPopup(map: MapkaMap, options: MapkaPopupOptions, id: string)
     return id;
   } else if (typeof content === "function") {
     const newContent = content(id);
-    return openPopup(
-      map,
-      {
-        ...options,
-        content: newContent,
-      },
-      id,
-    );
+    return openPopup(map, {
+      ...options,
+      content: newContent,
+    });
   }
 
   throw new Error("Invalid popup content");
@@ -102,11 +98,9 @@ export function updatePopupBaseOptions(
   return popup;
 }
 
-export function updatePopup(
-  map: MapkaMap,
-  { content, ...newOptions }: MapkaPopupOptions,
-  id: string,
-) {
+export function updatePopup(map: MapkaMap, { content, ...newOptions }: MapkaPopupOptions) {
+  const id = getPopupId(newOptions);
+
   if (content instanceof HTMLElement) {
     const mapkaPopups = map.popups.filter((popup) => popup.id === id);
     for (const { popup, options } of mapkaPopups) {
@@ -125,14 +119,10 @@ export function updatePopup(
     }
   } else if (typeof content === "function") {
     const newContent = content(id);
-    return updatePopup(
-      map,
-      {
-        ...newOptions,
-        content: newContent,
-      },
-      id,
-    );
+    return updatePopup(map, {
+      ...newOptions,
+      content: newContent,
+    });
   }
 }
 

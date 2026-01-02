@@ -74,9 +74,16 @@ export type MapMapkaMarker = {
   marker: Marker;
 };
 
+interface Logger {
+  log: (...args: unknown[]) => void;
+  warn: (...args: unknown[]) => void;
+  error: (...args: unknown[]) => void;
+}
+
 export class MapkaMap extends maplibregl.Map {
   static env: string = "prod";
 
+  public logger: Logger = console;
   public markers: MapMapkaMarker[] = [];
 
   public maxPopups: number = 1;
@@ -131,23 +138,23 @@ export class MapkaMap extends maplibregl.Map {
     removeMarkers(this);
   }
 
-  public openPopup(popup: MapkaPopupOptions, id: string = getPopupId(popup)) {
-    return openPopup(this, popup, id);
+  public openPopup(popup: MapkaPopupOptions) {
+    return openPopup(this, popup);
   }
 
   public closePopup(id: string) {
     closePopupsById(this, id);
   }
 
-  public updatePopup(popup: MapkaPopupOptions, id: string = getPopupId(popup)) {
-    return updatePopup(this, popup, id);
+  public updatePopup(popup: MapkaPopupOptions) {
+    return updatePopup(this, popup);
   }
 
   public removePopups() {
     removePopups(this);
   }
 
-  public async export(options: MapkaExportOptions) {
+  public async export(options?: MapkaExportOptions) {
     return exportMap(this, options);
   }
 }
