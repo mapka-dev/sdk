@@ -18,7 +18,7 @@ import { Map } from '@mapka/maplibre-gl-sdk';
 const map = new Map({
   apiKey: 'YOUR_MAPKA_API_KEY_HERE',
   container: 'map',
-  style: mapkasdk.MapStyle.STREETS,
+  style: MapStyle.MaputnikOSMLiberty,
   center: [18, 54],
   zoom: 14,
 });
@@ -242,7 +242,7 @@ Control how many popups can be open simultaneously:
 const map = new Map({
   apiKey: 'YOUR_MAPKA_API_KEY_HERE',
   container: 'map',
-  style: mapkasdk.MapStyle.STREETS,
+  style: MapStyle.MaputnikOSMLiberty,
   maxPopups: 3, // Allow up to 3 popups open at once (default: 1)
 });
 ```
@@ -255,12 +255,16 @@ Add a UI button to export the map as PNG:
 
 ```ts
 import "@mapka/maplibre-gl-sdk/styles.css";
-import { Map, MapkaExportControl } from '@mapka/maplibre-gl-sdk';
+import { 
+  Map, 
+  MapStyle, 
+  MapkaExportControl 
+} from '@mapka/maplibre-gl-sdk';
 
 const map = new Map({
   apiKey: 'YOUR_MAPKA_API_KEY_HERE',
   container: 'map',
-  style: mapkasdk.MapStyle.STREETS,
+  style: MapStyle.MaputnikOSMLiberty,
   center: [18, 54],
   zoom: 14,
 });
@@ -288,12 +292,12 @@ Export the map programmatically using the `export()` method:
 
 ```ts
 import "@mapka/maplibre-gl-sdk/styles.css";
-import { Map } from '@mapka/maplibre-gl-sdk';
+import { Map, MapStyle } from '@mapka/maplibre-gl-sdk';
 
 const map = new Map({
   apiKey: 'YOUR_MAPKA_API_KEY_HERE',
   container: 'map',
-  style: mapkasdk.MapStyle.STREETS,
+  style: MapStyle.MaputnikOSMLiberty,
   center: [18, 54],
   zoom: 14,
 });

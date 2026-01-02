@@ -6,7 +6,7 @@ import { render } from "preact";
 import { remove } from "es-toolkit/array";
 import type { MapkaPopupOptions } from "../types/marker.js";
 import type { MapkaMap } from "../map.js";
-import { isEqual } from "es-toolkit";
+import { isEqual, isPlainObject } from "es-toolkit";
 
 export function getPopupId(popup: { id?: string }) {
   return popup.id ?? `popup-${crypto.randomUUID()}`;
@@ -20,6 +20,9 @@ export function enforceMaxPopups(map: MapkaMap) {
   if (map.popups.length > map.maxPopups) {
     const popupToRemove = map.popups.shift();
     popupToRemove?.popup.remove();
+    if (isPlainObject(popupToRemove?.options.content)) {
+      render(null, popupToRemove.container);
+    }
     popupToRemove?.container.remove();
   }
 }
@@ -132,6 +135,9 @@ export function closeOnMapClickPopups(map: MapkaMap) {
   );
   for (const popup of popupsToCloseOnMapClick) {
     popup.popup.remove();
+    if (isPlainObject(popup.options.content)) {
+      render(null, popup.container);
+    }
     popup.container.remove();
   }
 }
@@ -140,6 +146,9 @@ export function closePopupsById(map: MapkaMap, id: string) {
   const removedPopups = remove(map.popups, (popup) => popup.id === id);
   for (const popup of removedPopups) {
     popup.popup.remove();
+    if (isPlainObject(popup.options.content)) {
+      render(null, popup.container);
+    }
     popup.container.remove();
   }
 }
@@ -147,6 +156,9 @@ export function closePopupsById(map: MapkaMap, id: string) {
 export function removePopups(map: MapkaMap) {
   for (const popup of map.popups) {
     popup.popup.remove();
+    if (isPlainObject(popup.options.content)) {
+      render(null, popup.container);
+    }
     popup.container.remove();
   }
   map.popups = [];
