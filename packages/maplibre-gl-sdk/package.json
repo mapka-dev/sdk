@@ -28,6 +28,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "es-toolkit": "^1.43.0",
+    "html-to-image": "^1.11.13",
     "maplibre-gl": "^5.15.0",
     "preact": "^10.28.0"
   },

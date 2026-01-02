@@ -1,4 +1,5 @@
 /** biome-ignore-all lint/correctness/noUnusedImports: <explanation> */
+
 import { h, Fragment } from "preact";
 import { useState } from "preact/hooks";
 import type { MapkaPopupContent } from "../types/marker.js";

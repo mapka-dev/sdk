@@ -1,5 +1,4 @@
 import "@mapka/maplibre-gl-sdk/styles.css";
-
 import { Map } from "@mapka/maplibre-gl-sdk";
 
 new Map({
