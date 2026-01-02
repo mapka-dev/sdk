@@ -4,6 +4,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.0](https://github.com/mapka-dev/sdk/compare/v0.12.0...v0.13.0) (2026-01-02)
+
+### Features
+
+* add map export functionality with UI control ([#12](https://github.com/mapka-dev/sdk/issues/12)) ([1c0f6a4](https://github.com/mapka-dev/sdk/commit/1c0f6a42bc018ffff75343ebdf2341ab5329d9bd)) - by @chyzwar
+
 ## [0.12.0](https://github.com/mapka-dev/sdk/compare/v0.11.0...v0.12.0) (2025-12-30)
 
 ### Features
