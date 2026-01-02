@@ -129,9 +129,13 @@ export function updatePopup(map: MapkaMap, { content, ...newOptions }: MapkaPopu
   }
 }
 
+/**
+ * Close all popups that have closeOnClick set to true or undefined
+ */
 export function closeOnMapClickPopups(map: MapkaMap) {
-  const popupsToCloseOnMapClick = remove(map.popups, (popup) =>
-    Boolean(popup.options.closeOnClick),
+  const popupsToCloseOnMapClick = remove(
+    map.popups,
+    (popup) => popup.options.closeOnClick === true || popup.options.closeOnClick === undefined,
   );
   for (const popup of popupsToCloseOnMapClick) {
     popup.popup.remove();
