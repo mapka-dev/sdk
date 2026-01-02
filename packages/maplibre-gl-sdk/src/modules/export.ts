@@ -45,7 +45,9 @@ export async function exportMap(
         })
         .catch(reject)
         .finally(() => {
-          map.fitBounds(originalBounds, { animate: false });
+          if (bbox) {
+            map.fitBounds(originalBounds, { animate: false });
+          }
         });
     });
     map.triggerRepaint();

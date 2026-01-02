@@ -18,6 +18,7 @@ const Button = ({ isExporting, onClick }: { isExporting: boolean; onClick: () =>
       className="maplibregl-ctrl maplibregl-ctrl-group"
       title="Export map as PNG"
       aria-label="Export map as PNG"
+      disabled={isExporting}
       onClick={onClick}
     >
       {isExporting ? <ProgressDownIcon /> : <DownloadIcon />}

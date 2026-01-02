@@ -119,7 +119,7 @@ map.openPopup({
 
 // Open popup with custom ID
 map.openPopup({
-  id: 'custom-popup-id'
+  id: 'custom-popup-id',
   lngLat: [18, 54],
   trigger: 'always',
   content: {
@@ -207,7 +207,7 @@ map.updatePopup({
 ### Closing and Removing Popups
 
 ```ts
-// Close a specific popup bu ID
+// Close a specific popup by ID
 map.closePopup('popup-id');
 
 // Remove all visible popups
