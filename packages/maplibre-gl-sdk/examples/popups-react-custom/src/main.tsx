@@ -3,7 +3,7 @@ import "./styles.css";
 
 import { createRoot } from "react-dom/client";
 import { randomPoint } from "@turf/random";
-import { Map as MapkaMap, type MapkaMarkerOptions } from "@mapka/maplibre-gl-sdk";
+import { Map as MapkaMap, MapStyle, type MapkaMarkerOptions } from "@mapka/maplibre-gl-sdk";
 import { RealEstatePopup, type RealEstateProperty } from "./components/RealEstatePopup.tsx";
 import { generateProperty, US_BBOX } from "./utils.ts";
 
@@ -125,7 +125,7 @@ const markers: MapkaMarkerOptions[] = points.features.map((feature, index) => {
 const map = new MapkaMap({
   apiKey: import.meta.env.VITE_MAPKA_PUBLIC_API_KEY,
   container: "map",
-  style: "https://api.mapka.dev/v1/maputnik/styles/osm-liberty.json",
+  style: MapStyle.MaputnikOSMLiberty,
   center: [-98.5795, 39.8283],
   zoom: initialZoom,
 });

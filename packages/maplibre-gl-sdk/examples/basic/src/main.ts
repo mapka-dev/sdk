@@ -1,10 +1,10 @@
 import "@mapka/maplibre-gl-sdk/styles.css";
-import { Map } from "@mapka/maplibre-gl-sdk";
+import { Map, MapStyle } from "@mapka/maplibre-gl-sdk";
 
 new Map({
   apiKey: import.meta.env.VITE_MAPKA_PUBLIC_API_KEY,
   container: "map",
-  style: "https://api.mapka.dev/v1/maputnik/styles/osm-liberty.json",
+  style: MapStyle.MaputnikOSMLiberty,
   center: [16, 51],
   zoom: 10,
 });
