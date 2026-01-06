@@ -345,3 +345,104 @@ The `MapkaExportControl` accepts all export options plus:
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `filename` | `string` | `'map-export'` | Filename for the downloaded PNG (without extension) |
+
+## Drawing on Maps
+
+The `MapkaDrawControl` provides drawing tools powered by [Terra Draw](https://github.com/JamesLMilner/terra-draw), allowing users to create and edit geographic features directly on the map.
+
+### Using the Draw Control
+
+```ts
+import "@mapka/maplibre-gl-sdk/styles.css";
+import { Map, MapStyle, MapkaDrawControl } from '@mapka/maplibre-gl-sdk';
+
+const map = new Map({
+  apiKey: 'YOUR_MAPKA_API_KEY_HERE',
+  container: 'map',
+  style: MapStyle.MaputnikOSMLiberty,
+  center: [18, 54],
+  zoom: 14,
+});
+
+// Add draw control with all modes
+const drawControl = new MapkaDrawControl();
+map.addControl(drawControl, 'top-right');
+
+// Or with specific modes only
+const drawControl = new MapkaDrawControl({
+  modes: ['select', 'polygon', 'rectangle'],
+  defaultMode: 'polygon',
+});
+map.addControl(drawControl, 'top-right');
+```
+
+### Available Drawing Modes
+
+| Mode | Description |
+|------|-------------|
+| `select` | Select and edit existing features (drag, resize, delete vertices) |
+| `polygon` | Draw polygons by clicking to add vertices |
+| `rectangle` | Draw rectangles (click-move-click or click-drag) |
+| `circle` | Draw circles (click-move-click or click-drag) |
+| `linestring` | Draw lines by clicking to add vertices |
+| `freehand` | Draw freehand shapes by dragging |
+
+### Getting Drawn Features
+
+```ts
+// Get all drawn features as GeoJSON
+const features = drawControl.getFeatures();
+console.log(features);
+
+// Listen for drawing events via Terra Draw
+const terraDraw = drawControl.getTerraDraw();
+if (terraDraw) {
+  terraDraw.on('finish', (id) => {
+    console.log('Feature completed:', id);
+    console.log('All features:', drawControl.getFeatures());
+  });
+
+  terraDraw.on('change', (ids, type) => {
+    console.log('Features changed:', ids, type);
+  });
+}
+```
+
+### Programmatic Control
+
+```ts
+// Set the active drawing mode
+drawControl.setMode('polygon');
+
+// Get the current mode
+const currentMode = drawControl.getMode();
+
+
+// Access the underlying Terra Draw instance for advanced usage
+const terraDraw = drawControl.getTerraDraw();
+
+// Clear all drawn features
+drawControl.clear();
+```
+
+### Draw Control Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `modes` | `DrawMode[]` | All modes | Array of modes to enable in the control |
+| `defaultMode` | `DrawMode` | `'static'` | Initial drawing mode when control is added |
+
+### DrawMode Type
+
+```ts
+type DrawMode = 'static' | 'select' | 'polygon' | 'rectangle' | 'circle' | 'linestring' | 'freehand';
+```
+
+### Selection Mode Features
+
+When in `select` mode, users can:
+
+- **Drag features** - Move entire shapes by dragging
+- **Edit vertices** - Drag individual points to reshape
+- **Add midpoints** - Click midpoints to add new vertices (polygon, rectangle, linestring)
+- **Delete vertices** - Remove vertices from shapes (polygon, rectangle, linestring)

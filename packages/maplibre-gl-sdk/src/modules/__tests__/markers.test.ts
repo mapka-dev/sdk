@@ -109,8 +109,8 @@ describe("markers", () => {
         expect.objectContaining({
           lngLat: [10, 20],
           trigger: "always",
+          id: "popup-always",
         }),
-        "popup-always",
       );
     });
 
@@ -213,11 +213,11 @@ describe("markers", () => {
 
       expect(map.openPopup).toHaveBeenCalledWith(
         expect.objectContaining({
+          id: "popup-default-offset",
           offset: expect.objectContaining({
             bottom: [0, -38.1],
           }),
         }),
-        "popup-default-offset",
       );
     });
 
@@ -241,9 +241,9 @@ describe("markers", () => {
 
       expect(map.openPopup).toHaveBeenCalledWith(
         expect.objectContaining({
+          id: "popup-custom-offset",
           offset: customOffset,
         }),
-        "popup-custom-offset",
       );
     });
   });
