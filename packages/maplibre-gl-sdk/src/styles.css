@@ -1025,3 +1025,12 @@ a.maplibregl-ctrl-logo.maplibregl-compact {
   width: 18px;
   height: 18px;
 }
+
+.mapka-draw-control-button--clear {
+  border-top: 1px solid #ddd;
+}
+
+.mapka-draw-control-button--clear:hover {
+  background-color: #fee2e2;
+  color: #dc2626;
+}

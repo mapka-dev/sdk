@@ -9,6 +9,7 @@ import {
   TerraDrawRectangleMode,
   TerraDrawCircleMode,
   TerraDrawLineStringMode,
+  TerraDrawFreehandMode,
 } from "terra-draw";
 import { TerraDrawMapLibreGLAdapter } from "terra-draw-maplibre-gl-adapter";
 import { SelectIcon } from "../components/SelectIcon.js";
@@ -16,11 +17,14 @@ import { PolygonIcon } from "../components/PolygonIcon.js";
 import { RectangleIcon } from "../components/RectangleIcon.js";
 import { CircleIcon } from "../components/CircleIcon.js";
 import { LineIcon } from "../components/LineIcon.js";
+import { TrashIcon } from "../components/TrashIcon.js";
+import { FreehandIcon } from "../components/FreehandIcon.js";
+import { isEmpty } from "es-toolkit/compat";
 import type { IControl } from "maplibre-gl";
 import type { GeoJSONStoreFeatures } from "terra-draw";
 import type { MapkaMap } from "../map.js";
 
-export type DrawMode = "static" | "select" | "polygon" | "rectangle" | "circle" | "linestring";
+export type DrawMode = "static" | "select" | "polygon" | "rectangle" | "circle" | "linestring" | "freehand";
 
 type ActiveDrawMode = Exclude<DrawMode, "static">;
 
@@ -34,7 +38,9 @@ export interface MapkaDrawControlOptions {
 interface ToolbarProps {
   activeMode?: DrawMode;
   availableModes: DrawMode[];
+  hasFeatures: boolean;
   onModeChange: (mode: DrawMode) => void;
+  onClear: () => void;
 }
 
 const ModeButton = ({
@@ -54,6 +60,7 @@ const ModeButton = ({
     rectangle: <RectangleIcon />,
     circle: <CircleIcon />,
     linestring: <LineIcon />,
+    freehand: <FreehandIcon />,
   };
 
   const titles: Record<ActiveDrawMode, string> = {
@@ -62,6 +69,7 @@ const ModeButton = ({
     rectangle: "Draw rectangle",
     circle: "Draw circle",
     linestring: "Draw line",
+    freehand: "Draw freehand",
   };
 
   return (
@@ -78,7 +86,27 @@ const ModeButton = ({
   );
 };
 
-const Toolbar = ({ activeMode, availableModes, onModeChange }: ToolbarProps) => {
+const ClearButton = ({ onClick }: { onClick: () => void }) => {
+  return (
+    <button
+      type="button"
+      className="mapka-draw-control-button mapka-draw-control-button--clear"
+      title="Clear all drawings"
+      aria-label="Clear all drawings"
+      onClick={onClick}
+    >
+      <TrashIcon />
+    </button>
+  );
+};
+
+const Toolbar = ({
+  activeMode,
+  availableModes,
+  hasFeatures,
+  onModeChange,
+  onClear,
+}: ToolbarProps) => {
   return (
     <div className="maplibregl-ctrl maplibregl-ctrl-group">
       {availableModes.map((mode) => (
@@ -89,11 +117,12 @@ const Toolbar = ({ activeMode, availableModes, onModeChange }: ToolbarProps) => 
           onClick={() => onModeChange(mode)}
         />
       ))}
+      {hasFeatures && <ClearButton onClick={onClear} />}
     </div>
   );
 };
 
-const defaultModes: DrawMode[] = ["select", "polygon", "rectangle", "circle", "linestring"];
+const defaultModes: DrawMode[] = ["select", "polygon", "rectangle", "circle", "linestring", "freehand"];
 const defaultDefaultMode: DrawMode = "static";
 
 export class MapkaDrawControl implements IControl {
@@ -171,6 +200,16 @@ export class MapkaDrawControl implements IControl {
                 },
               },
             },
+            freehand: {
+              feature: {
+                draggable: true,
+                coordinates: {
+                  midpoints: false,
+                  draggable: false,
+                  deletable: false,
+                },
+              },
+            },
           },
         }),
       );
@@ -192,6 +231,10 @@ export class MapkaDrawControl implements IControl {
       modes.push(new TerraDrawLineStringMode());
     }
 
+    if (this.options.modes.includes("freehand")) {
+      modes.push(new TerraDrawFreehandMode());
+    }
+
     this.draw = new TerraDraw({
       adapter: new TerraDrawMapLibreGLAdapter({
         map: this.map,
@@ -205,6 +248,11 @@ export class MapkaDrawControl implements IControl {
       if (this.options.defaultMode) {
         this.draw?.setMode(this.options.defaultMode);
       }
+
+      // Re-render when features change to update clear button visibility
+      this.draw?.on("finish", () => this.render());
+      this.draw?.on("change", () => this.render());
+
       this.render();
     });
   }
@@ -223,6 +271,10 @@ export class MapkaDrawControl implements IControl {
     }
   };
 
+  private handleClear = (): void => {
+    this.clear();
+  };
+
   private render(): void {
     if (!this.container) {
       this.map?.logger.error("Draw control container not found for rendering");
@@ -230,11 +282,16 @@ export class MapkaDrawControl implements IControl {
     }
 
     const activeMode = this.getMode();
+    const features = this.getFeatures();
+    const hasFeatures = !isEmpty(features);
+
     render(
       <Toolbar
         activeMode={activeMode}
         availableModes={this.options.modes}
+        hasFeatures={hasFeatures}
         onModeChange={this.handleModeChange}
+        onClear={this.handleClear}
       />,
       this.container,
     );
@@ -284,6 +341,7 @@ export class MapkaDrawControl implements IControl {
   /** Clear all drawn features */
   public clear(): void {
     this.draw?.clear();
+    this.render();
   }
 
   /** Set the active drawing mode programmatically */

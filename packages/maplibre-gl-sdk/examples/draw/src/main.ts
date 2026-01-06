@@ -11,7 +11,7 @@ const map = new Map({
 
 const drawControl = new MapkaDrawControl({
   defaultMode: "select",
-  modes: ["select", "polygon", "rectangle", "circle", "linestring"],
+  modes: ["select", "polygon", "rectangle", "circle", "linestring", "freehand"],
 });
 
 map.addControl(drawControl, "top-right");
