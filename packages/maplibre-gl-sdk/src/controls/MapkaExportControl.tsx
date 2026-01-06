@@ -81,7 +81,7 @@ export class MapkaExportControl implements IControl {
     render(<Button isExporting={this.isExporting} onClick={this.onClick} />, this.container);
   }
 
-  private unmount(): void {
+  private unmountControl(): void {
     if (!this.container) {
       this.map?.logger.error("Export control container not found during unmount");
       return;
@@ -101,7 +101,7 @@ export class MapkaExportControl implements IControl {
   }
 
   public onRemove(): void {
-    this.unmount();
+    this.unmountControl();
 
     this.container?.remove?.();
 

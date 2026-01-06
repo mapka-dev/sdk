@@ -24,7 +24,14 @@ import type { IControl } from "maplibre-gl";
 import type { GeoJSONStoreFeatures } from "terra-draw";
 import type { MapkaMap } from "../map.js";
 
-export type DrawMode = "static" | "select" | "polygon" | "rectangle" | "circle" | "linestring" | "freehand";
+export type DrawMode =
+  | "static"
+  | "select"
+  | "polygon"
+  | "rectangle"
+  | "circle"
+  | "linestring"
+  | "freehand";
 
 type ActiveDrawMode = Exclude<DrawMode, "static">;
 
@@ -122,7 +129,14 @@ const Toolbar = ({
   );
 };
 
-const defaultModes: DrawMode[] = ["select", "polygon", "rectangle", "circle", "linestring", "freehand"];
+const defaultModes: DrawMode[] = [
+  "select",
+  "polygon",
+  "rectangle",
+  "circle",
+  "linestring",
+  "freehand",
+];
 const defaultDefaultMode: DrawMode = "static";
 
 export class MapkaDrawControl implements IControl {
@@ -245,13 +259,11 @@ export class MapkaDrawControl implements IControl {
 
     this.whenMapLoaded(() => {
       this.draw?.start();
-      if (this.options.defaultMode) {
-        this.draw?.setMode(this.options.defaultMode);
-      }
+      this.draw?.setMode(this.options.defaultMode);
 
       // Re-render when features change to update clear button visibility
-      this.draw?.on("finish", () => this.render());
-      this.draw?.on("change", () => this.render());
+      this.draw?.on("finish", this.render);
+      this.draw?.on("change", this.render);
 
       this.render();
     });
@@ -275,7 +287,7 @@ export class MapkaDrawControl implements IControl {
     this.clear();
   };
 
-  private render(): void {
+  private render = () => {
     if (!this.container) {
       this.map?.logger.error("Draw control container not found for rendering");
       return;
@@ -295,14 +307,19 @@ export class MapkaDrawControl implements IControl {
       />,
       this.container,
     );
-  }
+  };
 
-  private unmount(): void {
+  private unmountControl(): void {
     if (!this.container) {
       this.map?.logger.error("Draw control container not found during unmount");
       return;
     }
     render(null, this.container);
+  }
+
+  private cleanListeners(): void {
+    this.draw?.off("finish", this.render);
+    this.draw?.off("change", this.render);
   }
 
   public onAdd(map: MapkaMap): HTMLElement {
@@ -317,9 +334,11 @@ export class MapkaDrawControl implements IControl {
   }
 
   public onRemove(): void {
+    this.draw?.clear();
     this.draw?.stop();
 
-    this.unmount();
+    this.cleanListeners();
+    this.unmountControl();
 
     this.container?.remove?.();
 
@@ -328,7 +347,10 @@ export class MapkaDrawControl implements IControl {
     this.draw = undefined;
   }
 
-  /** Get the TerraDraw instance for advanced usage */
+  /**
+   * Get the TerraDraw instance for advanced usage,
+   * Instance is only available after the control is added to the map
+   */
   public getTerraDraw(): TerraDraw | undefined {
     return this.draw;
   }
@@ -340,7 +362,9 @@ export class MapkaDrawControl implements IControl {
 
   /** Clear all drawn features */
   public clear(): void {
-    this.draw?.clear();
+    if (!this.draw) return;
+
+    this.draw.clear();
     this.render();
   }
 
