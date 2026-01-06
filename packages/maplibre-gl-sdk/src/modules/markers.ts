@@ -54,25 +54,25 @@ function setupMarkerPopupListeners(
   if (options.draggable) {
     marker.on("dragend", () => {
       if (map.popups.find((p) => p.id === popupId)) {
-        map.updatePopup(markerPopupOptions(marker, popup), popupId);
+        map.updatePopup(markerPopupOptions(marker, popup));
       }
     });
     marker.on("drag", () => {
       if (map.popups.find((p) => p.id === popupId)) {
-        map.updatePopup(markerPopupOptions(marker, popup), popupId);
+        map.updatePopup(markerPopupOptions(marker, popup));
       }
     });
   }
 
   if (popup.trigger === "always") {
     if (!map.popups.find((p) => p.id === popupId)) {
-      map.openPopup(markerPopupOptions(marker, popup), popupId);
+      map.openPopup(markerPopupOptions(marker, popup));
     }
 
     markerElement.addEventListener("click", (e) => {
       e.stopPropagation();
       if (!map.popups.find((p) => p.id === popupId)) {
-        map.openPopup(markerPopupOptions(marker, popup), popupId);
+        map.openPopup(markerPopupOptions(marker, popup));
       }
     });
   } else if (popup.trigger === "click") {
@@ -80,14 +80,14 @@ function setupMarkerPopupListeners(
     markerElement.addEventListener("click", (e) => {
       e.stopPropagation();
       if (!map.popups.find((p) => p.id === popupId)) {
-        map.openPopup(markerPopupOptions(marker, popup), popupId);
+        map.openPopup(markerPopupOptions(marker, popup));
       }
     });
   } else if (popup.trigger === "hover") {
     markerElement.addEventListener("mouseenter", (e) => {
       e.stopPropagation();
       if (!map.popups.find((p) => p.id === popupId)) {
-        map.openPopup(markerPopupOptions(marker, popup), popupId);
+        map.openPopup(markerPopupOptions(marker, popup));
       }
     });
     markerElement.addEventListener("mouseleave", (e) => {

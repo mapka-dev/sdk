@@ -11,3 +11,8 @@ export {
   MapkaExportControl,
   MapkaExportControlOptions,
 } from "./controls/MapkaExportControl.js";
+export {
+  MapkaDrawControl,
+  MapkaDrawControlOptions,
+  DrawMode,
+} from "./controls/MapkaDrawControl.js";
