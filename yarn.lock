@@ -936,9 +936,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mapka/maplibre-gl-sdk-example-basic@workspace:packages/maplibre-gl-sdk/examples/basic":
+"@mapka/maplibre-gl-sdk-example-basemap@workspace:packages/maplibre-gl-sdk/examples/basemap":
   version: 0.0.0-use.local
-  resolution: "@mapka/maplibre-gl-sdk-example-basic@workspace:packages/maplibre-gl-sdk/examples/basic"
+  resolution: "@mapka/maplibre-gl-sdk-example-basemap@workspace:packages/maplibre-gl-sdk/examples/basemap"
   dependencies:
     "@mapka/maplibre-gl-sdk": "workspace:*"
     typescript: "npm:~5.9.3"
@@ -946,9 +946,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@mapka/maplibre-gl-sdk-example-draw@workspace:packages/maplibre-gl-sdk/examples/draw":
+"@mapka/maplibre-gl-sdk-example-draw-control@workspace:packages/maplibre-gl-sdk/examples/draw-control":
   version: 0.0.0-use.local
-  resolution: "@mapka/maplibre-gl-sdk-example-draw@workspace:packages/maplibre-gl-sdk/examples/draw"
+  resolution: "@mapka/maplibre-gl-sdk-example-draw-control@workspace:packages/maplibre-gl-sdk/examples/draw-control"
   dependencies:
     "@mapka/maplibre-gl-sdk": "workspace:*"
     typescript: "npm:~5.9.3"
@@ -956,9 +956,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@mapka/maplibre-gl-sdk-example-export@workspace:packages/maplibre-gl-sdk/examples/export":
+"@mapka/maplibre-gl-sdk-example-export-control@workspace:packages/maplibre-gl-sdk/examples/export-control":
   version: 0.0.0-use.local
-  resolution: "@mapka/maplibre-gl-sdk-example-export@workspace:packages/maplibre-gl-sdk/examples/export"
+  resolution: "@mapka/maplibre-gl-sdk-example-export-control@workspace:packages/maplibre-gl-sdk/examples/export-control"
   dependencies:
     "@mapka/maplibre-gl-sdk": "workspace:*"
     typescript: "npm:~5.9.3"

@@ -1,5 +1,5 @@
 {
-  "name": "@mapka/maplibre-gl-sdk-example-draw",
+  "name": "@mapka/maplibre-gl-sdk-example-basemap",
   "private": true,
   "version": "0.7.0",
   "type": "module",

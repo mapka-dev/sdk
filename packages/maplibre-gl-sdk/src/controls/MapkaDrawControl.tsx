@@ -1,5 +1,3 @@
-// biome-ignore lint/correctness/noUnusedImports: preact jsx
-import { h } from "preact";
 import { render } from "preact";
 import maplibregl from "maplibre-gl";
 import {

@@ -1,6 +1,3 @@
-/** biome-ignore-all lint/correctness/noUnusedImports: <explanation> */
-import { h } from "preact";
-
 export const DownloadIcon = () => {
   return (
     <svg

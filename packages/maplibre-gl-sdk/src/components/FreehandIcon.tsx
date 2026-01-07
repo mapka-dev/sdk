@@ -1,6 +1,3 @@
-/** biome-ignore-all lint/correctness/noUnusedImports: preact jsx */
-import { h } from "preact";
-
 export const FreehandIcon = () => {
   return (
     <svg
