@@ -4,6 +4,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.0](https://github.com/mapka-dev/sdk/compare/v0.13.2...v0.14.0) (2026-01-07)
+
+### Features
+
+* add MapkaDrawControl for drawing shapes on map ([#15](https://github.com/mapka-dev/sdk/issues/15)) ([408640e](https://github.com/mapka-dev/sdk/commit/408640e35431a3e765da1037fe35606729bab400)) - by @chyzwar
+
 ## [0.13.2](https://github.com/mapka-dev/sdk/compare/v0.13.1...v0.13.2) (2026-01-02)
 
 ### Bug Fixes
