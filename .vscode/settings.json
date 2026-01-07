@@ -3,6 +3,7 @@
     "arcgis",
     "BBOX",
     "configurator",
+    "linestring",
     "maki",
     "mantine",
     "mapbox",
@@ -16,6 +17,7 @@
     "styleimagemissing",
     "tabler",
     "temaki",
+    "VITE",
     "webcomponent"
   ],
   "[typescript]": {

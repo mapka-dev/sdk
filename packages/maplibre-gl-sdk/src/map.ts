@@ -3,7 +3,6 @@ import { loadLayersIcons } from "./modules/icons.js";
 import {
   closeOnMapClickPopups,
   closePopupsById,
-  getPopupId,
   openPopup,
   removePopups,
   updatePopup,

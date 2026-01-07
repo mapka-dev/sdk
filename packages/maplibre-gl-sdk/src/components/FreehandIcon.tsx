@@ -1,4 +1,4 @@
-export const DownloadIcon = () => {
+export const FreehandIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -10,13 +10,11 @@ export const DownloadIcon = () => {
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      aria-label="Download"
+      aria-label="Freehand"
     >
-      <title>Download</title>
+      <title>Freehand</title>
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
-      <path d="M7 11l5 5l5 -5" />
-      <path d="M12 4l0 12" />
+      <path d="M3 15c2 3 4 4 7 4s7 -3 7 -7s-3 -7 -6 -7s-5 1.5 -5 4s2 5 6 5s8.408 -2.453 10 -5" />
     </svg>
   );
 };

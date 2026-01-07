@@ -5,7 +5,8 @@
       "Bash(yarn test:*)",
       "mcp__figma__get_design_context",
       "mcp__ide__getDiagnostics",
-      "mcp__figma__get_screenshot"
+      "mcp__figma__get_screenshot",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ],
     "deny": []
   }

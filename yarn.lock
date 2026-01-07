@@ -936,9 +936,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mapka/maplibre-gl-sdk-example-basic@workspace:packages/maplibre-gl-sdk/examples/basic":
+"@mapka/maplibre-gl-sdk-example-basemap@workspace:packages/maplibre-gl-sdk/examples/basemap":
   version: 0.0.0-use.local
-  resolution: "@mapka/maplibre-gl-sdk-example-basic@workspace:packages/maplibre-gl-sdk/examples/basic"
+  resolution: "@mapka/maplibre-gl-sdk-example-basemap@workspace:packages/maplibre-gl-sdk/examples/basemap"
   dependencies:
     "@mapka/maplibre-gl-sdk": "workspace:*"
     typescript: "npm:~5.9.3"
@@ -946,9 +946,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@mapka/maplibre-gl-sdk-example-export@workspace:packages/maplibre-gl-sdk/examples/export":
+"@mapka/maplibre-gl-sdk-example-draw-control@workspace:packages/maplibre-gl-sdk/examples/draw-control":
   version: 0.0.0-use.local
-  resolution: "@mapka/maplibre-gl-sdk-example-export@workspace:packages/maplibre-gl-sdk/examples/export"
+  resolution: "@mapka/maplibre-gl-sdk-example-draw-control@workspace:packages/maplibre-gl-sdk/examples/draw-control"
+  dependencies:
+    "@mapka/maplibre-gl-sdk": "workspace:*"
+    typescript: "npm:~5.9.3"
+    vite: "npm:^7.3.0"
+  languageName: unknown
+  linkType: soft
+
+"@mapka/maplibre-gl-sdk-example-export-control@workspace:packages/maplibre-gl-sdk/examples/export-control":
+  version: 0.0.0-use.local
+  resolution: "@mapka/maplibre-gl-sdk-example-export-control@workspace:packages/maplibre-gl-sdk/examples/export-control"
   dependencies:
     "@mapka/maplibre-gl-sdk": "workspace:*"
     typescript: "npm:~5.9.3"
@@ -1026,6 +1036,8 @@ __metadata:
     html-to-image: "npm:^1.11.13"
     maplibre-gl: "npm:^5.15.0"
     preact: "npm:^10.28.0"
+    terra-draw: "npm:^1.21.2"
+    terra-draw-maplibre-gl-adapter: "npm:^1.2.3"
     typescript: "npm:^5.9.3"
     vite: "npm:^7.3.0"
   languageName: unknown
@@ -5439,6 +5451,23 @@ __metadata:
     minizlib: "npm:^3.1.0"
     yallist: "npm:^5.0.0"
   checksum: 10c2/1c4c671d98219a28f2202eb1f94871fb946b7b2b705c1d49e6b7513bd1545ba7396911844a6f5ed39ab9116fd524f1e5d2525ffa7feab9caaca779f5d3a60a23
+  languageName: node
+  linkType: hard
+
+"terra-draw-maplibre-gl-adapter@npm:^1.2.3":
+  version: 1.2.3
+  resolution: "terra-draw-maplibre-gl-adapter@npm:1.2.3"
+  peerDependencies:
+    maplibre-gl: ">=4"
+    terra-draw: ^1.0.0
+  checksum: 10c2/5655fdd2964873db351313d7a938b5be1a20e7060291efe51db9181bd6b8140576e17324885f250e3c0f6e06a0bae95ab66b27b08ade8943ba9f7680da937c61
+  languageName: node
+  linkType: hard
+
+"terra-draw@npm:^1.21.2":
+  version: 1.21.2
+  resolution: "terra-draw@npm:1.21.2"
+  checksum: 10c2/5f8e62f52b8817c4c89d602d78e745b078e8410fb3737b23dae9f6e208ac7829f9d07d1662edcab3a083f7b0bc8b07679ec9f72dbe2942f183d13e9fc3076275
   languageName: node
   linkType: hard
 
