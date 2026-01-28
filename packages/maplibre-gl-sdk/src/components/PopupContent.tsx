@@ -1,6 +1,6 @@
 import { Fragment } from "preact";
 import { useState } from "preact/hooks";
-import type { MapkaPopupContent } from "../types/marker.js";
+import type { MapkaPopupContent } from "../types/popup.js";
 
 interface PopupProps extends MapkaPopupContent {
   onClose?: () => void;
@@ -198,12 +198,14 @@ function ImageCarousel({
 export function PopupContent({
   title,
   description,
+  rows,
   closeButton,
   imageUrls,
   onFavorite,
   onClose,
 }: PopupProps) {
   const hasImages = imageUrls && imageUrls.length > 0;
+  const hasRows = rows && rows.length > 0;
 
   return (
     <div class="mapka-tooltip">
@@ -220,6 +222,17 @@ export function PopupContent({
       <div class="mapka-popup-content">
         {title && <h3 class="mapka-popup-title">{title}</h3>}
         {description && <p class="mapka-popup-description">{description}</p>}
+
+        {hasRows && (
+          <dl class="mapka-popup-rows">
+            {rows.map((row, index) => (
+              <div key={index} class="mapka-popup-row">
+                <dt class="mapka-popup-row-label">{row.name}</dt>
+                <dd class="mapka-popup-row-value">{row.value != null ? String(row.value) : "—"}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
       </div>
     </div>
   );

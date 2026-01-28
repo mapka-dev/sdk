@@ -6,10 +6,13 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
+    "dev": "runner dev",
     "lint": "runner lint",
     "check": "runner check",
     "build": "runner build",
     "build:watch": "runner build:watch",
+    "styles": "runner styles",
+    "styles:watch": "runner styles:watch",
     "test": "vitest run",
     "test:watch": "vitest",
     "prepare": "husky"
@@ -34,6 +37,14 @@
     "lint-staged": "^16.2.7",
     "typescript": "^5.9.3",
     "vitest": "^4.0.16"
+  },
+  "dependenciesMeta": {
+    "esbuild": {
+      "built": true
+    },
+    "lightningcss": {
+      "built": true
+    }
   },
   "lint-staged": {
     "*.{js,ts,tsx}": "yarn lint"

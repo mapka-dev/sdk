@@ -996,6 +996,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@mapka/maplibre-gl-sdk-example-popups-layer@workspace:packages/maplibre-gl-sdk/examples/popups-layer":
+  version: 0.0.0-use.local
+  resolution: "@mapka/maplibre-gl-sdk-example-popups-layer@workspace:packages/maplibre-gl-sdk/examples/popups-layer"
+  dependencies:
+    "@mapka/maplibre-gl-sdk": "workspace:*"
+    typescript: "npm:~5.9.3"
+    vite: "npm:^7.3.0"
+  languageName: unknown
+  linkType: soft
+
 "@mapka/maplibre-gl-sdk-example-popups@workspace:packages/maplibre-gl-sdk/examples/popups":
   version: 0.0.0-use.local
   resolution: "@mapka/maplibre-gl-sdk-example-popups@workspace:packages/maplibre-gl-sdk/examples/popups"
@@ -1034,6 +1044,8 @@ __metadata:
     es-toolkit: "npm:^1.43.0"
     happy-dom: "npm:^20.0.11"
     html-to-image: "npm:^1.11.13"
+    lightningcss: "npm:^1.31.1"
+    lightningcss-cli: "npm:^1.31.1"
     maplibre-gl: "npm:^5.15.0"
     preact: "npm:^10.28.0"
     terra-draw: "npm:^1.21.2"
@@ -1060,6 +1072,11 @@ __metadata:
     lint-staged: "npm:^16.2.7"
     typescript: "npm:^5.9.3"
     vitest: "npm:^4.0.16"
+  dependenciesMeta:
+    esbuild:
+      built: true
+    lightningcss:
+      built: true
   languageName: unknown
   linkType: soft
 
@@ -2696,6 +2713,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"detect-libc@npm:^2.0.3":
+  version: 2.1.2
+  resolution: "detect-libc@npm:2.1.2"
+  checksum: 10c2/9cf493fed9708936ef39369c84bc6188294f2bdf8223e62b6c85b0b2e58823d65ee140b6e8c3e4b846a0d5b5c049de1865130604bb4c5097b9e235eec5abb4cc
+  languageName: node
+  linkType: hard
+
 "dom-accessibility-api@npm:^0.5.9":
   version: 0.5.16
   resolution: "dom-accessibility-api@npm:0.5.16"
@@ -3882,6 +3906,248 @@ __metadata:
     sigstore: "npm:^4.0.0"
     ssri: "npm:^13.0.0"
   checksum: 10c2/a2372c8d3ad9d771c31368b6750931f5a7dcd232f88fd1cbba955dce15ea1bcf8ba7ba42431ed0d62368ab7297cd3c9b83699119e5fe05efcb597568dfa35c42
+  languageName: node
+  linkType: hard
+
+"lightningcss-android-arm64@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-android-arm64@npm:1.31.1"
+  conditions: os=android & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lightningcss-cli-android-arm64@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-cli-android-arm64@npm:1.31.1"
+  conditions: os=android & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lightningcss-cli-darwin-arm64@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-cli-darwin-arm64@npm:1.31.1"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lightningcss-cli-darwin-x64@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-cli-darwin-x64@npm:1.31.1"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lightningcss-cli-freebsd-x64@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-cli-freebsd-x64@npm:1.31.1"
+  conditions: os=freebsd & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lightningcss-cli-linux-arm-gnueabihf@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-cli-linux-arm-gnueabihf@npm:1.31.1"
+  conditions: os=linux & cpu=arm
+  languageName: node
+  linkType: hard
+
+"lightningcss-cli-linux-arm64-gnu@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-cli-linux-arm64-gnu@npm:1.31.1"
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"lightningcss-cli-linux-arm64-musl@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-cli-linux-arm64-musl@npm:1.31.1"
+  conditions: os=linux & cpu=arm64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"lightningcss-cli-linux-x64-gnu@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-cli-linux-x64-gnu@npm:1.31.1"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"lightningcss-cli-linux-x64-musl@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-cli-linux-x64-musl@npm:1.31.1"
+  conditions: os=linux & cpu=x64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"lightningcss-cli-win32-arm64-msvc@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-cli-win32-arm64-msvc@npm:1.31.1"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lightningcss-cli-win32-x64-msvc@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-cli-win32-x64-msvc@npm:1.31.1"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lightningcss-cli@npm:^1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-cli@npm:1.31.1"
+  dependencies:
+    detect-libc: "npm:^2.0.3"
+    lightningcss-cli-android-arm64: "npm:1.31.1"
+    lightningcss-cli-darwin-arm64: "npm:1.31.1"
+    lightningcss-cli-darwin-x64: "npm:1.31.1"
+    lightningcss-cli-freebsd-x64: "npm:1.31.1"
+    lightningcss-cli-linux-arm-gnueabihf: "npm:1.31.1"
+    lightningcss-cli-linux-arm64-gnu: "npm:1.31.1"
+    lightningcss-cli-linux-arm64-musl: "npm:1.31.1"
+    lightningcss-cli-linux-x64-gnu: "npm:1.31.1"
+    lightningcss-cli-linux-x64-musl: "npm:1.31.1"
+    lightningcss-cli-win32-arm64-msvc: "npm:1.31.1"
+    lightningcss-cli-win32-x64-msvc: "npm:1.31.1"
+  dependenciesMeta:
+    lightningcss-cli-android-arm64:
+      optional: true
+    lightningcss-cli-darwin-arm64:
+      optional: true
+    lightningcss-cli-darwin-x64:
+      optional: true
+    lightningcss-cli-freebsd-x64:
+      optional: true
+    lightningcss-cli-linux-arm-gnueabihf:
+      optional: true
+    lightningcss-cli-linux-arm64-gnu:
+      optional: true
+    lightningcss-cli-linux-arm64-musl:
+      optional: true
+    lightningcss-cli-linux-x64-gnu:
+      optional: true
+    lightningcss-cli-linux-x64-musl:
+      optional: true
+    lightningcss-cli-win32-arm64-msvc:
+      optional: true
+    lightningcss-cli-win32-x64-msvc:
+      optional: true
+  bin:
+    lightningcss: lightningcss
+  checksum: 10c2/90fe832a449493f995e0d0847f811c42aa05948469d4f3e2e2537625dae5f2d043b299daf23c0cb53749cedb5930876867416de7d46ae844fb72359ee6e1ae89
+  languageName: node
+  linkType: hard
+
+"lightningcss-darwin-arm64@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-darwin-arm64@npm:1.31.1"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lightningcss-darwin-x64@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-darwin-x64@npm:1.31.1"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lightningcss-freebsd-x64@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-freebsd-x64@npm:1.31.1"
+  conditions: os=freebsd & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lightningcss-linux-arm-gnueabihf@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-linux-arm-gnueabihf@npm:1.31.1"
+  conditions: os=linux & cpu=arm
+  languageName: node
+  linkType: hard
+
+"lightningcss-linux-arm64-gnu@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-linux-arm64-gnu@npm:1.31.1"
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"lightningcss-linux-arm64-musl@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-linux-arm64-musl@npm:1.31.1"
+  conditions: os=linux & cpu=arm64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"lightningcss-linux-x64-gnu@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-linux-x64-gnu@npm:1.31.1"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"lightningcss-linux-x64-musl@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-linux-x64-musl@npm:1.31.1"
+  conditions: os=linux & cpu=x64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"lightningcss-win32-arm64-msvc@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-win32-arm64-msvc@npm:1.31.1"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lightningcss-win32-x64-msvc@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-win32-x64-msvc@npm:1.31.1"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lightningcss@npm:^1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss@npm:1.31.1"
+  dependencies:
+    detect-libc: "npm:^2.0.3"
+    lightningcss-android-arm64: "npm:1.31.1"
+    lightningcss-darwin-arm64: "npm:1.31.1"
+    lightningcss-darwin-x64: "npm:1.31.1"
+    lightningcss-freebsd-x64: "npm:1.31.1"
+    lightningcss-linux-arm-gnueabihf: "npm:1.31.1"
+    lightningcss-linux-arm64-gnu: "npm:1.31.1"
+    lightningcss-linux-arm64-musl: "npm:1.31.1"
+    lightningcss-linux-x64-gnu: "npm:1.31.1"
+    lightningcss-linux-x64-musl: "npm:1.31.1"
+    lightningcss-win32-arm64-msvc: "npm:1.31.1"
+    lightningcss-win32-x64-msvc: "npm:1.31.1"
+  dependenciesMeta:
+    lightningcss-android-arm64:
+      optional: true
+    lightningcss-darwin-arm64:
+      optional: true
+    lightningcss-darwin-x64:
+      optional: true
+    lightningcss-freebsd-x64:
+      optional: true
+    lightningcss-linux-arm-gnueabihf:
+      optional: true
+    lightningcss-linux-arm64-gnu:
+      optional: true
+    lightningcss-linux-arm64-musl:
+      optional: true
+    lightningcss-linux-x64-gnu:
+      optional: true
+    lightningcss-linux-x64-musl:
+      optional: true
+    lightningcss-win32-arm64-msvc:
+      optional: true
+    lightningcss-win32-x64-msvc:
+      optional: true
+  checksum: 10c2/42f15a66f722bde030da86e788582b1e1d7b68a4f9b2ea74a562ddb07eddcd46834037a9dd03f3164b8c0349a0474506d05069a3a1cbd77fc4a9eadfe6a07434
   languageName: node
   linkType: hard
 

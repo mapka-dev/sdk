@@ -13,11 +13,13 @@
   },
   "exports": {
     ".": "./lib/index.js",
-    "./styles.css": "./src/styles.css"
+    "./styles.css": "./lib/styles.css"
   },
   "scripts": {
     "build": "vite build",
-    "build:watch": "vite build --watch"
+    "build:watch": "vite build --watch",
+    "styles": "lightningcss --minify --bundle ./src/styles.css -o lib/styles.css",
+    "styles:watch": "lightningcss --minify --bundle ./src/styles.css -o lib/styles.css"
   },
   "keywords": [
     "map",
@@ -41,6 +43,8 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/preact": "^3.2.4",
     "happy-dom": "^20.0.11",
+    "lightningcss": "^1.31.1",
+    "lightningcss-cli": "^1.31.1",
     "typescript": "^5.9.3",
     "vite": "^7.3.0"
   },

@@ -1,4 +1,4 @@
-import type { MapkaLayerTreeConfig } from "./layer.js";
+import type { MapkaLayerSpecification, MapkaLayerTreeConfig } from "./layer.js";
 import type { StyleSpecification } from "@maplibre/maplibre-gl-style-spec";
 import type { MapkaMarkerOptions } from "./marker.js";
 
@@ -9,4 +9,5 @@ export interface MapkaStyleSpecification extends StyleSpecification {
       markers?: MapkaMarkerOptions[];
     };
   };
+  layers: MapkaLayerSpecification[];
 }

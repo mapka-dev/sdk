@@ -1,3 +1,6 @@
+import type { CustomLayerInterface, LayerSpecification, SourceSpecification } from "maplibre-gl";
+import type { MapkaLayerPopupOptions } from "./popup.js";
+
 export interface MapkaLayerConfig {
   /**
    * Layer id, layer can belong only to one group
@@ -26,3 +29,29 @@ export interface MapkaLayerGroupConfig {
 }
 
 export type MapkaLayerTreeConfig = (MapkaLayerConfig | MapkaLayerGroupConfig)[];
+
+export interface LayerWithMapkaMetadata {
+  metadata?: {
+    [key: string]: unknown;
+    mapka?: {
+      popup?: MapkaLayerPopupOptions | boolean;
+    };
+  };
+}
+
+export type MapkaLayerSpecification = LayerSpecification & LayerWithMapkaMetadata;
+
+/**
+ * Layer specification with embedded source
+ */
+export type MapkaLayerSpecificationWithEmbededSource = MapkaLayerSpecification & {
+  source: SourceSpecification;
+};
+
+/**
+ * Extends maplibregl.AddLayerObject with Mapka specific metadata
+ */
+export type MapkaAddLayerObject =
+  | MapkaLayerSpecification
+  | MapkaLayerSpecificationWithEmbededSource
+  | CustomLayerInterface;
