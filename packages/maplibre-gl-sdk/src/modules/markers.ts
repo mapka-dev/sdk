@@ -5,7 +5,7 @@ import { remove } from "es-toolkit";
 import type { Offset, StyleSpecification } from "maplibre-gl";
 import type { MapkaMap } from "../map.js";
 import type { MapkaMarkerOptions } from "../types/marker.js";
-import type { MapkaPopupOptions } from "../types/popup.js";
+import type { MapkaMarkerPopupOptions, MapkaPopupOptions } from "../types/popup.js";
 
 /**
  * Default marker offset
@@ -46,7 +46,7 @@ const markerPopupOptions = (marker: Marker, popupOptions: Omit<MapkaPopupOptions
 function setupMarkerPopupListeners(
   map: MapkaMap,
   marker: Marker,
-  popup: Omit<MapkaPopupOptions, "lngLat">,
+  popup: MapkaMarkerPopupOptions,
   options: MapkaMarkerOptions,
 ) {
   const popupId = getPopupId(popup);

@@ -1072,6 +1072,11 @@ __metadata:
     lint-staged: "npm:^16.2.7"
     typescript: "npm:^5.9.3"
     vitest: "npm:^4.0.16"
+  dependenciesMeta:
+    esbuild:
+      built: true
+    lightningcss:
+      built: true
   languageName: unknown
   linkType: soft
 
