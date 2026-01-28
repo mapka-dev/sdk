@@ -1,6 +1,7 @@
 export * from "maplibre-gl";
 export * from "./types/layer.js";
 export * from "./types/marker.js";
+export * from "./types/popup.js";
 export * from "./types/style.js";
 export * from "./types/export.js";
 export * from "./constants/styles.js";

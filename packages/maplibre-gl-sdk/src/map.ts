@@ -1,5 +1,6 @@
 import * as maplibregl from "maplibre-gl";
 import { loadLayersIcons } from "./modules/icons.js";
+import { exportMap } from "./modules/export.js";
 import {
   closeOnMapClickPopups,
   closePopupsById,
@@ -25,12 +26,14 @@ import type {
   StyleOptions,
   StyleSpecification,
 } from "maplibre-gl";
-import type { MapkaMarkerOptions, MapkaPopupOptions } from "./types/marker.js";
+import type { MapkaMarkerOptions } from "./types/marker.js";
 import type { MapkaExportOptions } from "./types/export.js";
-import { exportMap } from "./modules/export.js";
+import type { MapkaPopupOptions } from "./types/popup.js";
+import { openOnFeatureClickPopups } from "./modules/layerPopup.js";
 
 export interface MapkaMapOptions extends MapOptions {
   maxPopups?: number;
+  scrollPopups?: boolean;
 
   apiKey: string;
   env?: "dev" | "prod" | "local";
@@ -61,9 +64,9 @@ const noopTransformStyle: TransformStyleFunction = (_, next) => {
 };
 
 export type MapMapkaPopup = {
-  id: string;
-  container: HTMLElement;
+  id: string | string[];
   options: MapkaPopupOptions;
+  container: HTMLElement;
   popup: Popup;
 };
 
@@ -86,6 +89,7 @@ export class MapkaMap extends maplibregl.Map {
   public markers: MapMapkaMarker[] = [];
 
   public maxPopups: number = 1;
+  public scrollPopups: boolean = true;
   public popups: MapMapkaPopup[] = [];
 
   public constructor({ transformRequest, apiKey, maxPopups = 1, ...options }: MapkaMapOptions) {
@@ -99,8 +103,10 @@ export class MapkaMap extends maplibregl.Map {
     super.on("styleimagemissing", (event: MapStyleImageMissingEvent) => {
       loadLayersIcons(this, event);
     });
-    super.on("click", () => {
+
+    super.on("click", (event: maplibregl.MapMouseEvent) => {
       closeOnMapClickPopups(this);
+      openOnFeatureClickPopups(this, event);
     });
 
     super.on("style.load", () => {

@@ -16,6 +16,7 @@ const draggableWithAlwaysPopup: MapkaMarkerOptions = {
   color: "#f59e0b",
   draggable: true,
   popup: {
+    id: "draggable-always-popup",
     trigger: "always",
     content: {
       title: "Initially Visible",
@@ -29,6 +30,7 @@ const draggableWithClickPopup: MapkaMarkerOptions = {
   color: "#191713ff",
   draggable: true,
   popup: {
+    id: "draggable-click-popup",
     trigger: "click",
     content: {
       title: "Visible on click",

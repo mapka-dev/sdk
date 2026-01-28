@@ -1,10 +1,8 @@
-// biome-ignore lint/correctness/noUnusedImports: later fix
-import { h } from "preact";
 import { Popup } from "maplibre-gl";
 import { PopupContent } from "../components/PopupContent.js";
 import { render } from "preact";
 import { remove } from "es-toolkit/array";
-import type { MapkaPopupOptions } from "../types/marker.js";
+import type { MapkaPopupOptions } from "../types/popup.js";
 import type { MapkaMap } from "../map.js";
 import { isEqual, isPlainObject } from "es-toolkit";
 

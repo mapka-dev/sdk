@@ -1,10 +1,11 @@
 import { Marker } from "maplibre-gl";
 import { get } from "es-toolkit/compat";
 import { getPopupId } from "./popup.js";
+import { remove } from "es-toolkit";
 import type { Offset, StyleSpecification } from "maplibre-gl";
 import type { MapkaMap } from "../map.js";
-import type { MapkaMarkerOptions, MapkaPopupOptions } from "../types/marker.js";
-import { remove } from "es-toolkit";
+import type { MapkaMarkerOptions } from "../types/marker.js";
+import type { MapkaPopupOptions } from "../types/popup.js";
 
 /**
  * Default marker offset
