@@ -4,6 +4,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.0](https://github.com/mapka-dev/sdk/compare/v0.14.0...v0.15.0) (2026-01-28)
+
+### Features
+
+* add layer-based popup support ([#16](https://github.com/mapka-dev/sdk/issues/16)) ([450bc78](https://github.com/mapka-dev/sdk/commit/450bc7877f3b1296b24064adbc846303cafaedbf)) - by @chyzwar
+
 ## [0.14.0](https://github.com/mapka-dev/sdk/compare/v0.13.2...v0.14.0) (2026-01-07)
 
 ### Features
