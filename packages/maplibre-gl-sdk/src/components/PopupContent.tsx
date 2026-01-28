@@ -224,16 +224,14 @@ export function PopupContent({
         {description && <p class="mapka-popup-description">{description}</p>}
 
         {hasRows && (
-          <div class="mapka-popup-rows">
+          <dl class="mapka-popup-rows">
             {rows.map((row, index) => (
               <div key={index} class="mapka-popup-row">
-                <span class="mapka-popup-row-name">{row.name}</span>
-                {typeof row.value === "string" && (
-                  <span class="mapka-popup-row-value">{row.value}</span>
-                )}
+                <dt class="mapka-popup-row-label">{row.name}</dt>
+                <dd class="mapka-popup-row-value">{row.value != null ? String(row.value) : "—"}</dd>
               </div>
             ))}
-          </div>
+          </dl>
         )}
       </div>
     </div>
