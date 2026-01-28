@@ -1,5 +1,5 @@
-import type { Expression, LayerSpecification } from "maplibre-gl";
-import type { MapkaPopupRow } from "./popup.js";
+import type { CustomLayerInterface, LayerSpecification, SourceSpecification } from "maplibre-gl";
+import type { MapkaLayerPopupOptions } from "./popup.js";
 
 export interface MapkaLayerConfig {
   /**
@@ -30,19 +30,28 @@ export interface MapkaLayerGroupConfig {
 
 export type MapkaLayerTreeConfig = (MapkaLayerConfig | MapkaLayerGroupConfig)[];
 
-export interface MapkaLayerPopupConfig {
-  id?: Expression | string;
-  title: Expression | string;
-  description: Expression | string;
-  rows?: Expression[] | MapkaPopupRow[];
-}
-
 export interface LayerWithMapkaMetadata {
   metadata?: {
+    [key: string]: unknown;
     mapka?: {
-      popup?: MapkaLayerPopupConfig | boolean;
+      popup?: MapkaLayerPopupOptions | boolean;
     };
   };
 }
 
 export type MapkaLayerSpecification = LayerSpecification & LayerWithMapkaMetadata;
+
+/**
+ * Layer specification with embedded source
+ */
+export type MapkaLayerSpecificationWithEmbededSource = MapkaLayerSpecification & {
+  source: SourceSpecification;
+};
+
+/**
+ * Extends maplibregl.AddLayerObject with Mapka specific metadata
+ */
+export type MapkaAddLayerObject =
+  | MapkaLayerSpecification
+  | MapkaLayerSpecificationWithEmbededSource
+  | CustomLayerInterface;

@@ -2,7 +2,7 @@ import { get } from "es-toolkit/compat";
 import { isBoolean, isPlainObject } from "es-toolkit";
 import type { MapMouseEvent, MapGeoJSONFeature, LngLat } from "maplibre-gl";
 import type { MapkaMap } from "../map.js";
-import type { MapkaLayerPopupConfig } from "../types/layer.js";
+import type { MapkaLayerPopupOptions } from "../types/popup.js";
 import type { MapkaPopupOptions } from "../types/popup.js";
 
 export function openOnFeatureClickPopups(map: MapkaMap, { lngLat, point }: MapMouseEvent) {
@@ -40,7 +40,7 @@ function genericPropertiesToPopup(feature: MapGeoJSONFeature, lngLat: LngLat): M
 }
 function buildConfigDrivenPopup(
   feature: MapGeoJSONFeature,
-  config: MapkaLayerPopupConfig,
+  config: MapkaLayerPopupOptions,
   lngLat: LngLat,
 ): MapkaPopupOptions {
   throw new Error("Not implemented", { cause: { config, feature, lngLat } });
@@ -54,7 +54,7 @@ function getFeaturePopups(features: MapGeoJSONFeature[], lngLat: LngLat): MapkaP
       layer: { metadata },
     } = feature;
 
-    const mapkaPopup = get(metadata, "mapka.popup") as MapkaLayerPopupConfig | boolean | undefined;
+    const mapkaPopup = get(metadata, "mapka.popup") as MapkaLayerPopupOptions | boolean | undefined;
 
     if (!mapkaPopup) {
       continue;

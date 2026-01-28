@@ -29,6 +29,7 @@ import type {
 import type { MapkaMarkerOptions } from "./types/marker.js";
 import type { MapkaExportOptions } from "./types/export.js";
 import type { MapkaPopupOptions } from "./types/popup.js";
+import type { MapkaAddLayerObject } from "./types/layer.js";
 import { openOnFeatureClickPopups } from "./modules/layerPopup.js";
 
 export interface MapkaMapOptions extends MapOptions {
@@ -161,5 +162,10 @@ export class MapkaMap extends maplibregl.Map {
 
   public async export(options?: MapkaExportOptions) {
     return exportMap(this, options);
+  }
+
+  public addLayer(layer: MapkaAddLayerObject, beforeId?: string): this {
+    super.addLayer(layer, beforeId);
+    return this;
   }
 }
