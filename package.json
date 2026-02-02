@@ -43,6 +43,9 @@
     },
     "lightningcss": {
       "built": true
+    },
+    "lightningcss-cli": {
+      "built": true
     }
   },
   "lint-staged": {
