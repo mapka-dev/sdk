@@ -35,7 +35,7 @@ function CloseIcon() {
       focusable="false"
       class="mapka-popup-icon"
     >
-      <path d="m6 6 20 20M26 6 6 26" fill="none" stroke="currentColor" stroke-width="3" />
+      <path d="m8 8 16 16M24 8 8 24" fill="none" stroke="currentColor" stroke-width="2" />
     </svg>
   );
 }
@@ -83,26 +83,28 @@ function ImageCarousel({
   title,
   onFavorite,
   id,
-  closeButton,
-  onClose,
 }: {
   imageUrls: string[];
   title?: string;
-  closeButton?: boolean;
   onFavorite?: (id: string) => void;
   id?: string;
-  onClose?: () => void;
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const isFirstImage = currentIndex === 0;
+  const isLastImage = currentIndex === imageUrls.length - 1;
 
   const handlePrev = (e: Event) => {
     e.stopPropagation();
-    setCurrentIndex((prev) => (prev === 0 ? imageUrls.length - 1 : prev - 1));
+    if (currentIndex > 0) {
+      setCurrentIndex((prev) => prev - 1);
+    }
   };
 
   const handleNext = (e: Event) => {
     e.stopPropagation();
-    setCurrentIndex((prev) => (prev + 1) % imageUrls.length);
+    if (currentIndex < imageUrls.length - 1) {
+      setCurrentIndex((prev) => prev + 1);
+    }
   };
 
   const handleFavoriteClick = (e: Event) => {
@@ -110,11 +112,6 @@ function ImageCarousel({
     if (onFavorite && id) {
       onFavorite(id);
     }
-  };
-
-  const handleCloseClick = (e: Event) => {
-    e.stopPropagation();
-    onClose?.();
   };
 
   return (
@@ -128,13 +125,13 @@ function ImageCarousel({
             key={index}
             src={url}
             alt={title || `Image ${index + 1}`}
-            class="mapka-popup-carousel-image"
+            class="mapka-popup-carousel-image mapka-popup-image"
           />
         ))}
       </div>
 
-      <div class="mapka-popup-carousel-actions">
-        {onFavorite && (
+      {onFavorite && (
+        <div class="mapka-popup-carousel-actions">
           <button
             type="button"
             class="mapka-popup-action-btn"
@@ -143,37 +140,31 @@ function ImageCarousel({
           >
             <HeartIcon />
           </button>
-        )}
-        {closeButton && (
-          <button
-            type="button"
-            class="mapka-popup-action-btn"
-            onClick={handleCloseClick}
-            aria-label="Close"
-          >
-            <CloseIcon />
-          </button>
-        )}
-      </div>
+        </div>
+      )}
 
       {imageUrls.length > 1 && (
         <Fragment>
-          <button
-            type="button"
-            class="mapka-popup-carousel-btn mapka-popup-carousel-prev"
-            onClick={handlePrev}
-            aria-label="Previous image"
-          >
-            <ChevronLeftIcon />
-          </button>
-          <button
-            type="button"
-            class="mapka-popup-carousel-btn mapka-popup-carousel-next"
-            onClick={handleNext}
-            aria-label="Next image"
-          >
-            <ChevronRightIcon />
-          </button>
+          {!isFirstImage && (
+            <button
+              type="button"
+              class="mapka-popup-carousel-btn mapka-popup-carousel-prev"
+              onClick={handlePrev}
+              aria-label="Previous image"
+            >
+              <ChevronLeftIcon />
+            </button>
+          )}
+          {!isLastImage && (
+            <button
+              type="button"
+              class="mapka-popup-carousel-btn mapka-popup-carousel-next"
+              onClick={handleNext}
+              aria-label="Next image"
+            >
+              <ChevronRightIcon />
+            </button>
+          )}
 
           <div class="mapka-popup-dots">
             {imageUrls.map((_, index) => (
@@ -207,17 +198,25 @@ export function PopupContent({
   const hasImages = imageUrls && imageUrls.length > 0;
   const hasRows = rows && rows.length > 0;
 
+  const handleCloseClick = (e: Event) => {
+    e.stopPropagation();
+    onClose?.();
+  };
+
   return (
-    <div class="mapka-tooltip">
-      {hasImages && (
-        <ImageCarousel
-          imageUrls={imageUrls}
-          title={title}
-          closeButton={closeButton}
-          onFavorite={onFavorite}
-          onClose={onClose}
-        />
+    <div class="mapka-popup">
+      {closeButton && (
+        <button
+          type="button"
+          class="mapka-popup-close-btn"
+          onClick={handleCloseClick}
+          aria-label="Close"
+        >
+          <CloseIcon />
+        </button>
       )}
+
+      {hasImages && <ImageCarousel imageUrls={imageUrls} title={title} onFavorite={onFavorite} />}
 
       <div class="mapka-popup-content">
         {title && <h3 class="mapka-popup-title">{title}</h3>}

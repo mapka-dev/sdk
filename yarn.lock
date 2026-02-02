@@ -1076,6 +1076,8 @@ __metadata:
       built: true
     lightningcss:
       built: true
+    lightningcss-cli:
+      built: true
   languageName: unknown
   linkType: soft
 
