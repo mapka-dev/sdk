@@ -51,7 +51,6 @@
   "files": [
     "src/",
     "lib/",
-    "dist",
     "!**/__tests__/",
     "!lib/buildInfo.json"
   ]

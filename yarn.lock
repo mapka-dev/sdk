@@ -1065,7 +1065,6 @@ __metadata:
     "@lerna-lite/cli": "npm:^4.10.2"
     "@lerna-lite/publish": "npm:^4.10.2"
     "@lerna-lite/version": "npm:^4.10.2"
-    "@types/node": "npm:^24.10.4"
     conventional-changelog-conventionalcommits: "npm:^9.1.0"
     happy-dom: "npm:^20.0.11"
     husky: "npm:^9.1.7"
@@ -1897,15 +1896,6 @@ __metadata:
   dependencies:
     undici-types: "npm:~6.21.0"
   checksum: 10c2/fe22cad7f7854a07468ccec949656927c26cc9d88e7f9e62a632960a5fb49364175804235fb4dae8ddcdbfc20c178cf0d85f1c8796b6ac4ef68e81a3a6357b7a
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^24.10.4":
-  version: 24.10.4
-  resolution: "@types/node@npm:24.10.4"
-  dependencies:
-    undici-types: "npm:~7.16.0"
-  checksum: 10c2/7c866ed2cadc29464323a97bf56a36d96ca3a1602d4be7efccff67be1e65a7802f4db6adb5e7fef38926ba2c158077d9b160a8edebebcb8f607fcd56cf56fe3c
   languageName: node
   linkType: hard
 
@@ -5856,13 +5846,6 @@ __metadata:
   version: 6.21.0
   resolution: "undici-types@npm:6.21.0"
   checksum: 10c2/c9594d1cb9f3f37f94394cf32a396c014e3f373457e91b8ea77fe5f659a1c945c2a5078b4904fd13bb78dd8574450da66c18f03849456ea6349464171148adb0
-  languageName: node
-  linkType: hard
-
-"undici-types@npm:~7.16.0":
-  version: 7.16.0
-  resolution: "undici-types@npm:7.16.0"
-  checksum: 10c2/6a6cfc223e98e8c8a04b5bca5b3243c8a8d2b69853af67162219e1ec0a3fe2a867e92dce878938564b1a70b9f3c1a70f304005cd67a9160f3837c5597bdc9b30
   languageName: node
   linkType: hard
 
