@@ -1,80 +1,26 @@
-import { Fragment } from "preact";
+import { Fragment, type MouseEventHandler } from "preact";
 import { useState } from "preact/hooks";
 import type { MapkaPopupContent } from "../types/popup.js";
+import { ChevronRightIcon } from "./ChevronRightIcon.js";
+import { ChevronLeftIcon } from "./ChevronLeftIcon.js";
+import { HeartIcon } from "./HeartIcon.js";
+import { CloseIcon } from "./CloseIcon.js";
 
 interface PopupProps extends MapkaPopupContent {
   onClose?: () => void;
   closeButton?: boolean;
 }
 
-function HeartIcon({ filled }: { filled?: boolean }) {
-  return (
-    <svg
-      viewBox="0 0 32 32"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      focusable="false"
-      class="mapka-popup-icon"
-    >
-      <path
-        d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0A6.98 6.98 0 0 0 2 11c0 7 7 12.27 14 17z"
-        fill={filled ? "currentColor" : "none"}
-        stroke="currentColor"
-        stroke-width="2"
-      />
-    </svg>
-  );
-}
+function PrimaryButton({ label, onClick }: { label: string; onClick?: () => void }) {
+  const handleClick = (e: Event) => {
+    e.stopPropagation();
+    onClick?.();
+  };
 
-function CloseIcon() {
   return (
-    <svg
-      viewBox="0 0 32 32"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      focusable="false"
-      class="mapka-popup-icon"
-    >
-      <path d="m8 8 16 16M24 8 8 24" fill="none" stroke="currentColor" stroke-width="2" />
-    </svg>
-  );
-}
-
-function ChevronLeftIcon() {
-  return (
-    <svg
-      viewBox="0 0 32 32"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      focusable="false"
-      class="mapka-popup-icon mapka-popup-icon-sm"
-    >
-      <path
-        d="M20 28 8.7 16.7a1 1 0 0 1 0-1.4L20 4"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="4"
-      />
-    </svg>
-  );
-}
-
-function ChevronRightIcon() {
-  return (
-    <svg
-      viewBox="0 0 32 32"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      focusable="false"
-      class="mapka-popup-icon mapka-popup-icon-sm"
-    >
-      <path
-        d="m12 4 11.3 11.3a1 1 0 0 1 0 1.4L12 28"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="4"
-      />
-    </svg>
+    <button type="button" class="mapka-popup-button-primary" onClick={handleClick}>
+      {label}
+    </button>
   );
 }
 
@@ -186,12 +132,37 @@ function ImageCarousel({
   );
 }
 
+function displayRowValue(value: unknown) {
+  if (value == null) {
+    return "";
+  }
+
+  if (typeof value === "number") {
+    return value.toLocaleString();
+  }
+
+  return String(value);
+}
+
+function displayRowName(name: string) {
+  return name.replace(/_/g, " ");
+}
+
+export function CloseButton({ onClose }: { onClose?: MouseEventHandler<HTMLButtonElement> }) {
+  return (
+    <button type="button" class="mapka-popup-close-btn" onClick={onClose} aria-label="Close">
+      <CloseIcon />
+    </button>
+  );
+}
+
 export function PopupContent({
   title,
   description,
   rows,
   closeButton,
-  imageUrls,
+  imageUrls = [],
+  primaryAction,
   onFavorite,
   onClose,
 }: PopupProps) {
@@ -205,17 +176,7 @@ export function PopupContent({
 
   return (
     <div class="mapka-popup">
-      {closeButton && (
-        <button
-          type="button"
-          class="mapka-popup-close-btn"
-          onClick={handleCloseClick}
-          aria-label="Close"
-        >
-          <CloseIcon />
-        </button>
-      )}
-
+      {closeButton && <CloseButton onClose={handleCloseClick} />}
       {hasImages && <ImageCarousel imageUrls={imageUrls} title={title} onFavorite={onFavorite} />}
 
       <div class="mapka-popup-content">
@@ -226,13 +187,48 @@ export function PopupContent({
           <dl class="mapka-popup-rows">
             {rows.map((row, index) => (
               <div key={index} class="mapka-popup-row">
-                <dt class="mapka-popup-row-label">{row.name}</dt>
-                <dd class="mapka-popup-row-value">{row.value != null ? String(row.value) : "—"}</dd>
+                <dt class="mapka-popup-row-label">{displayRowName(row.name)}</dt>
+                <dd class="mapka-popup-row-value">{displayRowValue(row.value)}</dd>
               </div>
             ))}
           </dl>
         )}
+
+        {primaryAction && (
+          <div class="mapka-popup-actions">
+            <PrimaryButton label={primaryAction.label} onClick={primaryAction.onClick} />
+          </div>
+        )}
       </div>
+    </div>
+  );
+}
+
+export function CompactPopupContent({ title, description, rows, imageUrls = [] }: PopupProps) {
+  const hasRows = rows && rows.length > 0;
+  const [firstImage] = imageUrls;
+
+  return (
+    <div class="mapka-popup mapka-popup-compact">
+      <div class="mapka-popup-compact-header">
+        {firstImage && <img src={firstImage} alt={title} class="mapka-popup-compact-image" />}
+
+        <div class="mapka-popup-compact-info">
+          {title && <span class="mapka-popup-title">{title}</span>}
+          {description && <span class="mapka-popup-description">{description}</span>}
+        </div>
+      </div>
+
+      {hasRows && (
+        <dl class="mapka-popup-rows">
+          {rows.map((row, index) => (
+            <div key={index} class="mapka-popup-row">
+              <dt class="mapka-popup-row-label">{displayRowName(row.name)}</dt>
+              <dd class="mapka-popup-row-value">{displayRowValue(row.value)}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
     </div>
   );
 }
