@@ -22,7 +22,7 @@ export function displayRowName(name: string) {
   return name;
 }
 
-export function PopupRows({ rows }: { rows: MapkaPopupRow[] }) {
+export function PopupDataRows({ rows }: { rows: MapkaPopupRow[] }) {
   return (
     <dl class="mapka-popup-rows">
       {rows.map((row, index) => (

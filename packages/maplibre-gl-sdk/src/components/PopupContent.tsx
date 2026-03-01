@@ -1,7 +1,7 @@
 import type { MouseEventHandler } from "preact";
 import type { MapkaPopupContent } from "../types/popup.js";
-import { CloseIcon } from "./CloseIcon.js";
-import { PopupRows } from "./PopupRows.js";
+import { CloseIcon } from "./icons/CloseIcon.js";
+import { PopupDataRows } from "./PopupDataRows.js";
 import { ImageCarousel } from "./ImageCarousel.js";
 
 interface PopupProps extends MapkaPopupContent {
@@ -57,7 +57,7 @@ export function PopupContent({
         {title && <h3 class="mapka-popup-title">{title}</h3>}
         {description && <p class="mapka-popup-description">{description}</p>}
 
-        {hasRows && <PopupRows rows={rows} />}
+        {hasRows && <PopupDataRows rows={rows} />}
 
         {primaryAction && (
           <div class="mapka-popup-actions">

@@ -1,4 +1,4 @@
-import { Popup } from "maplibre-gl";
+import { LngLat, Popup } from "maplibre-gl";
 import { PopupContent } from "../components/PopupContent.js";
 import { render } from "preact";
 import { remove } from "es-toolkit/array";
@@ -25,56 +25,61 @@ export function enforceMaxPopups(map: MapkaMap) {
   }
 }
 
-export function openPopup(map: MapkaMap, options: MapkaPopupOptions) {
-  const { lngLat, content, closeButton, id = getPopupId(options), ...popupOptions } = options;
-  if (content instanceof HTMLElement) {
-    const popup = new Popup({
-      ...popupOptions,
-      closeButton: false,
-      closeOnClick: false,
-    })
-      .setLngLat(lngLat)
-      .setDOMContent(content)
-      .addTo(map);
+export function openPopups(map: MapkaMap, options: MapkaPopupOptions | MapkaPopupOptions[]) {
+  if (!Array.isArray(options)) {
+    const { lngLat, content, closeButton, id = getPopupId(options), ...popupOptions } = options;
 
-    map.popups.push({
-      container: content,
-      id,
-      options,
-      popup,
-    });
-    enforceMaxPopups(map);
-    return id;
-  } else if (typeof content === "object") {
-    const onClose = getOnClose(map, id);
-    const container = document.createElement("div");
-    container.classList.add("mapka-popup-container");
+    if (content instanceof HTMLElement) {
+      const popup = new Popup({
+        ...popupOptions,
+        closeButton: false,
+        closeOnClick: false,
+      })
+        .setLngLat(lngLat)
+        .setDOMContent(content)
+        .addTo(map);
 
-    render(<PopupContent {...content} closeButton={closeButton} onClose={onClose} />, container);
+      map.popups.push({
+        container: content,
+        id,
+        options,
+        popup,
+      });
+      enforceMaxPopups(map);
+      return id;
+    } else if (typeof content === "object") {
+      const onClose = getOnClose(map, id);
+      const container = document.createElement("div");
+      container.classList.add("mapka-popup-container");
 
-    const popup = new Popup({
-      ...popupOptions,
-      closeButton: false,
-      closeOnClick: false,
-    })
-      .setLngLat(lngLat)
-      .setDOMContent(container)
-      .addTo(map);
+      render(<PopupContent {...content} closeButton={closeButton} onClose={onClose} />, container);
 
-    map.popups.push({
-      container,
-      id,
-      options,
-      popup,
-    });
-    enforceMaxPopups(map);
-    return id;
-  } else if (typeof content === "function") {
-    const newContent = content(id);
-    return openPopup(map, {
-      ...options,
-      content: newContent,
-    });
+      const popup = new Popup({
+        ...popupOptions,
+        closeButton: false,
+        closeOnClick: false,
+      })
+        .setLngLat(lngLat)
+        .setDOMContent(container)
+        .addTo(map);
+
+      map.popups.push({
+        container,
+        id,
+        options,
+        popup,
+      });
+      enforceMaxPopups(map);
+      return id;
+    } else if (typeof content === "function") {
+      const newContent = content(id);
+      return openPopups(map, [
+        {
+          ...options,
+          content: newContent,
+        },
+      ]);
+    }
   }
 
   throw new Error("Invalid popup content");

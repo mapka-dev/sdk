@@ -26,17 +26,27 @@ export function getMarkerId(marker: { id?: string }) {
   return marker.id ?? `marker-${crypto.randomUUID()}`;
 }
 
-const markerPopupOptions = (marker: Marker, popupOptions: Omit<MapkaPopupOptions, "lngLat">) => {
+export function getMarkerPopupId(marker: { id?: string }, popup: { id?: string }) {
+  return popup.id ?? marker.id ?? `marker-popup-${crypto.randomUUID()}`;
+}
+
+const markerPopupOptions = (
+  id: string,
+  marker: Marker,
+  popupOptions: Omit<MapkaPopupOptions, "lngLat">,
+) => {
   const latLng = marker.getLngLat().toArray();
 
   if ("offset" in popupOptions) {
     return {
       ...popupOptions,
+      id,
       lngLat: latLng,
     };
   } else {
     return {
       ...popupOptions,
+      id,
       lngLat: latLng,
       offset: DEFAULT_MARKET_OFFSET,
     };
@@ -49,31 +59,32 @@ function setupMarkerPopupListeners(
   popup: MapkaMarkerPopupOptions,
   options: MapkaMarkerOptions,
 ) {
-  const popupId = getPopupId(popup);
   const markerElement = marker.getElement();
+  const popupId = getMarkerPopupId(options, popup);
+  const popupOptions = markerPopupOptions(popupId, marker, popup);
 
   if (options.draggable) {
     marker.on("dragend", () => {
       if (map.popups.find((p) => p.id === popupId)) {
-        map.updatePopup(markerPopupOptions(marker, popup));
+        map.updatePopup(popupOptions);
       }
     });
     marker.on("drag", () => {
       if (map.popups.find((p) => p.id === popupId)) {
-        map.updatePopup(markerPopupOptions(marker, popup));
+        map.updatePopup(popupOptions);
       }
     });
   }
 
   if (popup.trigger === "always") {
     if (!map.popups.find((p) => p.id === popupId)) {
-      map.openPopup(markerPopupOptions(marker, popup));
+      map.openPopup(popupOptions);
     }
 
     markerElement.addEventListener("click", (e) => {
       e.stopPropagation();
       if (!map.popups.find((p) => p.id === popupId)) {
-        map.openPopup(markerPopupOptions(marker, popup));
+        map.openPopup(popupOptions);
       }
     });
   } else if (popup.trigger === "click") {
@@ -81,14 +92,14 @@ function setupMarkerPopupListeners(
     markerElement.addEventListener("click", (e) => {
       e.stopPropagation();
       if (!map.popups.find((p) => p.id === popupId)) {
-        map.openPopup(markerPopupOptions(marker, popup));
+        map.openPopup(popupOptions);
       }
     });
   } else if (popup.trigger === "hover") {
     markerElement.addEventListener("mouseenter", (e) => {
       e.stopPropagation();
       if (!map.popups.find((p) => p.id === popupId)) {
-        map.openPopup(markerPopupOptions(marker, popup));
+        map.openPopup(popupOptions);
       }
     });
     markerElement.addEventListener("mouseleave", (e) => {
