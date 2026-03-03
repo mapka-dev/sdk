@@ -72,7 +72,7 @@ export function openClickPopups(map: MapkaMap, { lngLat, point }: MapMouseEvent)
   if (featurePopups.length === 0) {
     return;
   }
-  map.openPopups(featurePopups);
+  map.openPopup(featurePopups);
 }
 
 export function openOnHoverPopups(map: MapkaMap, { lngLat, point }: MapMouseEvent) {
@@ -81,5 +81,5 @@ export function openOnHoverPopups(map: MapkaMap, { lngLat, point }: MapMouseEven
   if (featurePopups.length === 0) {
     return;
   }
-  map.openPopups(featurePopups);
+  map.openPopup(featurePopups);
 }

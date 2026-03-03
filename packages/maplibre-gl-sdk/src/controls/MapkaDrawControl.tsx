@@ -10,13 +10,13 @@ import {
   TerraDrawFreehandMode,
 } from "terra-draw";
 import { TerraDrawMapLibreGLAdapter } from "terra-draw-maplibre-gl-adapter";
-import { SelectIcon } from "../components/SelectIcon.js";
-import { PolygonIcon } from "../components/PolygonIcon.js";
-import { RectangleIcon } from "../components/RectangleIcon.js";
-import { CircleIcon } from "../components/CircleIcon.js";
-import { LineIcon } from "../components/LineIcon.js";
-import { TrashIcon } from "../components/TrashIcon.js";
-import { FreehandIcon } from "../components/FreehandIcon.js";
+import { SelectIcon } from "../components/icons/SelectIcon.js";
+import { PolygonIcon } from "../components/icons/PolygonIcon.js";
+import { RectangleIcon } from "../components/icons/RectangleIcon.js";
+import { CircleIcon } from "../components/icons/CircleIcon.js";
+import { LineIcon } from "../components/icons/LineIcon.js";
+import { TrashIcon } from "../components/icons/TrashIcon.js";
+import { FreehandIcon } from "../components/icons/FreehandIcon.js";
 import { isEmpty } from "es-toolkit/compat";
 import type { IControl } from "maplibre-gl";
 import type { GeoJSONStoreFeatures } from "terra-draw";

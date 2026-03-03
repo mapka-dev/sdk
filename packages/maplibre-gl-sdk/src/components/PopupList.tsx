@@ -9,16 +9,19 @@ export function PopupCustomElement({ popup }: { popup: HTMLElement }) {
   return popup;
 }
 
-export function PopupCollection({ items }: PopupCollectionProps) {
+export function PopupList({ items }: PopupCollectionProps) {
   return (
-    <div class="mapka-popup-list">
-      {items.map((item, index) =>
-        item instanceof HTMLElement ? (
-          <PopupCustomElement key={index} popup={item} />
-        ) : (
-          <PopupListItem key={index} popup={item} />
-        ),
-      )}
+    <div class="mapka-popup-list-wrapper">
+      <div class="mapka-popup-list">
+        {items.map((item, index) =>
+          item instanceof HTMLElement ? (
+            <PopupCustomElement key={index} popup={item} />
+          ) : (
+            <PopupListItem key={index} popup={item} />
+          ),
+        )}
+      </div>
+      <div class="mapka-popup-list-gradient" />
     </div>
   );
 }

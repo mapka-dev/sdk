@@ -1,0 +1,24 @@
+.mapka-popup-list-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.mapka-popup-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  max-height: 265px;
+  padding: 8px 8px 24px;
+  box-sizing: border-box;
+}
+
+.mapka-popup-list-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 54px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #fff 100%);
+  pointer-events: none;
+}

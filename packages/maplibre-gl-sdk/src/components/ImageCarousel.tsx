@@ -1,13 +1,10 @@
 import { useState } from "preact/hooks";
-import { HeartIcon } from "./icons/HeartIcon.js";
 import { ChevronLeftIcon } from "./icons/ChevronLeftIcon.js";
 import { ChevronRightIcon } from "./icons/ChevronRightIcon.js";
 
 export function ImageCarousel({
   imageUrls,
   title,
-  onFavorite,
-  id,
 }: {
   imageUrls: string[];
   title?: string;
@@ -32,13 +29,6 @@ export function ImageCarousel({
     }
   };
 
-  const handleFavoriteClick = (e: Event) => {
-    e.stopPropagation();
-    if (onFavorite && id) {
-      onFavorite(id);
-    }
-  };
-
   return (
     <div class="mapka-popup-carousel">
       <div class="mapka-popup-carousel-image-container">
@@ -56,19 +46,6 @@ export function ImageCarousel({
           ))}
         </div>
       </div>
-
-      {onFavorite && (
-        <div class="mapka-popup-carousel-actions">
-          <button
-            type="button"
-            class="mapka-popup-action-btn"
-            onClick={handleFavoriteClick}
-            aria-label="Add to favorites"
-          >
-            <HeartIcon />
-          </button>
-        </div>
-      )}
 
       {imageUrls.length > 1 && (
         <div class="mapka-popup-carousel-controls">

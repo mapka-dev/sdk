@@ -9,12 +9,12 @@ interface PopupHeaderProps {
 
 export function PopupHeader({ title, description, imageUrls: [firstImage] }: PopupHeaderProps) {
   return (
-    <div class="mapka-popup-collection-item-header">
-      {firstImage && <img src={firstImage} alt={title} class="mapka-popup-collection-item-image" />}
+    <div class="mapka-popup-list-item-header">
+      {firstImage && <img src={firstImage} alt={title} class="mapka-popup-list-item-image" />}
 
-      <div class="mapka-popup-collection-item-info">
-        {title && <span class="mapka-popup-title">{title}</span>}
-        {description && <span class="mapka-popup-description">{description}</span>}
+      <div class="mapka-popup-list-item-info">
+        {title && <span class="mapka-popup-list-item-title">{title}</span>}
+        {description && <span class="mapka-popup-list-item-description">{description}</span>}
       </div>
     </div>
   );
@@ -32,7 +32,7 @@ export function PopupListItem({
   const hasDataRows = Boolean(rows.length);
 
   return (
-    <div class="mapka-popup-collection-item">
+    <div class="mapka-popup-list-item">
       {hasHeader && <PopupHeader title={title} description={description} imageUrls={imageUrls} />}
       {hasDataRows && <PopupDataRows rows={rows} />}
     </div>

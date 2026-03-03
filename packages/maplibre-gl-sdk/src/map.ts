@@ -137,11 +137,8 @@ export class MapkaMap extends maplibregl.Map {
     removeMarkers(this);
   }
 
-  public openPopup(popup: MapkaPopupOptions) {
-    return openPopups(this, [popup]);
-  }
-  public openPopups(popups: MapkaPopupOptions[]) {
-    return openPopups(this, popups);
+  public openPopup(popup: MapkaPopupOptions | MapkaPopupOptions[]) {
+    return openPopups(this, popup);
   }
 
   public closePopup(id: string) {
