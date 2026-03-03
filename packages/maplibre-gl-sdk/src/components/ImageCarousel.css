@@ -1,0 +1,97 @@
+.mapka-popup-carousel {
+  position: relative;
+  width: 100%;
+}
+
+.mapka-popup-carousel-image-container {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #ccd1d6;
+}
+
+.mapka-popup-carousel-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.mapka-popup-carousel-image {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mapka-popup-carousel-controls {
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  right: 8px;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.mapka-popup-carousel:hover .mapka-popup-carousel-controls {
+  opacity: 1;
+}
+
+.mapka-popup-carousel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 100px;
+  border: 1px solid #dcdfe3;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(3px);
+  cursor: pointer;
+  pointer-events: auto;
+  padding: 0;
+  color: #262626;
+}
+
+.mapka-popup-carousel-btn:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.mapka-popup-carousel-prev {
+  margin-right: auto;
+}
+
+.mapka-popup-carousel-next {
+  margin-left: auto;
+}
+
+.mapka-popup-carousel-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+}
+
+.mapka-popup-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 100px;
+  border: 1px solid #dcdfe3;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(3px);
+  cursor: pointer;
+  padding: 0;
+  color: #262626;
+}
+
+.mapka-popup-action-btn:hover {
+  background: rgba(255, 255, 255, 0.9);
+}

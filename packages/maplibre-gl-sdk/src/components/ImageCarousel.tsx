@@ -1,8 +1,7 @@
 import { useState } from "preact/hooks";
-import { HeartIcon } from "./HeartIcon.js";
-import { Fragment } from "preact";
-import { ChevronLeftIcon } from "./ChevronLeftIcon.js";
-import { ChevronRightIcon } from "./ChevronRightIcon.js";
+import { HeartIcon } from "./icons/HeartIcon.js";
+import { ChevronLeftIcon } from "./icons/ChevronLeftIcon.js";
+import { ChevronRightIcon } from "./icons/ChevronRightIcon.js";
 
 export function ImageCarousel({
   imageUrls,
@@ -42,18 +41,20 @@ export function ImageCarousel({
 
   return (
     <div class="mapka-popup-carousel">
-      <div
-        class="mapka-popup-carousel-track"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-      >
-        {imageUrls.map((url, index) => (
-          <img
-            key={index}
-            src={url}
-            alt={title || `Image ${index + 1}`}
-            class="mapka-popup-carousel-image mapka-popup-image"
-          />
-        ))}
+      <div class="mapka-popup-carousel-image-container">
+        <div
+          class="mapka-popup-carousel-track"
+          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+        >
+          {imageUrls.map((url, index) => (
+            <img
+              key={index}
+              src={url}
+              alt={title || `Image ${index + 1}`}
+              class="mapka-popup-carousel-image mapka-popup-image"
+            />
+          ))}
+        </div>
       </div>
 
       {onFavorite && (
@@ -70,7 +71,7 @@ export function ImageCarousel({
       )}
 
       {imageUrls.length > 1 && (
-        <Fragment>
+        <div class="mapka-popup-carousel-controls">
           {!isFirstImage && (
             <button
               type="button"
@@ -91,22 +92,7 @@ export function ImageCarousel({
               <ChevronRightIcon />
             </button>
           )}
-
-          <div class="mapka-popup-dots">
-            {imageUrls.map((_, index) => (
-              <button
-                key={index}
-                type="button"
-                class={`mapka-popup-dot ${index === currentIndex ? "mapka-popup-dot-active" : ""}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setCurrentIndex(index);
-                }}
-                aria-label={`Go to image ${index + 1}`}
-              />
-            ))}
-          </div>
-        </Fragment>
+        </div>
       )}
     </div>
   );

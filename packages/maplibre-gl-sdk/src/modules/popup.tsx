@@ -80,6 +80,7 @@ export function openPopups(map: MapkaMap, options: MapkaPopupOptions | MapkaPopu
         },
       ]);
     }
+  } else {
   }
 
   throw new Error("Invalid popup content");

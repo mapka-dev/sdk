@@ -1,0 +1,40 @@
+.mapka-popup-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.mapka-popup-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  height: 30px;
+  padding: 0 8px;
+  border-radius: 6px;
+  background: #f4f5f6;
+}
+
+.mapka-popup-row-label {
+  flex: 1;
+  margin: 0;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #4f4f4f;
+}
+
+.mapka-popup-row-value {
+  flex: 1;
+  margin: 0;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #4f4f4f;
+  text-align: right;
+}
