@@ -3,9 +3,10 @@ import { PopupContent } from "../components/PopupContent.js";
 import { PopupList } from "../components/PopupList.js";
 import { render } from "preact";
 import { remove } from "es-toolkit/array";
-import type { MapkaPopupOptions } from "../types/popup.js";
-import type { MapkaMap } from "../map.js";
-import { isEqual, isPlainObject } from "es-toolkit";
+import { isPlainObject } from "es-toolkit";
+import { computePopupGroups } from "./proximity.js";
+import type { MapkaPopupOptions, MapkaPopupOptionsResolved } from "../types/popup.js";
+import type { MapkaMap, MapMapkaPopup } from "../map.js";
 
 export function getPopupId(popup: { id?: string }) {
   return popup.id ?? `popup-${crypto.randomUUID()}`;
@@ -15,11 +16,81 @@ export function getOnClose(map: MapkaMap, id: string) {
   return () => map.closePopup(id);
 }
 
-function hasObjectContent(options: MapkaPopupOptions | MapkaPopupOptions[]) {
-  if (Array.isArray(options)) {
-    return options.some((opt) => isPlainObject(opt.content));
+function hasObjectContent(options: MapkaPopupOptions[]) {
+  return options.some((opt) => isPlainObject(opt.content));
+}
+
+function resolveContentCreators(options: MapkaPopupOptions[]): MapkaPopupOptionsResolved[] {
+  return options.map((opt) => {
+    const id = getPopupId(opt);
+
+    if (typeof opt.content === "function") {
+      return {
+        ...opt,
+        id,
+        content: opt.content(id),
+      };
+    } else {
+      return {
+        ...opt,
+        id,
+        content: opt.content,
+      };
+    }
+  });
+}
+
+function createNewPopup(map: MapkaMap, options: MapkaPopupOptionsResolved[]) {
+  const [{ lngLat, id, content, closeButton, ...opts }] = options;
+
+  const ids = options.map(getPopupId);
+  const container = document.createElement("div");
+  container.classList.add("mapka-popup-container");
+
+  let popup: Popup | undefined;
+  if (options.length > 1) {
+    render(<PopupList items={options} />, container);
+
+    popup = new Popup({
+      ...opts,
+      closeButton: false,
+      closeOnClick: true,
+    })
+      .setLngLat(lngLat)
+      .setDOMContent(container)
+      .addTo(map);
   }
-  return isPlainObject(options.content);
+
+  if (content instanceof HTMLElement) {
+    popup = new Popup({
+      ...opts,
+      closeButton: false,
+    })
+      .setLngLat(lngLat)
+      .setDOMContent(content)
+      .addTo(map);
+  } else {
+    popup = new Popup({
+      ...opts,
+      closeButton: false,
+    })
+      .setLngLat(lngLat)
+      .setDOMContent(container)
+      .addTo(map);
+
+    render(<PopupContent {...content} onClose={getOnClose(map, id)} />, container);
+  }
+
+  if (!popup) return;
+
+  map.popups.push({
+    container,
+    ids,
+    options,
+    popup,
+  });
+
+  return ids;
 }
 
 export function enforceMaxPopups(map: MapkaMap) {
@@ -35,157 +106,28 @@ export function enforceMaxPopups(map: MapkaMap) {
   }
 }
 
-export function openPopups(map: MapkaMap, options: MapkaPopupOptions | MapkaPopupOptions[]) {
-  if (!Array.isArray(options)) {
-    const { lngLat, content, closeButton, id = getPopupId(options), ...popupOptions } = options;
+export function reconciliatePopups(map: MapkaMap, options: MapkaPopupOptions[]) {
+  const resolved = resolveContentCreators(options);
+  const actions = computePopupGroups(map, resolved);
 
-    if (content instanceof HTMLElement) {
-      const popup = new Popup({
-        ...popupOptions,
-        closeButton: false,
-        closeOnClick: false,
-      })
-        .setLngLat(lngLat)
-        .setDOMContent(content)
-        .addTo(map);
-
-      map.popups.push({
-        container: content,
-        id,
-        options,
-        popup,
-      });
-      enforceMaxPopups(map);
-      return id;
-    } else if (typeof content === "object") {
-      const onClose = getOnClose(map, id);
-      const container = document.createElement("div");
-      container.classList.add("mapka-popup-container");
-
-      render(<PopupContent {...content} closeButton={closeButton} onClose={onClose} />, container);
-
-      const popup = new Popup({
-        ...popupOptions,
-        closeButton: false,
-        closeOnClick: false,
-      })
-        .setLngLat(lngLat)
-        .setDOMContent(container)
-        .addTo(map);
-
-      map.popups.push({
-        container,
-        id,
-        options,
-        popup,
-      });
-      enforceMaxPopups(map);
-      return id;
-    } else if (typeof content === "function") {
-      const newContent = content(id);
-      return openPopups(map, [
-        {
-          ...options,
-          content: newContent,
-        },
-      ]);
+  for (const action of actions) {
+    if (action.type === "close") {
+      closePopupsByIds(map, action.ids);
+    } else if (action.type === "create") {
+      createNewPopup(map, action.options);
     }
-  } else {
-    const [firstOption] = options;
-    const { lngLat } = firstOption;
-    const ids = options.map(getPopupId);
-
-    const contents = options.map(({ content, ...opt }) => {
-      if (typeof content === "function") {
-        return content(getPopupId(opt));
-      }
-      return content;
-    });
-    const container = document.createElement("div");
-    container.classList.add("mapka-popup-container");
-
-    render(<PopupList items={contents} />, container);
-
-    const popup = new Popup({
-      closeButton: false,
-      closeOnClick: false,
-    })
-      .setLngLat(lngLat)
-      .setDOMContent(container)
-      .addTo(map);
-
-    map.popups.push({
-      container,
-      id: ids,
-      options,
-      popup,
-    });
-    enforceMaxPopups(map);
-    return ids;
   }
 
-  throw new Error("Invalid popup content");
+  enforceMaxPopups(map);
+
+  return resolved.map((opt) => opt.id);
 }
 
-const DEFAULT_POPUP_MAX_WIDTH = "240px";
-
-export function updatePopupBaseOptions(
-  popup: Popup,
-  options: MapkaPopupOptions,
-  newOptions: Omit<MapkaPopupOptions, "content">,
-) {
-  if (!isEqual(options.maxWidth, newOptions.maxWidth)) {
-    popup.setMaxWidth(newOptions.maxWidth ?? DEFAULT_POPUP_MAX_WIDTH);
-  }
-  if (!isEqual(options.offset, newOptions.offset)) {
-    popup.setOffset(newOptions.offset);
-  }
-  if (!isEqual(options.lngLat, newOptions.lngLat)) {
-    popup.setLngLat(newOptions.lngLat);
-  }
-  return popup;
-}
-
-export function updatePopup(map: MapkaMap, { content, ...newOptions }: MapkaPopupOptions) {
-  const id = getPopupId(newOptions);
-
-  if (content instanceof HTMLElement) {
-    const mapkaPopups = map.popups.filter((popup) => popup.id === id);
-    for (const { popup, options } of mapkaPopups) {
-      const singleOptions = Array.isArray(options) ? options[0] : options;
-      updatePopupBaseOptions(popup, singleOptions, newOptions);
-      popup.setDOMContent(content);
-    }
-  } else if (typeof content === "object") {
-    const onClose = getOnClose(map, id);
-    const mapkaPopups = map.popups.filter((popup) => popup.id === id);
-
-    for (const { popup, container, options } of mapkaPopups) {
-      const singleOptions = Array.isArray(options) ? options[0] : options;
-      const { closeButton } = singleOptions;
-      render(<PopupContent {...content} closeButton={closeButton} onClose={onClose} />, container);
-      updatePopupBaseOptions(popup, singleOptions, newOptions);
-      popup.setDOMContent(container);
-    }
-  } else if (typeof content === "function") {
-    const newContent = content(id);
-    return updatePopup(map, {
-      ...newOptions,
-      content: newContent,
-    });
-  }
-}
-
-/**
- * Close all popups that have closeOnClick set to true or undefined
- * Close any PopupList popups
- */
 export function closeOnMapClickPopups(map: MapkaMap) {
   const popupsToCloseOnMapClick = remove(map.popups, (popup) => {
+    const [first] = popup.options;
     return (
-      Array.isArray(popup.options) ||
-      popup.options.closeOnClick === true ||
-      popup.options.closeOnClick === undefined
+      popup.ids.length > 1 || first?.closeOnClick === true || first?.closeOnClick === undefined
     );
   });
   for (const popup of popupsToCloseOnMapClick) {
@@ -197,15 +139,38 @@ export function closeOnMapClickPopups(map: MapkaMap) {
   }
 }
 
-export function closePopupsById(map: MapkaMap, id: string) {
-  const removedPopups = remove(map.popups, (popup) => popup.id === id);
-  for (const popup of removedPopups) {
-    popup.popup.remove();
-    if (hasObjectContent(popup.options)) {
-      render(null, popup.container);
-    }
-    popup.container.remove();
+export function closePopupByIndex(map: MapkaMap, index: number) {
+  const group = map.popups[index];
+  group.popup.remove();
+  if (hasObjectContent(group.options)) {
+    render(null, group.container);
   }
+  group.container.remove();
+  map.popups.splice(index, 1);
+}
+
+export function closePopupsByIds(map: MapkaMap, ids: string[]) {
+  const listsToReRender: Set<MapMapkaPopup> = new Set();
+
+  map.popups.forEach((popup, index) => {
+    const itemIndex = popup.ids.findIndex((id) => ids.includes(id));
+    if (itemIndex < 0) return;
+
+    if (popup.ids.length === 1) {
+      closePopupByIndex(map, index);
+    } else if (popup.ids.length > 1) {
+      popup.ids.splice(itemIndex, 1);
+      popup.options.splice(itemIndex, 1);
+      listsToReRender.add(popup);
+    }
+  });
+
+  map.popups.forEach((popup, index) => {
+    if (listsToReRender.has(popup)) {
+      closePopupByIndex(map, index);
+      createNewPopup(map, popup.options);
+    }
+  });
 }
 
 export function removePopups(map: MapkaMap) {

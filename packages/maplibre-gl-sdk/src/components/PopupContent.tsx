@@ -37,7 +37,6 @@ export function PopupContent({
   closeButton,
   imageUrls = [],
   primaryAction,
-  onFavorite,
   onClose,
 }: PopupProps) {
   const hasImages = imageUrls && imageUrls.length > 0;
@@ -51,7 +50,7 @@ export function PopupContent({
   return (
     <div class="mapka-popup">
       {closeButton && <CloseButton onClose={handleCloseClick} />}
-      {hasImages && <ImageCarousel imageUrls={imageUrls} title={title} onFavorite={onFavorite} />}
+      {hasImages && <ImageCarousel imageUrls={imageUrls} title={title} />}
 
       <div class="mapka-popup-content">
         {title && <h3 class="mapka-popup-title">{title}</h3>}

@@ -9,7 +9,12 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:www.figma.com)",
       "mcp__figma-remote-mcp__get_design_context",
-      "mcp__figma-remote-mcp__get_screenshot"
+      "mcp__figma-remote-mcp__get_screenshot",
+      "mcp__figma-remote-mcp__get_metadata",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(xargs:*)",
+      "Bash(git status:*)"
     ],
     "deny": []
   }

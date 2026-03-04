@@ -65,25 +65,25 @@ function setupMarkerPopupListeners(
 
   if (options.draggable) {
     marker.on("dragend", () => {
-      if (map.popups.find((p) => p.id === popupId)) {
+      if (map.popups.find((p) => p.ids.includes(popupId))) {
         map.updatePopup(popupOptions);
       }
     });
     marker.on("drag", () => {
-      if (map.popups.find((p) => p.id === popupId)) {
+      if (map.popups.find((p) => p.ids.includes(popupId))) {
         map.updatePopup(popupOptions);
       }
     });
   }
 
   if (popup.trigger === "always") {
-    if (!map.popups.find((p) => p.id === popupId)) {
+    if (!map.popups.find((p) => p.ids.includes(popupId))) {
       map.openPopup(popupOptions);
     }
 
     markerElement.addEventListener("click", (e) => {
       e.stopPropagation();
-      if (!map.popups.find((p) => p.id === popupId)) {
+      if (!map.popups.find((p) => p.ids.includes(popupId))) {
         map.openPopup(popupOptions);
       }
     });
@@ -91,20 +91,20 @@ function setupMarkerPopupListeners(
     markerElement.style.cursor = "pointer";
     markerElement.addEventListener("click", (e) => {
       e.stopPropagation();
-      if (!map.popups.find((p) => p.id === popupId)) {
+      if (!map.popups.find((p) => p.ids.includes(popupId))) {
         map.openPopup(popupOptions);
       }
     });
   } else if (popup.trigger === "hover") {
     markerElement.addEventListener("mouseenter", (e) => {
       e.stopPropagation();
-      if (!map.popups.find((p) => p.id === popupId)) {
+      if (!map.popups.find((p) => p.ids.includes(popupId))) {
         map.openPopup(popupOptions);
       }
     });
     markerElement.addEventListener("mouseleave", (e) => {
       e.stopPropagation();
-      if (map.popups.find((p) => p.id === popupId)) {
+      if (map.popups.find((p) => p.ids.includes(popupId))) {
         map.closePopup(popupId);
       }
     });

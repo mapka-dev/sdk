@@ -1,8 +1,8 @@
+import type { MapkaPopupOptionsResolved } from "../types/popup.js";
 import { PopupListItem } from "./PopupListItem.js";
-import type { MapkaPopupContent } from "../types/popup.js";
 
 interface PopupCollectionProps {
-  items: (MapkaPopupContent | HTMLElement)[];
+  items: MapkaPopupOptionsResolved[];
 }
 
 export function PopupCustomElement({ popup }: { popup: HTMLElement }) {
@@ -13,11 +13,11 @@ export function PopupList({ items }: PopupCollectionProps) {
   return (
     <div class="mapka-popup-list-wrapper">
       <div class="mapka-popup-list">
-        {items.map((item, index) =>
-          item instanceof HTMLElement ? (
-            <PopupCustomElement key={index} popup={item} />
+        {items.map(({ content, id }) =>
+          content instanceof HTMLElement ? (
+            <PopupCustomElement key={id} popup={content} />
           ) : (
-            <PopupListItem key={index} popup={item} />
+            <PopupListItem key={id} popup={content} />
           ),
         )}
       </div>

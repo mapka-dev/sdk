@@ -21,7 +21,6 @@ export interface MapkaPopupContent {
   rows?: MapkaPopupRow[];
   imageUrls?: string[];
   primaryAction?: MapkaPopupAction;
-  onFavorite?: (id: string) => void;
 }
 
 type CreatePopupElement = (id: string) => HTMLElement;
@@ -38,6 +37,11 @@ export interface MapkaPopupOptions extends PopupOptions {
   lngLat: [number, number];
   trigger?: "hover" | "click" | "always";
   content: MapkaPopupCreator;
+}
+
+export interface MapkaPopupOptionsResolved extends MapkaPopupOptions {
+  id: string;
+  content: HTMLElement | MapkaPopupContent;
 }
 
 export interface MapkaLayerPopupContent {
