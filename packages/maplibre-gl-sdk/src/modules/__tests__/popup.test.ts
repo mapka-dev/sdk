@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { removePopups } from "../popup.js";
+import { closePopups } from "../popup.js";
 import type { MapkaMap, MapMapkaPopup } from "../../map.js";
 
 function createMockPopup(): MapMapkaPopup {
@@ -38,7 +38,7 @@ describe("popup", () => {
         popups: [mockPopup1, mockPopup2],
       });
 
-      removePopups(map);
+      closePopups(map);
 
       expect(mockPopup1.popup.remove).toHaveBeenCalled();
       expect(mockPopup1.container.remove).toHaveBeenCalled();
@@ -50,7 +50,7 @@ describe("popup", () => {
     it("should handle empty popups array", () => {
       const map = createMockMap({ popups: [] });
 
-      expect(() => removePopups(map)).not.toThrow();
+      expect(() => closePopups(map)).not.toThrow();
       expect(map.popups).toEqual([]);
     });
 
@@ -60,7 +60,7 @@ describe("popup", () => {
         popups: [mockPopup],
       });
 
-      removePopups(map);
+      closePopups(map);
 
       expect(mockPopup.popup.remove).toHaveBeenCalledTimes(1);
       expect(mockPopup.container.remove).toHaveBeenCalledTimes(1);

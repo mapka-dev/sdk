@@ -1,7 +1,7 @@
 import * as maplibregl from "maplibre-gl";
 import { loadLayersIcons } from "./modules/icons.js";
 import { exportMap } from "./modules/export.js";
-import { closePopupsByIds, reconciliatePopups, removePopups } from "./modules/popup.js";
+import { closePopupsByIds, reconciliatePopups, closePopups } from "./modules/popup.js";
 import {
   addMarkers,
   addStyleDiffMarkers,
@@ -103,6 +103,10 @@ export class MapkaMap extends maplibregl.Map {
       openClickPopups(this, event);
     });
 
+    super.on("zoomend", () => {
+      reconciliatePopups(this);
+    });
+
     super.on("style.load", () => {
       addStyleMarkers(this);
     });
@@ -154,7 +158,7 @@ export class MapkaMap extends maplibregl.Map {
   }
 
   public removePopups() {
-    removePopups(this);
+    closePopups(this);
   }
 
   public async export(options?: MapkaExportOptions) {

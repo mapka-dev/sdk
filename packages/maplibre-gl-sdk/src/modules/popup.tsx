@@ -12,8 +12,8 @@ export function getPopupId(popup: { id?: string }) {
   return popup.id ?? `popup-${crypto.randomUUID()}`;
 }
 
-export function getOnClose(map: MapkaMap, id: string) {
-  return () => map.closePopup(id);
+function getOnClose(map: MapkaMap, id: string) {
+  return () => closePopupsByIds(map, [id]);
 }
 
 function hasObjectContent(options: MapkaPopupOptions[]) {
@@ -106,7 +106,7 @@ export function enforceMaxPopups(map: MapkaMap) {
   }
 }
 
-export function reconciliatePopups(map: MapkaMap, options: MapkaPopupOptions[]) {
+export function reconciliatePopups(map: MapkaMap, options: MapkaPopupOptions[] = []) {
   const resolved = resolveContentCreators(options);
   const actions = computePopupGroups(map, resolved);
 
@@ -149,7 +149,7 @@ export function closePopupByIndex(map: MapkaMap, index: number) {
   map.popups.splice(index, 1);
 }
 
-export function removePopups(map: MapkaMap) {
+export function closePopups(map: MapkaMap) {
   map.popups.forEach((_, index) => {
     closePopupByIndex(map, index);
   });

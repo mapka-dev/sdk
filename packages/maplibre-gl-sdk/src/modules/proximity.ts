@@ -1,44 +1,125 @@
+import Supercluster from "supercluster";
 import type { MapkaMap, MapMapkaPopup } from "../map.js";
 import type { MapkaPopupOptionsResolved } from "../types/popup.js";
 
-export type PopupGroupAction =
-  | { type: "close"; ids: string[] }
-  | { type: "create"; options: MapkaPopupOptionsResolved[] };
+export type ClosePopupAction = { type: "close"; ids: string[] };
+export type CreatePopupAction = { type: "create"; options: MapkaPopupOptionsResolved[] };
+
+export type PopupGroupAction = ClosePopupAction | CreatePopupAction;
 
 interface PopupCluster {
   options: MapkaPopupOptionsResolved[];
-  lngLat: [number, number];
+  lngLat: number[];
 }
+
+interface PopupPointProps {
+  index: number;
+}
+
+const WORLD_BOUNDS: [number, number, number, number] = [-180, -90, 180, 90];
 
 function clustersByLocation(
   previous: MapkaPopupOptionsResolved[],
   newOptions: MapkaPopupOptionsResolved[],
-  threshold: number,
-): PopupCluster[] {}
+  zoom: number,
+): PopupCluster[] {
+  const all = [...previous, ...newOptions];
+
+  const features: Supercluster.PointFeature<PopupPointProps>[] = all.map(({ lngLat }, index) => ({
+    type: "Feature",
+    properties: { index },
+    geometry: {
+      type: "Point",
+      coordinates: lngLat,
+    },
+  }));
+
+  const sc = new Supercluster<PopupPointProps>({
+    radius: 20,
+    extent: 1,
+  });
+  sc.load(features);
+
+  const results = sc.getClusters(WORLD_BOUNDS, zoom);
+  const clusters: PopupCluster[] = [];
+
+  for (const { properties, geometry } of results) {
+    if ("cluster" in properties) {
+      const leaves = sc.getLeaves(properties.cluster_id, Infinity);
+      clusters.push({
+        options: leaves.map((point) => all[point.properties.index]),
+        lngLat: geometry.coordinates,
+      });
+    } else {
+      const opt = all[properties.index];
+      clusters.push({
+        options: [opt],
+        lngLat: opt.lngLat,
+      });
+    }
+  }
+
+  return clusters;
+}
+
+function clustersFromPopups(
+  notUpdated: MapkaPopupOptionsResolved[],
+  popups: MapMapkaPopup[],
+): PopupCluster[] {
+  const clusters: PopupCluster[] = [];
+  for (const popup of popups) {
+    clusters.push({
+      options: popup.options.filter((opt) => notUpdated.includes(opt)),
+      lngLat: popup.popup.getLngLat().toArray(),
+    });
+  }
+  return clusters.filter((cluster) => cluster.options.length > 0);
+}
+
+function actionsByClustersChanges(
+  prev: PopupCluster[],
+  next: PopupCluster[],
+): {
+  close: ClosePopupAction[];
+  create: CreatePopupAction[];
+} {
+  return {
+    close: [],
+    create: [],
+  };
+}
 
 function actionsByProximity(
   popups: MapMapkaPopup[],
   newOptions: MapkaPopupOptionsResolved[],
-  threshold: number,
+  zoom: number,
 ): PopupGroupAction[] {
-  const updated: MapMapkaPopup[] = [];
+  const updated: MapkaPopupOptionsResolved[] = [];
   const nonUpdated: MapkaPopupOptionsResolved[] = [];
 
   for (const popup of popups) {
-    if (newOptions.find((o) => popup.ids.includes(o.id))) {
-      updated.push(popup);
-    } else {
-      nonUpdated.push(...popup.options);
+    for (const opt of popup.options) {
+      if (newOptions.find((o) => o.id === opt.id)) {
+        updated.push(opt);
+      } else {
+        nonUpdated.push(opt);
+      }
     }
   }
 
-  const group = clustersByLocation(nonUpdated, newOptions, threshold);
+  const prevClusters = clustersFromPopups(nonUpdated, popups);
+  const nextClusters = clustersByLocation(nonUpdated, newOptions, zoom);
+  const { close, create } = actionsByClustersChanges(prevClusters, nextClusters);
+
+  const updatedIds = updated.map((opt) => opt.id);
+  const closeIds = close.flatMap((opt) => opt.ids);
 
   return [
-    ...updated.map((popup) => ({
+    {
       type: "close" as const,
-      ids: popup.ids,
-    })),
+      ids: updatedIds.concat(closeIds),
+    },
+    ...create,
   ];
 }
 
@@ -72,10 +153,9 @@ export function computePopupGroups(
 ): PopupGroupAction[] {
   const popups = map.getPopups();
   const zoom = map.getZoom();
-  const threshold = getProximityThreshold(zoom);
 
   if (map.scrollPopups) {
-    return actionsByProximity(popups, newOptions, threshold);
+    return actionsByProximity(popups, newOptions, zoom);
   } else {
     return actionsByChanges(popups, newOptions);
   }
