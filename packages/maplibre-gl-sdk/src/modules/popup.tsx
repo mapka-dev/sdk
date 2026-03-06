@@ -4,7 +4,7 @@ import { PopupList } from "../components/PopupList.js";
 import { render } from "preact";
 import { remove } from "es-toolkit/array";
 import { isPlainObject } from "es-toolkit";
-import { computePopupGroups } from "./proximity.js";
+import { computePopupGroups } from "./popupGroups.js";
 import type { MapkaPopupOptions, MapkaPopupOptionsResolved } from "../types/popup.js";
 import type { MapkaMap, MapMapkaPopup } from "../map.js";
 

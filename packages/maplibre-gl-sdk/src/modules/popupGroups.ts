@@ -76,6 +76,13 @@ function clustersFromPopups(
   return clusters.filter((cluster) => cluster.options.length > 0);
 }
 
+function clusterKey(cluster: PopupCluster): string {
+  return cluster.options
+    .map((o) => o.id)
+    .sort()
+    .join("-");
+}
+
 function actionsByClustersChanges(
   prev: PopupCluster[],
   next: PopupCluster[],
@@ -83,10 +90,31 @@ function actionsByClustersChanges(
   close: ClosePopupAction[];
   create: CreatePopupAction[];
 } {
-  return {
-    close: [],
-    create: [],
-  };
+  const prevByKey = new Map(prev.map((c) => [clusterKey(c), c]));
+  const nextByKey = new Map(next.map((c) => [clusterKey(c), c]));
+
+  const close: ClosePopupAction[] = [];
+  const create: CreatePopupAction[] = [];
+
+  for (const [key, cluster] of prevByKey) {
+    if (!nextByKey.has(key)) {
+      close.push({
+        type: "close",
+        ids: cluster.options.map((o) => o.id),
+      });
+    }
+  }
+
+  for (const [key, cluster] of nextByKey) {
+    if (!prevByKey.has(key)) {
+      create.push({
+        type: "create",
+        options: cluster.options,
+      });
+    }
+  }
+
+  return { close, create };
 }
 
 function actionsByProximity(
