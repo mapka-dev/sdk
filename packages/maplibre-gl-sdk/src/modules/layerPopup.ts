@@ -1,6 +1,6 @@
 import { get } from "es-toolkit/compat";
 import { isBoolean, isPlainObject } from "es-toolkit";
-import { closeOnMapClickPopups } from "./popup.js";
+import { closeOnMapClickPopups, getPopupId } from "./popup.js";
 import type { MapMouseEvent, MapGeoJSONFeature, LngLat, Point } from "maplibre-gl";
 import type { MapkaMap } from "../map.js";
 import type { MapkaLayerPopupOptions } from "../types/popup.js";
@@ -10,7 +10,7 @@ function genericPropertiesToPopup(feature: MapGeoJSONFeature, lngLat: LngLat): M
   const { id, properties, layer } = feature;
 
   return {
-    id: id ?? properties.id,
+    id: id ?? properties.id ?? getPopupId(layer),
     lngLat: lngLat.toArray(),
     content: {
       title: layer.id,

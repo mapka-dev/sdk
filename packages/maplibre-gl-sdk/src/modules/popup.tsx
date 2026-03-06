@@ -59,26 +59,26 @@ function createNewPopup(map: MapkaMap, options: MapkaPopupOptionsResolved[]) {
       .setLngLat(lngLat)
       .setDOMContent(container)
       .addTo(map);
-  }
-
-  if (content instanceof HTMLElement) {
-    popup = new Popup({
-      ...opts,
-      closeButton: false,
-    })
-      .setLngLat(lngLat)
-      .setDOMContent(content)
-      .addTo(map);
   } else {
-    popup = new Popup({
-      ...opts,
-      closeButton: false,
-    })
-      .setLngLat(lngLat)
-      .setDOMContent(container)
-      .addTo(map);
+    if (content instanceof HTMLElement) {
+      popup = new Popup({
+        ...opts,
+        closeButton: false,
+      })
+        .setLngLat(lngLat)
+        .setDOMContent(content)
+        .addTo(map);
+    } else {
+      popup = new Popup({
+        ...opts,
+        closeButton: false,
+      })
+        .setLngLat(lngLat)
+        .setDOMContent(container)
+        .addTo(map);
 
-    render(<PopupContent {...content} onClose={getOnClose(map, id)} />, container);
+      render(<PopupContent {...content} onClose={getOnClose(map, id)} />, container);
+    }
   }
 
   if (!popup) return;
@@ -149,6 +149,12 @@ export function closePopupByIndex(map: MapkaMap, index: number) {
   map.popups.splice(index, 1);
 }
 
+export function removePopups(map: MapkaMap) {
+  map.popups.forEach((_, index) => {
+    closePopupByIndex(map, index);
+  });
+}
+
 export function closePopupsByIds(map: MapkaMap, ids: string[]) {
   const listsToReRender: Set<MapMapkaPopup> = new Set();
 
@@ -171,15 +177,4 @@ export function closePopupsByIds(map: MapkaMap, ids: string[]) {
       createNewPopup(map, popup.options);
     }
   });
-}
-
-export function removePopups(map: MapkaMap) {
-  for (const popup of map.popups) {
-    popup.popup.remove();
-    if (hasObjectContent(popup.options)) {
-      render(null, popup.container);
-    }
-    popup.container.remove();
-  }
-  map.popups = [];
 }

@@ -149,6 +149,10 @@ export class MapkaMap extends maplibregl.Map {
     return reconciliatePopups(this, Array.isArray(popup) ? popup : [popup]);
   }
 
+  public getPopups() {
+    return this.popups;
+  }
+
   public removePopups() {
     removePopups(this);
   }
