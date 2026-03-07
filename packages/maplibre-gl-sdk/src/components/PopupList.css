@@ -1,6 +1,6 @@
 .mapka-popup-list-wrapper {
-  position: relative;
   width: 100%;
+  overflow-y: auto;
 }
 
 .mapka-popup-list {

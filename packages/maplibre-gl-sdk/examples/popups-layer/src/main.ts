@@ -40,6 +40,28 @@ map.on("load", () => {
         {
           type: "Feature",
           properties: {
+            name: "Opole 2",
+            description: "City on the Oder River 2",
+          },
+          geometry: {
+            type: "Point",
+            coordinates: [17.9213, 50.6751],
+          },
+        },
+        {
+          type: "Feature",
+          properties: {
+            name: "Opole 3",
+            description: "City on the Oder River 3",
+          },
+          geometry: {
+            type: "Point",
+            coordinates: [17.9213, 50.6751],
+          },
+        },
+        {
+          type: "Feature",
+          properties: {
             name: "Legnica",
             description: "Historic copper mining town",
           },

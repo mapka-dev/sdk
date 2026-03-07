@@ -26,10 +26,13 @@ export function PopupDataRows({ rows }: { rows: MapkaPopupRow[] }) {
   return (
     <dl class="mapka-popup-rows">
       {rows.map((row, index) => (
-        <div key={index} class="mapka-popup-row">
-          <dt class="mapka-popup-row-label">{displayRowName(row.name)}</dt>
-          <dd class="mapka-popup-row-value">{displayRowValue(row.value)}</dd>
-        </div>
+        <>
+          {index > 0 && <div class="mapka-popup-row-divider" />}
+          <div key={index} class="mapka-popup-row">
+            <dt class="mapka-popup-row-label">{displayRowName(row.name)}</dt>
+            <dd class="mapka-popup-row-value">{displayRowValue(row.value)}</dd>
+          </div>
+        </>
       ))}
     </dl>
   );

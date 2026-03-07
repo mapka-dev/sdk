@@ -33,6 +33,7 @@
   transform: translateY(-50%);
   display: flex;
   justify-content: space-between;
+  align-items: center;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.2s ease;
@@ -56,6 +57,7 @@
   pointer-events: auto;
   padding: 0;
   color: #262626;
+  transition: background 0.15s ease;
 }
 
 .mapka-popup-carousel-btn:hover {
@@ -68,30 +70,4 @@
 
 .mapka-popup-carousel-next {
   margin-left: auto;
-}
-
-.mapka-popup-carousel-actions {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 1;
-}
-
-.mapka-popup-action-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 100px;
-  border: 1px solid #dcdfe3;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(3px);
-  cursor: pointer;
-  padding: 0;
-  color: #262626;
-}
-
-.mapka-popup-action-btn:hover {
-  background: rgba(255, 255, 255, 0.9);
 }
