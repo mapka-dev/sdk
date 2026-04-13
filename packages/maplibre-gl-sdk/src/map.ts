@@ -87,13 +87,14 @@ export class MapkaMap extends maplibregl.Map {
   public scrollPopups: boolean = true;
   public popups: MapMapkaPopup[] = [];
 
-  public constructor({ transformRequest, apiKey, maxPopups = 1, ...options }: MapkaMapOptions) {
+  public constructor({ transformRequest, apiKey, maxPopups = 1, scrollPopups = true, ...options }: MapkaMapOptions) {
     super({
       ...options,
       transformRequest: createTransformRequest(apiKey, transformRequest),
     });
 
     this.maxPopups = maxPopups;
+    this.scrollPopups = scrollPopups;
 
     super.on("styleimagemissing", (event: MapStyleImageMissingEvent) => {
       loadLayersIcons(this, event);

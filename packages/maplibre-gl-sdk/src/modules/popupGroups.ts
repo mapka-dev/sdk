@@ -36,7 +36,7 @@ function clustersByLocation(
 
   const sc = new Supercluster<PopupPointProps>({
     radius: 20,
-    extent: 1,
+    extent: 512,
   });
   sc.load(features);
 
