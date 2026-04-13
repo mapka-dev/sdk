@@ -1,6 +1,5 @@
 import { Marker } from "maplibre-gl";
 import { get } from "es-toolkit/compat";
-import { getPopupId } from "./popup.js";
 import { remove } from "es-toolkit";
 import type { Offset, StyleSpecification } from "maplibre-gl";
 import type { MapkaMap } from "../map.js";

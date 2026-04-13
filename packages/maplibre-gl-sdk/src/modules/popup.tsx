@@ -3,7 +3,7 @@ import { PopupContent } from "../components/PopupContent.js";
 import { PopupList } from "../components/PopupList.js";
 import { render } from "preact";
 import { remove } from "es-toolkit/array";
-import { isPlainObject } from "es-toolkit";
+import { isPlainObject, without } from "es-toolkit";
 import { computePopupGroups } from "./popupGroups.js";
 import type { MapkaPopupOptions, MapkaPopupOptionsResolved } from "../types/popup.js";
 import type { MapkaMap, MapMapkaPopup } from "../map.js";
@@ -139,42 +139,46 @@ export function closeOnMapClickPopups(map: MapkaMap) {
   }
 }
 
-export function closePopupByIndex(map: MapkaMap, index: number) {
-  const group = map.popups[index];
-  group.popup.remove();
-  if (hasObjectContent(group.options)) {
-    render(null, group.container);
-  }
-  group.container.remove();
-  map.popups.splice(index, 1);
-}
-
 export function closePopups(map: MapkaMap) {
-  map.popups.forEach((_, index) => {
-    closePopupByIndex(map, index);
-  });
+  for (const popup of map.popups) {
+    popup.popup.remove();
+    if (hasObjectContent(popup.options)) {
+      render(null, popup.container);
+    }
+    popup.container.remove();
+  }
+  map.popups = [];
 }
 
 export function closePopupsByIds(map: MapkaMap, ids: string[]) {
-  const listsToReRender: Set<MapMapkaPopup> = new Set();
+  const toClose: MapMapkaPopup[] = [];
+  const toReRender: MapMapkaPopup[] = [];
 
-  map.popups.forEach((popup, index) => {
+  for (const popup of map.popups) {
     const itemIndex = popup.ids.findIndex((id) => ids.includes(id));
-    if (itemIndex < 0) return;
+    if (itemIndex < 0) continue;
 
     if (popup.ids.length === 1) {
-      closePopupByIndex(map, index);
+      toClose.push(popup);
     } else if (popup.ids.length > 1) {
       popup.ids.splice(itemIndex, 1);
       popup.options.splice(itemIndex, 1);
-      listsToReRender.add(popup);
-    }
-  });
 
-  map.popups.forEach((popup, index) => {
-    if (listsToReRender.has(popup)) {
-      closePopupByIndex(map, index);
-      createNewPopup(map, popup.options);
+      toClose.push(popup);
+      toReRender.push(popup);
     }
-  });
+  }
+
+  for (const popup of toClose) {
+    popup.popup.remove();
+    if (hasObjectContent(popup.options)) {
+      render(null, popup.container);
+    }
+    popup.container.remove();
+    map.popups = without(map.popups, popup);
+  }
+
+  for (const popup of toReRender) {
+    createNewPopup(map, popup.options);
+  }
 }
