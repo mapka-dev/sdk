@@ -20,6 +20,7 @@ export interface MapkaPopupContent {
   description?: string;
   rows?: MapkaPopupRow[];
   imageUrls?: string[];
+  /** Primary action button displayed in the popup */
   primaryAction?: MapkaPopupAction;
 }
 
