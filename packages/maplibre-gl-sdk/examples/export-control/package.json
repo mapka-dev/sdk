@@ -12,7 +12,7 @@
     "@mapka/maplibre-gl-sdk": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "~5.9.3",
-    "vite": "^7.3.1"
+    "typescript": "~6.0.2",
+    "vite": "^8.0.8"
   }
 }
