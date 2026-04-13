@@ -1,6 +1,9 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "extends": ["@chyzwar/biome-config/react"], 
+  "extends": ["@chyzwar/biome-config/react"],
+  "files": {
+    "includes": ["**", "!**/examples/*/index.html"]
+  },
   "javascript": {
     "jsxRuntime": "transparent"
   },
