@@ -146,7 +146,7 @@ map.openPopup({
 });
 ```
 
-### Popup with Favorite Action
+### Popup with Primary Action
 
 ```ts
 map.openPopup({
@@ -155,8 +155,11 @@ map.openPopup({
   content: {
     title: 'Save this place',
     imageUrls: ['https://example.com/image.jpg'],
-    onFavorite: (id) => {
-      console.log('Favorited popup:', id);
+    primaryAction: {
+      label: 'Favorite',
+      onClick: () => {
+        console.log('Favorited!');
+      },
     },
   },
 });
@@ -223,7 +226,7 @@ Popups also support all standard maplibre-gl [popup options](https://maplibre.or
 | `id` | `string` | Unique identifier for the popup |
 | `lngLat` | `[number, number]` | Popup position as `[longitude, latitude]` |
 | `trigger` | `'hover' \| 'click' \| 'always'` | When the popup should appear |
-| `content` | `MapkaPopupContent \| HTMLElement \| Function` | Popup content (see below) |
+| `content` | `MapkaPopupContent \| HTMLElement \| (id: string) => HTMLElement \| (id: string) => MapkaPopupContent` | Popup content (see below) |
 
 ### Popup Content Options
 
@@ -231,8 +234,9 @@ Popups also support all standard maplibre-gl [popup options](https://maplibre.or
 |--------|------|-------------|
 | `title` | `string` | Popup title text |
 | `description` | `string` | Popup description text |
+| `rows` | `MapkaPopupRow[]` | Array of key-value rows (`{ name: string, value: unknown }`) |
 | `imageUrls` | `string[]` | Array of image URLs for the carousel |
-| `onFavorite` | `(id: string) => void` | Callback when favorite button is clicked |
+| `primaryAction` | `MapkaPopupAction` | Primary action button (`{ label: string, onClick?: () => void }`) |
 
 ### Max Popups
 
@@ -244,6 +248,7 @@ const map = new Map({
   container: 'map',
   style: MapStyle.MaputnikOSMLiberty,
   maxPopups: 3, // Allow up to 3 popups open at once (default: 1)
+  scrollPopups: true, // Enable scrolling through popups (default: true)
 });
 ```
 
