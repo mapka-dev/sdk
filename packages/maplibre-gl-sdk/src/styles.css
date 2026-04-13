@@ -1,4 +1,8 @@
 @import "../../../node_modules/maplibre-gl/dist/maplibre-gl.css";
 
+@import "./components/ImageCarousel.css";
+@import "./components/PopupList.css";
+@import "./components/PopupListItem.css";
+@import "./components/PopupDataRows.css";
 @import "./components/PopupContent.css";
 @import "./controls/MapkaDrawControl.css";

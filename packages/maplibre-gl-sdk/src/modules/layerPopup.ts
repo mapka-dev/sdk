@@ -1,33 +1,16 @@
 import { get } from "es-toolkit/compat";
 import { isBoolean, isPlainObject } from "es-toolkit";
-import type { MapMouseEvent, MapGeoJSONFeature, LngLat } from "maplibre-gl";
+import { closeOnMapClickPopups, getPopupId } from "./popup.js";
+import type { MapMouseEvent, MapGeoJSONFeature, LngLat, Point } from "maplibre-gl";
 import type { MapkaMap } from "../map.js";
 import type { MapkaLayerPopupOptions } from "../types/popup.js";
 import type { MapkaPopupOptions } from "../types/popup.js";
-
-export function openOnFeatureClickPopups(map: MapkaMap, { lngLat, point }: MapMouseEvent) {
-  const features = map.queryRenderedFeatures(point);
-
-  if (features.length === 0) {
-    return;
-  }
-
-  const popups = getFeaturePopups(features, lngLat);
-
-  if (popups.length === 0) {
-    return;
-  }
-
-  for (const popup of popups) {
-    map.openPopup(popup);
-  }
-}
 
 function genericPropertiesToPopup(feature: MapGeoJSONFeature, lngLat: LngLat): MapkaPopupOptions {
   const { id, properties, layer } = feature;
 
   return {
-    id: id ?? properties.id,
+    id: id ?? properties.id ?? getPopupId(layer),
     lngLat: lngLat.toArray(),
     content: {
       title: layer.id,
@@ -46,7 +29,13 @@ function buildConfigDrivenPopup(
   throw new Error("Not implemented", { cause: { config, feature, lngLat } });
 }
 
-function getFeaturePopups(features: MapGeoJSONFeature[], lngLat: LngLat): MapkaPopupOptions[] {
+function getFeaturePopups(
+  map: MapkaMap,
+  point: Point,
+  lngLat: LngLat,
+  trigger: "click" | "hover",
+): MapkaPopupOptions[] {
+  const features = map.queryRenderedFeatures(point);
   const popups: MapkaPopupOptions[] = [];
 
   for (const feature of features) {
@@ -66,9 +55,31 @@ function getFeaturePopups(features: MapGeoJSONFeature[], lngLat: LngLat): MapkaP
     }
 
     if (isPlainObject(mapkaPopup)) {
+      if (mapkaPopup.trigger && mapkaPopup.trigger !== trigger) {
+        continue;
+      }
       popups.push(buildConfigDrivenPopup(feature, mapkaPopup, lngLat));
     }
   }
 
   return popups;
+}
+
+export function openClickPopups(map: MapkaMap, { lngLat, point }: MapMouseEvent) {
+  closeOnMapClickPopups(map);
+
+  const featurePopups = getFeaturePopups(map, point, lngLat, "click");
+  if (featurePopups.length === 0) {
+    return;
+  }
+  map.openPopup(featurePopups);
+}
+
+export function openOnHoverPopups(map: MapkaMap, { lngLat, point }: MapMouseEvent) {
+  const featurePopups = getFeaturePopups(map, point, lngLat, "hover");
+
+  if (featurePopups.length === 0) {
+    return;
+  }
+  map.openPopup(featurePopups);
 }

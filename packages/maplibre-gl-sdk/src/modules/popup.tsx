@@ -1,167 +1,184 @@
 import { Popup } from "maplibre-gl";
 import { PopupContent } from "../components/PopupContent.js";
+import { PopupList } from "../components/PopupList.js";
 import { render } from "preact";
 import { remove } from "es-toolkit/array";
-import type { MapkaPopupOptions } from "../types/popup.js";
-import type { MapkaMap } from "../map.js";
-import { isEqual, isPlainObject } from "es-toolkit";
+import { isPlainObject, without } from "es-toolkit";
+import { computePopupGroups } from "./popupGroups.js";
+import type { MapkaPopupOptions, MapkaPopupOptionsResolved } from "../types/popup.js";
+import type { MapkaMap, MapMapkaPopup } from "../map.js";
 
 export function getPopupId(popup: { id?: string }) {
   return popup.id ?? `popup-${crypto.randomUUID()}`;
 }
 
-export function getOnClose(map: MapkaMap, id: string) {
-  return () => map.closePopup(id);
+function getOnClose(map: MapkaMap, id: string) {
+  return () => closePopupsByIds(map, [id]);
+}
+
+function hasObjectContent(options: MapkaPopupOptions[]) {
+  return options.some((opt) => isPlainObject(opt.content));
+}
+
+function resolveContentCreators(options: MapkaPopupOptions[]): MapkaPopupOptionsResolved[] {
+  return options.map((opt) => {
+    const id = getPopupId(opt);
+
+    if (typeof opt.content === "function") {
+      return {
+        ...opt,
+        id,
+        content: opt.content(id),
+      };
+    } else {
+      return {
+        ...opt,
+        id,
+        content: opt.content,
+      };
+    }
+  });
+}
+
+function createNewPopup(map: MapkaMap, options: MapkaPopupOptionsResolved[]) {
+  const [{ lngLat, id, content, closeButton, ...opts }] = options;
+
+  const ids = options.map(getPopupId);
+  const container = document.createElement("div");
+  container.classList.add("mapka-popup-container");
+
+  let popup: Popup | undefined;
+  if (options.length > 1) {
+    render(<PopupList items={options} />, container);
+
+    popup = new Popup({
+      ...opts,
+      closeButton: false,
+      closeOnClick: true,
+    })
+      .setLngLat(lngLat)
+      .setDOMContent(container)
+      .addTo(map);
+  } else {
+    if (content instanceof HTMLElement) {
+      popup = new Popup({
+        ...opts,
+        closeButton: false,
+      })
+        .setLngLat(lngLat)
+        .setDOMContent(content)
+        .addTo(map);
+    } else {
+      popup = new Popup({
+        ...opts,
+        closeButton: false,
+      })
+        .setLngLat(lngLat)
+        .setDOMContent(container)
+        .addTo(map);
+
+      render(<PopupContent {...content} onClose={getOnClose(map, id)} />, container);
+    }
+  }
+
+  if (!popup) return;
+
+  map.popups.push({
+    container,
+    ids,
+    options,
+    popup,
+  });
+
+  return ids;
 }
 
 export function enforceMaxPopups(map: MapkaMap) {
   if (map.popups.length > map.maxPopups) {
     const popupToRemove = map.popups.shift();
-    popupToRemove?.popup.remove();
-    if (isPlainObject(popupToRemove?.options.content)) {
-      render(null, popupToRemove.container);
+    if (popupToRemove) {
+      popupToRemove.popup.remove();
+      if (hasObjectContent(popupToRemove.options)) {
+        render(null, popupToRemove.container);
+      }
+      popupToRemove.container.remove();
     }
-    popupToRemove?.container.remove();
   }
 }
 
-export function openPopup(map: MapkaMap, options: MapkaPopupOptions) {
-  const { lngLat, content, closeButton, id = getPopupId(options), ...popupOptions } = options;
-  if (content instanceof HTMLElement) {
-    const popup = new Popup({
-      ...popupOptions,
-      closeButton: false,
-      closeOnClick: false,
-    })
-      .setLngLat(lngLat)
-      .setDOMContent(content)
-      .addTo(map);
+export function reconciliatePopups(map: MapkaMap, options: MapkaPopupOptions[] = []) {
+  const resolved = resolveContentCreators(options);
+  const actions = computePopupGroups(map, resolved);
 
-    map.popups.push({
-      container: content,
-      id,
-      options,
-      popup,
-    });
-    enforceMaxPopups(map);
-    return id;
-  } else if (typeof content === "object") {
-    const onClose = getOnClose(map, id);
-    const container = document.createElement("div");
-    container.classList.add("mapka-popup-container");
-
-    render(<PopupContent {...content} closeButton={closeButton} onClose={onClose} />, container);
-
-    const popup = new Popup({
-      ...popupOptions,
-      closeButton: false,
-      closeOnClick: false,
-    })
-      .setLngLat(lngLat)
-      .setDOMContent(container)
-      .addTo(map);
-
-    map.popups.push({
-      container,
-      id,
-      options,
-      popup,
-    });
-    enforceMaxPopups(map);
-    return id;
-  } else if (typeof content === "function") {
-    const newContent = content(id);
-    return openPopup(map, {
-      ...options,
-      content: newContent,
-    });
-  }
-
-  throw new Error("Invalid popup content");
-}
-
-const DEFAULT_POPUP_MAX_WIDTH = "240px";
-
-export function updatePopupBaseOptions(
-  popup: Popup,
-  options: MapkaPopupOptions,
-  newOptions: Omit<MapkaPopupOptions, "content">,
-) {
-  if (!isEqual(options.maxWidth, newOptions.maxWidth)) {
-    popup.setMaxWidth(newOptions.maxWidth ?? DEFAULT_POPUP_MAX_WIDTH);
-  }
-  if (!isEqual(options.offset, newOptions.offset)) {
-    popup.setOffset(newOptions.offset);
-  }
-  if (!isEqual(options.lngLat, newOptions.lngLat)) {
-    popup.setLngLat(newOptions.lngLat);
-  }
-  return popup;
-}
-
-export function updatePopup(map: MapkaMap, { content, ...newOptions }: MapkaPopupOptions) {
-  const id = getPopupId(newOptions);
-
-  if (content instanceof HTMLElement) {
-    const mapkaPopups = map.popups.filter((popup) => popup.id === id);
-    for (const { popup, options } of mapkaPopups) {
-      updatePopupBaseOptions(popup, options, newOptions);
-      popup.setDOMContent(content);
+  for (const action of actions) {
+    if (action.type === "close") {
+      closePopupsByIds(map, action.ids);
+    } else if (action.type === "create") {
+      createNewPopup(map, action.options);
     }
-  } else if (typeof content === "object") {
-    const onClose = getOnClose(map, id);
-    const mapkaPopups = map.popups.filter((popup) => popup.id === id);
-
-    for (const { popup, container, options } of mapkaPopups) {
-      const { closeButton } = options;
-      render(<PopupContent {...content} closeButton={closeButton} onClose={onClose} />, container);
-      updatePopupBaseOptions(popup, options, newOptions);
-      popup.setDOMContent(container);
-    }
-  } else if (typeof content === "function") {
-    const newContent = content(id);
-    return updatePopup(map, {
-      ...newOptions,
-      content: newContent,
-    });
   }
+
+  enforceMaxPopups(map);
+
+  return resolved.map((opt) => opt.id);
 }
 
-/**
- * Close all popups that have closeOnClick set to true or undefined
- */
 export function closeOnMapClickPopups(map: MapkaMap) {
-  const popupsToCloseOnMapClick = remove(
-    map.popups,
-    (popup) => popup.options.closeOnClick === true || popup.options.closeOnClick === undefined,
-  );
+  const popupsToCloseOnMapClick = remove(map.popups, (popup) => {
+    const [first] = popup.options;
+    return (
+      popup.ids.length > 1 || first?.closeOnClick === true || first?.closeOnClick === undefined
+    );
+  });
   for (const popup of popupsToCloseOnMapClick) {
     popup.popup.remove();
-    if (isPlainObject(popup.options.content)) {
+    if (hasObjectContent(popup.options)) {
       render(null, popup.container);
     }
     popup.container.remove();
   }
 }
 
-export function closePopupsById(map: MapkaMap, id: string) {
-  const removedPopups = remove(map.popups, (popup) => popup.id === id);
-  for (const popup of removedPopups) {
-    popup.popup.remove();
-    if (isPlainObject(popup.options.content)) {
-      render(null, popup.container);
-    }
-    popup.container.remove();
-  }
-}
-
-export function removePopups(map: MapkaMap) {
+export function closePopups(map: MapkaMap) {
   for (const popup of map.popups) {
     popup.popup.remove();
-    if (isPlainObject(popup.options.content)) {
+    if (hasObjectContent(popup.options)) {
       render(null, popup.container);
     }
     popup.container.remove();
   }
   map.popups = [];
+}
+
+export function closePopupsByIds(map: MapkaMap, ids: string[]) {
+  const toClose: MapMapkaPopup[] = [];
+  const toReRender: MapMapkaPopup[] = [];
+
+  for (const popup of map.popups) {
+    const itemIndex = popup.ids.findIndex((id) => ids.includes(id));
+    if (itemIndex < 0) continue;
+
+    if (popup.ids.length === 1) {
+      toClose.push(popup);
+    } else if (popup.ids.length > 1) {
+      popup.ids.splice(itemIndex, 1);
+      popup.options.splice(itemIndex, 1);
+
+      toClose.push(popup);
+      toReRender.push(popup);
+    }
+  }
+
+  for (const popup of toClose) {
+    popup.popup.remove();
+    if (hasObjectContent(popup.options)) {
+      render(null, popup.container);
+    }
+    popup.container.remove();
+    map.popups = without(map.popups, popup);
+  }
+
+  for (const popup of toReRender) {
+    createNewPopup(map, popup.options);
+  }
 }

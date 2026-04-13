@@ -1,6 +1,6 @@
 import { render } from "preact";
-import { DownloadIcon } from "../components/DownloadIcon.js";
-import { ProgressDownIcon } from "../components/ProgressDownIcon.js";
+import { DownloadIcon } from "../components/icons/DownloadIcon.js";
+import { ProgressDownIcon } from "../components/icons/ProgressDownIcon.js";
 import type { IControl } from "maplibre-gl";
 import type { MapkaMap } from "../map.js";
 import type { MapkaExportOptions } from "../types/export.js";

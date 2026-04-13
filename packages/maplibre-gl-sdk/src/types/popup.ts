@@ -5,6 +5,11 @@ export interface MapkaPopupRow {
   value: unknown;
 }
 
+export interface MapkaPopupAction {
+  label: string;
+  onClick?: () => void;
+}
+
 export type MapkaLayerPopupRow = {
   name: ExpressionSpecification | string;
   value: ExpressionSpecification | unknown;
@@ -15,7 +20,7 @@ export interface MapkaPopupContent {
   description?: string;
   rows?: MapkaPopupRow[];
   imageUrls?: string[];
-  onFavorite?: (id: string) => void;
+  primaryAction?: MapkaPopupAction;
 }
 
 type CreatePopupElement = (id: string) => HTMLElement;
@@ -32,6 +37,11 @@ export interface MapkaPopupOptions extends PopupOptions {
   lngLat: [number, number];
   trigger?: "hover" | "click" | "always";
   content: MapkaPopupCreator;
+}
+
+export interface MapkaPopupOptionsResolved extends MapkaPopupOptions {
+  id: string;
+  content: HTMLElement | MapkaPopupContent;
 }
 
 export interface MapkaLayerPopupContent {

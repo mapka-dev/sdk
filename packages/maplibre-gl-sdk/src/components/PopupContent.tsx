@@ -1,188 +1,32 @@
-import { Fragment } from "preact";
-import { useState } from "preact/hooks";
+import type { MouseEventHandler } from "preact";
 import type { MapkaPopupContent } from "../types/popup.js";
+import { CloseIcon } from "./icons/CloseIcon.js";
+import { PopupDataRows } from "./PopupDataRows.js";
+import { ImageCarousel } from "./ImageCarousel.js";
 
 interface PopupProps extends MapkaPopupContent {
   onClose?: () => void;
   closeButton?: boolean;
 }
 
-function HeartIcon({ filled }: { filled?: boolean }) {
-  return (
-    <svg
-      viewBox="0 0 32 32"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      focusable="false"
-      class="mapka-popup-icon"
-    >
-      <path
-        d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0A6.98 6.98 0 0 0 2 11c0 7 7 12.27 14 17z"
-        fill={filled ? "currentColor" : "none"}
-        stroke="currentColor"
-        stroke-width="2"
-      />
-    </svg>
-  );
-}
-
-function CloseIcon() {
-  return (
-    <svg
-      viewBox="0 0 32 32"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      focusable="false"
-      class="mapka-popup-icon"
-    >
-      <path d="m8 8 16 16M24 8 8 24" fill="none" stroke="currentColor" stroke-width="2" />
-    </svg>
-  );
-}
-
-function ChevronLeftIcon() {
-  return (
-    <svg
-      viewBox="0 0 32 32"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      focusable="false"
-      class="mapka-popup-icon mapka-popup-icon-sm"
-    >
-      <path
-        d="M20 28 8.7 16.7a1 1 0 0 1 0-1.4L20 4"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="4"
-      />
-    </svg>
-  );
-}
-
-function ChevronRightIcon() {
-  return (
-    <svg
-      viewBox="0 0 32 32"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      focusable="false"
-      class="mapka-popup-icon mapka-popup-icon-sm"
-    >
-      <path
-        d="m12 4 11.3 11.3a1 1 0 0 1 0 1.4L12 28"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="4"
-      />
-    </svg>
-  );
-}
-
-function ImageCarousel({
-  imageUrls,
-  title,
-  onFavorite,
-  id,
-}: {
-  imageUrls: string[];
-  title?: string;
-  onFavorite?: (id: string) => void;
-  id?: string;
-}) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const isFirstImage = currentIndex === 0;
-  const isLastImage = currentIndex === imageUrls.length - 1;
-
-  const handlePrev = (e: Event) => {
+function PrimaryButton({ label, onClick }: { label: string; onClick?: () => void }) {
+  const handleClick = (e: Event) => {
     e.stopPropagation();
-    if (currentIndex > 0) {
-      setCurrentIndex((prev) => prev - 1);
-    }
-  };
-
-  const handleNext = (e: Event) => {
-    e.stopPropagation();
-    if (currentIndex < imageUrls.length - 1) {
-      setCurrentIndex((prev) => prev + 1);
-    }
-  };
-
-  const handleFavoriteClick = (e: Event) => {
-    e.stopPropagation();
-    if (onFavorite && id) {
-      onFavorite(id);
-    }
+    onClick?.();
   };
 
   return (
-    <div class="mapka-popup-carousel">
-      <div
-        class="mapka-popup-carousel-track"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-      >
-        {imageUrls.map((url, index) => (
-          <img
-            key={index}
-            src={url}
-            alt={title || `Image ${index + 1}`}
-            class="mapka-popup-carousel-image mapka-popup-image"
-          />
-        ))}
-      </div>
+    <button type="button" class="mapka-popup-button-primary" onClick={handleClick}>
+      {label}
+    </button>
+  );
+}
 
-      {onFavorite && (
-        <div class="mapka-popup-carousel-actions">
-          <button
-            type="button"
-            class="mapka-popup-action-btn"
-            onClick={handleFavoriteClick}
-            aria-label="Add to favorites"
-          >
-            <HeartIcon />
-          </button>
-        </div>
-      )}
-
-      {imageUrls.length > 1 && (
-        <Fragment>
-          {!isFirstImage && (
-            <button
-              type="button"
-              class="mapka-popup-carousel-btn mapka-popup-carousel-prev"
-              onClick={handlePrev}
-              aria-label="Previous image"
-            >
-              <ChevronLeftIcon />
-            </button>
-          )}
-          {!isLastImage && (
-            <button
-              type="button"
-              class="mapka-popup-carousel-btn mapka-popup-carousel-next"
-              onClick={handleNext}
-              aria-label="Next image"
-            >
-              <ChevronRightIcon />
-            </button>
-          )}
-
-          <div class="mapka-popup-dots">
-            {imageUrls.map((_, index) => (
-              <button
-                key={index}
-                type="button"
-                class={`mapka-popup-dot ${index === currentIndex ? "mapka-popup-dot-active" : ""}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setCurrentIndex(index);
-                }}
-                aria-label={`Go to image ${index + 1}`}
-              />
-            ))}
-          </div>
-        </Fragment>
-      )}
-    </div>
+export function CloseButton({ onClose }: { onClose?: MouseEventHandler<HTMLButtonElement> }) {
+  return (
+    <button type="button" class="mapka-popup-close-btn" onClick={onClose} aria-label="Close">
+      <CloseIcon />
+    </button>
   );
 }
 
@@ -191,8 +35,8 @@ export function PopupContent({
   description,
   rows,
   closeButton,
-  imageUrls,
-  onFavorite,
+  imageUrls = [],
+  primaryAction,
   onClose,
 }: PopupProps) {
   const hasImages = imageUrls && imageUrls.length > 0;
@@ -205,32 +49,19 @@ export function PopupContent({
 
   return (
     <div class="mapka-popup">
-      {closeButton && (
-        <button
-          type="button"
-          class="mapka-popup-close-btn"
-          onClick={handleCloseClick}
-          aria-label="Close"
-        >
-          <CloseIcon />
-        </button>
-      )}
-
-      {hasImages && <ImageCarousel imageUrls={imageUrls} title={title} onFavorite={onFavorite} />}
+      {closeButton && <CloseButton onClose={handleCloseClick} />}
+      {hasImages && <ImageCarousel imageUrls={imageUrls} title={title} />}
 
       <div class="mapka-popup-content">
         {title && <h3 class="mapka-popup-title">{title}</h3>}
         {description && <p class="mapka-popup-description">{description}</p>}
 
-        {hasRows && (
-          <dl class="mapka-popup-rows">
-            {rows.map((row, index) => (
-              <div key={index} class="mapka-popup-row">
-                <dt class="mapka-popup-row-label">{row.name}</dt>
-                <dd class="mapka-popup-row-value">{row.value != null ? String(row.value) : "—"}</dd>
-              </div>
-            ))}
-          </dl>
+        {hasRows && <PopupDataRows rows={rows} />}
+
+        {primaryAction && (
+          <div class="mapka-popup-actions">
+            <PrimaryButton label={primaryAction.label} onClick={primaryAction.onClick} />
+          </div>
         )}
       </div>
     </div>

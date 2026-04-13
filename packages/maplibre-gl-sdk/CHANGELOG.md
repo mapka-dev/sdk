@@ -1,4 +1,5 @@
 # Change Log
+
 ## Mapka JS SDK
 
 All notable changes to this project will be documented in this file.

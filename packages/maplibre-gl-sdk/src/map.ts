@@ -1,13 +1,7 @@
 import * as maplibregl from "maplibre-gl";
 import { loadLayersIcons } from "./modules/icons.js";
 import { exportMap } from "./modules/export.js";
-import {
-  closeOnMapClickPopups,
-  closePopupsById,
-  openPopup,
-  removePopups,
-  updatePopup,
-} from "./modules/popup.js";
+import { closePopupsByIds, reconciliatePopups, closePopups } from "./modules/popup.js";
 import {
   addMarkers,
   addStyleDiffMarkers,
@@ -28,9 +22,9 @@ import type {
 } from "maplibre-gl";
 import type { MapkaMarkerOptions } from "./types/marker.js";
 import type { MapkaExportOptions } from "./types/export.js";
-import type { MapkaPopupOptions } from "./types/popup.js";
+import type { MapkaPopupOptions, MapkaPopupOptionsResolved } from "./types/popup.js";
 import type { MapkaAddLayerObject } from "./types/layer.js";
-import { openOnFeatureClickPopups } from "./modules/layerPopup.js";
+import { openClickPopups } from "./modules/layerPopup.js";
 
 export interface MapkaMapOptions extends MapOptions {
   maxPopups?: number;
@@ -65,8 +59,8 @@ const noopTransformStyle: TransformStyleFunction = (_, next) => {
 };
 
 export type MapMapkaPopup = {
-  id: string | string[];
-  options: MapkaPopupOptions;
+  ids: string[];
+  options: MapkaPopupOptionsResolved[];
   container: HTMLElement;
   popup: Popup;
 };
@@ -93,21 +87,25 @@ export class MapkaMap extends maplibregl.Map {
   public scrollPopups: boolean = true;
   public popups: MapMapkaPopup[] = [];
 
-  public constructor({ transformRequest, apiKey, maxPopups = 1, ...options }: MapkaMapOptions) {
+  public constructor({ transformRequest, apiKey, maxPopups = 1, scrollPopups = true, ...options }: MapkaMapOptions) {
     super({
       ...options,
       transformRequest: createTransformRequest(apiKey, transformRequest),
     });
 
     this.maxPopups = maxPopups;
+    this.scrollPopups = scrollPopups;
 
     super.on("styleimagemissing", (event: MapStyleImageMissingEvent) => {
       loadLayersIcons(this, event);
     });
 
     super.on("click", (event: maplibregl.MapMouseEvent) => {
-      closeOnMapClickPopups(this);
-      openOnFeatureClickPopups(this, event);
+      openClickPopups(this, event);
+    });
+
+    super.on("zoomend", () => {
+      reconciliatePopups(this);
     });
 
     super.on("style.load", () => {
@@ -144,20 +142,24 @@ export class MapkaMap extends maplibregl.Map {
     removeMarkers(this);
   }
 
-  public openPopup(popup: MapkaPopupOptions) {
-    return openPopup(this, popup);
+  public openPopup(popup: MapkaPopupOptions | MapkaPopupOptions[]) {
+    return reconciliatePopups(this, Array.isArray(popup) ? popup : [popup]);
   }
 
-  public closePopup(id: string) {
-    closePopupsById(this, id);
+  public closePopup(id: string | string[]) {
+    closePopupsByIds(this, Array.isArray(id) ? id : [id]);
   }
 
   public updatePopup(popup: MapkaPopupOptions) {
-    return updatePopup(this, popup);
+    return reconciliatePopups(this, Array.isArray(popup) ? popup : [popup]);
+  }
+
+  public getPopups() {
+    return this.popups;
   }
 
   public removePopups() {
-    removePopups(this);
+    closePopups(this);
   }
 
   public async export(options?: MapkaExportOptions) {
