@@ -1,6 +1,6 @@
 {
   "name": "@mapka/maplibre-gl-sdk",
-  "version": "0.16.3",
+  "version": "0.16.4",
   "type": "module",
   "description": "Mapka JS SDK",
   "sideEffects": false,

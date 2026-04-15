@@ -4,6 +4,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.16.4](https://github.com/mapka-dev/sdk/compare/v0.16.3...v0.16.4) (2026-04-15)
+
+**Note:** Version bump only for package @mapka/maplibre-gl-sdk
+
 ## [0.16.3](https://github.com/mapka-dev/sdk/compare/v0.16.2...v0.16.3) (2026-04-13)
 
 **Note:** Version bump only for package @mapka/maplibre-gl-sdk
