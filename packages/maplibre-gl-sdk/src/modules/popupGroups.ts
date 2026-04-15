@@ -58,7 +58,6 @@ function clustersByLocation(
       });
     }
   }
-
   return clusters;
 }
 

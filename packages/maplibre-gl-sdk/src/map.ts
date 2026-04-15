@@ -87,7 +87,13 @@ export class MapkaMap extends maplibregl.Map {
   public scrollPopups: boolean = true;
   public popups: MapMapkaPopup[] = [];
 
-  public constructor({ transformRequest, apiKey, maxPopups = 1, scrollPopups = true, ...options }: MapkaMapOptions) {
+  public constructor({
+    transformRequest,
+    apiKey,
+    maxPopups = 1,
+    scrollPopups = true,
+    ...options
+  }: MapkaMapOptions) {
     super({
       ...options,
       transformRequest: createTransformRequest(apiKey, transformRequest),

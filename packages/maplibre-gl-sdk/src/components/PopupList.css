@@ -1,24 +1,71 @@
 .mapka-popup-list-wrapper {
+  position: relative;
   width: 100%;
-  overflow-y: auto;
+  height: 100%;
 }
 
 .mapka-popup-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  overflow-y: auto;
-  max-height: 265px;
-  padding: 8px 8px 24px;
   box-sizing: border-box;
 }
 
-.mapka-popup-list-gradient {
+.mapka-popup-list-nav {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 54px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #fff 100%);
-  pointer-events: none;
+  top: 0;
+  left: 100%;
+  margin-left: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 3px;
+  border-radius: 100px;
+  border: 1px solid #dcdfe3;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(3px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  pointer-events: auto;
+}
+
+.mapka-popup-list-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  color: #262626;
+  transition: background 0.15s ease;
+}
+
+.mapka-popup-list-nav-btn:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.mapka-popup-list-nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.mapka-popup-list-nav-counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  color: #262626;
+  font-variant-numeric: tabular-nums;
+}
+
+.mapka-popup-list-nav-counter-divider {
+  width: 14px;
+  height: 1px;
+  background: #6b7076;
 }

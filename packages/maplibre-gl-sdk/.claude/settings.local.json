@@ -1,8 +1,5 @@
 {
   "permissions": {
-    "allow": [
-      "Bash(yarn lightningcss --help:*)",
-      "Bash(npx lightningcss:*)"
-    ]
+    "allow": ["Bash(yarn lightningcss --help:*)", "Bash(npx lightningcss:*)"]
   }
 }

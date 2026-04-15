@@ -13,19 +13,19 @@
         "organizeImports": "off"
       }
     }
-  }, 
+  },
   "linter": {
     "rules": {
       "correctness": {
         "useUniqueElementIds": {
-          "level": "error", 
+          "level": "error",
           "options": {
             "excludedComponents": ["FormattedMessage"]
           }
         }
       },
       "suspicious": {
-       "noShadowRestrictedNames": {
+        "noShadowRestrictedNames": {
           "level": "off"
         }
       }

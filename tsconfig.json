@@ -9,7 +9,5 @@
     "pretty": true
   },
   "include": [],
-  "references": [
-    { "path": "./packages/maplibre-gl-sdk/tsconfig.json" },
-  ]
+  "references": [{ "path": "./packages/maplibre-gl-sdk/tsconfig.json" }]
 }

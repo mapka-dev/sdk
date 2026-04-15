@@ -1,6 +1,11 @@
 import "@mapka/maplibre-gl-sdk/styles.css";
 
-import { Map, MapStyle, type MapkaMarkerOptions, type MapkaPopupOptions } from "@mapka/maplibre-gl-sdk";
+import {
+  Map,
+  MapStyle,
+  type MapkaMarkerOptions,
+  type MapkaPopupOptions,
+} from "@mapka/maplibre-gl-sdk";
 
 const map = new Map({
   apiKey: import.meta.env.VITE_MAPKA_PUBLIC_API_KEY,
