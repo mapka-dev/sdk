@@ -4,8 +4,6 @@ export default defineProject({
   test: {
     root: "./src",
     environment: "happy-dom",
-    setupFiles: [
-      "./vitest.setup.ts",
-    ],
+    setupFiles: ["./vitest.setup.ts"],
   },
 });
