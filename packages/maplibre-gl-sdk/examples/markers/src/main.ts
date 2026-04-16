@@ -62,7 +62,8 @@ const fullFeaturedMarker: MapkaMarkerOptions = {
 // Example 4: Marker with images on hover
 const attractionMarker: MapkaMarkerOptions = {
   lngLat: [16.0, 50.95],
-  color: "#8b5cf6", // purple
+  color: "#8b5cf6",
+  icon: "maki:castle",
   popup: {
     trigger: "hover",
     content: {

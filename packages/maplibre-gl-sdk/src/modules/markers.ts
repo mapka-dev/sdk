@@ -1,10 +1,17 @@
 import { Marker } from "maplibre-gl";
 import { get } from "es-toolkit/compat";
 import { remove } from "es-toolkit";
-import type { Offset, StyleSpecification } from "maplibre-gl";
+import { loadMarkerIcon } from "./icons.js";
+import type { MarkerOptions, Offset, StyleSpecification } from "maplibre-gl";
 import type { MapkaMap } from "../map.js";
 import type { MapkaMarkerOptions } from "../types/marker.js";
 import type { MapkaMarkerPopupOptions, MapkaPopupOptions } from "../types/popup.js";
+
+/**
+ * Offset for the default pin so the tip sits on the LngLat anchor point.
+ * Value taken from maplibre-gl-js: (shadow translate-y + ellipse cy) - (height/2) ≈ 14.
+ */
+const DEFAULT_PIN_OFFSET: [number, number] = [0, -14];
 
 /**
  * Default marker offset
@@ -110,10 +117,67 @@ function setupMarkerPopupListeners(
   }
 }
 
+/**
+ * Apply `color` (as SVG `fill`) to the fetched icon SVG inside `element`.
+ *
+ * Override every descendant whose `fill` attribute is set and not `"none"`,
+ * then set `fill` on the root `<svg>` itself so paths that omit the
+ * attribute (common in maki — they inherit the browser default) pick up the
+ * user color via SVG cascading. `fill="none"` is preserved so outline-only
+ * shapes keep their transparency.
+ *
+ * Only invoked for icon markers; the default maplibre pin handles its own
+ * color via `MarkerOptions.color`.
+ */
+function applyMarkerColors(element: HTMLElement, color?: string) {
+  if (!color) {
+    return;
+  }
+  for (const el of element.querySelectorAll('[fill]:not([fill="none"])')) {
+    el.setAttribute("fill", color);
+  }
+  const svg = element.querySelector("svg");
+  if (svg && !svg.hasAttribute("fill")) {
+    svg.setAttribute("fill", color);
+  }
+}
+
+function createMarkerElement(
+  currentMap: MapkaMap,
+  options: MapkaMarkerOptions,
+): HTMLElement | undefined {
+  const { color, icon } = options;
+  if (!icon) {
+    return;
+  }
+
+  const element = document.createElement("div");
+  element.className = "mapka-marker-icon";
+
+  element.dataset.iconId = icon;
+  loadMarkerIcon(icon)
+    .then((svg) => {
+      element.innerHTML = svg;
+      applyMarkerColors(element, color);
+    })
+    .catch((err) => {
+      currentMap.logger.warn(`[mapka] Failed to load marker icon "${icon}":`, err);
+    });
+
+  return element;
+}
+
 export function addMarkers(currentMap: MapkaMap, markersOptions: MapkaMarkerOptions[]) {
   for (const markerOptions of markersOptions) {
-    const { lngLat, popup, ...options } = markerOptions;
-    const newMarker = new Marker(options).setLngLat(lngLat).addTo(currentMap);
+    const { lngLat, popup, icon, offset = DEFAULT_PIN_OFFSET, ...rest } = markerOptions;
+
+    const markerOpts: MarkerOptions = {
+      ...rest,
+      element: createMarkerElement(currentMap, markerOptions),
+      offset,
+    };
+
+    const newMarker = new Marker(markerOpts).setLngLat(lngLat).addTo(currentMap);
 
     currentMap.markers.push({
       id: getMarkerId(markerOptions),
