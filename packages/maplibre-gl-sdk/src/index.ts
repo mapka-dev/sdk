@@ -17,3 +17,5 @@ export {
   MapkaDrawControlOptions,
   DrawMode,
 } from "./controls/MapkaDrawControl.js";
+
+export { loadMarkerIcon } from "./modules/icons.js";

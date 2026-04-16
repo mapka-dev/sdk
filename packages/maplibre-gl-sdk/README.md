@@ -45,6 +45,33 @@ map.addMarkers([
 ]);
 ```
 
+### Markers with Icons
+
+Render a marker with a Mapka icon instead of the default pin. Supported icon sets are `maki:` and `temaki:`.
+
+```ts
+map.addMarkers([
+  {
+    id: 'restaurant',
+    lngLat: [18, 54],
+    icon: 'maki:restaurant',
+    color: '#ff6b35',
+  },
+  {
+    id: 'park',
+    lngLat: [18.01, 54.01],
+    icon: 'temaki:park_alt1',
+    color: '#2e7d32',
+  },
+]);
+```
+
+Icons are fetched from the Mapka API, batched across markers, and cached — reusing the same `icon` id across markers performs a single request.
+
+### Recoloring markers
+
+`color` accepts any CSS color value and sets the SVG fill — the droplet on the default pin, every shape on a fetched icon. Attributes explicitly set to `"none"` in the source SVG are preserved, so outline-only shapes keep their transparency.
+
 ### Markers with Popups
 
 ```ts
@@ -96,8 +123,8 @@ Markers also support all standard maplibre-gl [marker options](https://maplibre.
 |--------|------|-------------|
 | `id` | `string` | Unique identifier for the marker |
 | `lngLat` | `[number, number]` | Marker position as `[longitude, latitude]` |
-| `color` | `string` | Marker color (CSS color value) |
-| `icon` | `string` | URL to a custom marker icon |
+| `icon` | `string` | Mapka icon id (`maki:*` or `temaki:*`). Omit to use the default pin. |
+| `color` | `string` | CSS color applied to the SVG fill. Defaults to `#3FB1CE` for the default pin. |
 | `popup` | `MapkaMarkerPopupOptions` | Popup configuration (see Popup Options) |
 
 ## Popups

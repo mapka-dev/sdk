@@ -32,6 +32,7 @@
   "dependencies": {
     "es-toolkit": "^1.45.1",
     "html-to-image": "^1.11.13",
+    "ky": "^2.0.1",
     "maplibre-gl": "^5.22.0",
     "preact": "^10.29.1",
     "supercluster": "^8.0.1",

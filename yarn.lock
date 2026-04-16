@@ -624,6 +624,7 @@ __metadata:
     es-toolkit: "npm:^1.45.1"
     happy-dom: "npm:^20.8.9"
     html-to-image: "npm:^1.11.13"
+    ky: "npm:^2.0.1"
     lightningcss: "npm:^1.32.0"
     lightningcss-cli: "npm:^1.32.0"
     maplibre-gl: "npm:^5.22.0"
@@ -3288,6 +3289,13 @@ __metadata:
   version: 4.0.2
   resolution: "kdbush@npm:4.0.2"
   checksum: 10c2/22a4d1b2057d8212300b0ed23fa2b38d8f38b99b3c29a8032264f226f85ce661382e1e076090b3224ef188f58beda06ad6a08ca515b27aca10dfea499a2a080f
+  languageName: node
+  linkType: hard
+
+"ky@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "ky@npm:2.0.1"
+  checksum: 10c2/6b130ffeb44db460ddf1f9abde3a013d3a4e009586b829540bd7d2c7967f0448ec9d82d19988412ab95bccfd7641cd880f342e80e7365daf90266e712facbb58
   languageName: node
   linkType: hard
 
