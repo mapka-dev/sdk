@@ -4,6 +4,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.0](https://github.com/mapka-dev/sdk/compare/v0.16.4...v0.17.0) (2026-04-16)
+
+### Features
+
+* **markers:** add icon support with color override ([#22](https://github.com/mapka-dev/sdk/issues/22)) ([4f9f1ff](https://github.com/mapka-dev/sdk/commit/4f9f1ff9a80ce284eb0e29d600c56cc5f97319bc)) - by @chyzwar
+
 ## [0.16.4](https://github.com/mapka-dev/sdk/compare/v0.16.3...v0.16.4) (2026-04-15)
 
 **Note:** Version bump only for package @mapka/root-sdk
