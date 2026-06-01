@@ -1,8 +1,8 @@
 import { useState } from "preact/hooks";
 import type { MapkaPopupOptionsResolved } from "../types/popup.js";
 import { PopupContent } from "./PopupContent.js";
-import { ChevronUpIcon } from "./icons/ChevronUpIcon.js";
-import { ChevronDownIcon } from "./icons/ChevronDownIcon.js";
+import { ChevronLeftIcon } from "./icons/ChevronLeftIcon.js";
+import { ChevronRightIcon } from "./icons/ChevronRightIcon.js";
 import { noop } from "es-toolkit";
 
 interface PopupCollectionProps {
@@ -33,12 +33,10 @@ function PopupListNav({ index, total, onPrev, onNext }: PopupListNavProps) {
         disabled={isFirst}
         aria-label="Previous popup"
       >
-        <ChevronUpIcon />
+        <ChevronLeftIcon />
       </button>
       <div class="mapka-popup-list-nav-counter">
-        <span>{index + 1}</span>
-        <span class="mapka-popup-list-nav-counter-divider" />
-        <span>{total}</span>
+        {index + 1}/{total}
       </div>
       <button
         type="button"
@@ -47,7 +45,7 @@ function PopupListNav({ index, total, onPrev, onNext }: PopupListNavProps) {
         disabled={isLast}
         aria-label="Next popup"
       >
-        <ChevronDownIcon />
+        <ChevronRightIcon />
       </button>
     </div>
   );

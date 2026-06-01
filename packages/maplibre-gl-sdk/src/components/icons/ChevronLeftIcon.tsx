@@ -1,6 +1,8 @@
 export function ChevronLeftIcon() {
   return (
     <svg
+      width="16"
+      height="16"
       viewBox="0 0 16 16"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
@@ -8,12 +10,11 @@ export function ChevronLeftIcon() {
       class="mapka-popup-icon mapka-popup-icon-sm"
     >
       <path
-        d="M10 3 5.7 7.3a1 1 0 0 0 0 1.4L10 13"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        transform="translate(5.333 3.333)"
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M5.13807 0.195262C5.39842 0.455612 5.39842 0.877722 5.13807 1.13807L1.60948 4.66667L5.13807 8.19526C5.39842 8.45561 5.39842 8.87772 5.13807 9.13807C4.87772 9.39842 4.45561 9.39842 4.19526 9.13807L0.195262 5.13807C-0.0650874 4.87772 -0.0650874 4.45561 0.195262 4.19526L4.19526 0.195262C4.45561 -0.0650874 4.87772 -0.0650874 5.13807 0.195262Z"
+        fill="currentColor"
       />
     </svg>
   );
