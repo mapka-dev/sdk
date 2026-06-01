@@ -10,13 +10,13 @@
   },
   "dependencies": {
     "@mapka/maplibre-gl-sdk": "workspace:*",
-    "@turf/random": "^7.3.4",
+    "@turf/random": "^7.3.5",
     "es-toolkit": "^1.47.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"
   },
   "devDependencies": {
-    "@types/react": "^19.2.14",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
     "typescript": "~6.0.3",
