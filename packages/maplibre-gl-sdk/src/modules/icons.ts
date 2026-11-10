@@ -2,7 +2,6 @@ import ky from "ky";
 import { debounce, uniq } from "es-toolkit";
 import { getMapkaUrl } from "../utils/url.js";
 import type { MapkaMap } from "../map.js";
-import type { MapStyleImageMissingEvent } from "maplibre-gl";
 
 interface Icon {
   id: string;
@@ -70,24 +69,22 @@ export function loadMarkerIcon(id: string): Promise<string> {
 const isStyleImage = (id: string) => id.includes(":");
 
 /**
- * Load any icons that are missing from the map from the Mapka API.
- * @see https://github.com/mapbox/mapbox-gl-js/issues/5529
+ * Resolve an icon that is missing from the map by loading it from the Mapka API.
+ * MapLibre awaits the returned promise, so the image must be added before it settles.
  */
-export function loadLayersIcons(map: MapkaMap, event: MapStyleImageMissingEvent) {
-  if (map.hasImage(event.id) || !isStyleImage(event.id)) return;
+export async function resolveLayerIcon(map: MapkaMap, id: string): Promise<void> {
+  if (map.hasImage(id) || !isStyleImage(id)) return;
 
-  loadMarkerIcon(event.id)
-    .then((svg) => {
-      if (map.hasImage(event.id)) return;
-      const img = new Image(15, 15);
-      img.onload = () => {
-        if (!map.hasImage(event.id)) {
-          map.addImage(event.id, img);
-        }
-      };
-      img.src = `data:image/svg+xml;charset=utf-8;base64,${btoa(svg)}`;
-    })
-    .catch((err) => {
-      map.logger.warn(`[mapka] Failed to load layer icon "${event.id}":`, err);
-    });
+  try {
+    const svg = await loadMarkerIcon(id);
+    const img = new Image(15, 15);
+    img.src = `data:image/svg+xml;charset=utf-8;base64,${btoa(svg)}`;
+    await img.decode();
+
+    if (!map.hasImage(id)) {
+      map.addImage(id, img);
+    }
+  } catch (err) {
+    map.logger.warn(`[mapka] Failed to load layer icon "${id}":`, err);
+  }
 }

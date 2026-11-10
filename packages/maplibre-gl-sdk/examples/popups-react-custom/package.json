@@ -10,16 +10,18 @@
   },
   "dependencies": {
     "@mapka/maplibre-gl-sdk": "workspace:*",
-    "@turf/random": "^7.3.5",
-    "es-toolkit": "^1.47.0",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "@turf/random": "^7.4.0",
+    "es-toolkit": "^1.52.0",
+    "maplibre-gl": "^6.17.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
-    "@types/react": "^19.2.15",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.2",
-    "typescript": "~6.0.3",
-    "vite": "^8.0.14"
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "@vitejs/plugin-react": "^6.1.1",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "vite": "^8.3.0"
   }
 }

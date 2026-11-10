@@ -1,4 +1,4 @@
-import Supercluster from "supercluster";
+import Supercluster, { type PointFeature } from "supercluster";
 import type { MapkaMap, MapMapkaPopup } from "../map.js";
 import type { MapkaPopupOptionsResolved } from "../types/popup.js";
 
@@ -25,7 +25,7 @@ function clustersByLocation(
 ): PopupCluster[] {
   const all = [...previous, ...newOptions];
 
-  const features: Supercluster.PointFeature<PopupPointProps>[] = all.map(({ lngLat }, index) => ({
+  const features: PointFeature<PopupPointProps>[] = all.map(({ lngLat }, index) => ({
     type: "Feature",
     properties: { index },
     geometry: {

@@ -1,5 +1,5 @@
 import * as maplibregl from "maplibre-gl";
-import { loadLayersIcons } from "./modules/icons.js";
+import { resolveLayerIcon } from "./modules/icons.js";
 import { exportMap } from "./modules/export.js";
 import { closePopupsByIds, reconciliatePopups, closePopups } from "./modules/popup.js";
 import {
@@ -13,7 +13,6 @@ import type {
   Marker,
   Popup,
   RequestTransformFunction,
-  MapStyleImageMissingEvent,
   MapOptions,
   TransformStyleFunction,
   StyleSwapOptions,
@@ -102,9 +101,7 @@ export class MapkaMap extends maplibregl.Map {
     this.maxPopups = maxPopups;
     this.scrollPopups = scrollPopups;
 
-    super.on("styleimagemissing", (event: MapStyleImageMissingEvent) => {
-      loadLayersIcons(this, event);
-    });
+    super.setMissingStyleImageResolver((id) => resolveLayerIcon(this, id));
 
     super.on("click", (event: maplibregl.MapMouseEvent) => {
       openClickPopups(this, event);
