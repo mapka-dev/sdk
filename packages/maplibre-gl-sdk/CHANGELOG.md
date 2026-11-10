@@ -4,6 +4,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.18.0](https://github.com/mapka-dev/sdk/compare/v0.17.2...v0.18.0) (2026-11-10)
+
+### ⚠ BREAKING CHANGES
+
+* upgrade to maplibre-gl v6 ([#26](https://github.com/mapka-dev/sdk/issues/26))
+
+### Features
+
+* upgrade to maplibre-gl v6 ([#26](https://github.com/mapka-dev/sdk/issues/26)) ([bcac5b7](https://github.com/mapka-dev/sdk/commit/bcac5b7a8b065851a195436fd697d1312ce68548)) - by @chyzwar
+
 ## [0.17.2](https://github.com/mapka-dev/sdk/compare/v0.17.1...v0.17.2) (2026-06-01)
 
 **Note:** Version bump only for package @mapka/maplibre-gl-sdk
