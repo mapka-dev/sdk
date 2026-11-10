@@ -1,6 +1,15 @@
 import "@mapka/maplibre-gl-sdk/styles.css";
+import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 
-import { Map, MapkaExportControl, MapStyle, type MapkaMarkerOptions } from "@mapka/maplibre-gl-sdk";
+import {
+  setWorkerUrl,
+  Map,
+  MapkaExportControl,
+  MapStyle,
+  type MapkaMarkerOptions,
+} from "@mapka/maplibre-gl-sdk";
+
+setWorkerUrl(workerUrl);
 
 const map = new Map({
   apiKey: import.meta.env.VITE_MAPKA_PUBLIC_API_KEY,

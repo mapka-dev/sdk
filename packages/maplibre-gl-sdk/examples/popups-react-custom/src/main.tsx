@@ -1,11 +1,19 @@
 import "@mapka/maplibre-gl-sdk/styles.css";
+import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import "./styles.css";
 
 import { createRoot } from "react-dom/client";
 import { randomPoint } from "@turf/random";
-import { Map as MapkaMap, MapStyle, type MapkaMarkerOptions } from "@mapka/maplibre-gl-sdk";
+import {
+  setWorkerUrl,
+  Map as MapkaMap,
+  MapStyle,
+  type MapkaMarkerOptions,
+} from "@mapka/maplibre-gl-sdk";
 import { RealEstatePopup, type RealEstateProperty } from "./components/RealEstatePopup.tsx";
 import { generateProperty, US_BBOX } from "./utils.ts";
+
+setWorkerUrl(workerUrl);
 
 const points = randomPoint(2500, { bbox: US_BBOX });
 

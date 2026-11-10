@@ -1,6 +1,7 @@
 {
   "name": "@mapka/root-sdk",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "author": "chyzwar",
   "license": "UNLICENSED",
@@ -24,18 +25,19 @@
     ]
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.16",
-    "@chyzwar/biome-config": "^0.4.3",
-    "@chyzwar/runner": "^0.11.0",
-    "@lerna-lite/cli": "^5.2.2",
-    "@lerna-lite/publish": "^5.2.2",
-    "@lerna-lite/version": "^5.2.2",
-    "conventional-changelog-conventionalcommits": "^9.3.1",
-    "happy-dom": "^20.9.0",
+    "@biomejs/biome": "^2.5.13",
+    "@chyzwar/biome-config": "^0.4.4",
+    "@chyzwar/runner": "^0.14.2",
+    "@lerna-lite/cli": "^5.6.1",
+    "@lerna-lite/publish": "^5.6.1",
+    "@lerna-lite/version": "^5.6.1",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "conventional-changelog-conventionalcommits": "^10.4.0",
+    "happy-dom": "^20.14.5",
     "husky": "^9.1.7",
-    "lint-staged": "^17.0.6",
-    "typescript": "^6.0.3",
-    "vitest": "^4.1.7"
+    "lint-staged": "^17.5.1",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "vitest": "^5.0.0"
   },
   "dependenciesMeta": {
     "esbuild": {
@@ -50,5 +52,6 @@
   },
   "lint-staged": {
     "*.{js,ts,tsx}": "yarn lint"
-  }
+  },
+  "packageManager": "yarn@4.18.0"
 }
