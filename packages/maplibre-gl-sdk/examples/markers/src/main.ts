@@ -61,9 +61,6 @@ const fullFeaturedMarker: MapkaMarkerOptions = {
         "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400",
         "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=400",
       ],
-      onFavorite: (id: string) => {
-        console.log(`Favorited marker: ${id}`);
-      },
     },
   },
 };
