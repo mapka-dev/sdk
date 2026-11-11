@@ -71,9 +71,6 @@ const fullFeaturedMarker: MapkaMarkerOptions = {
         label: "Book Now",
         onClick: () => console.log("Booking hotel..."),
       },
-      onFavorite: (id: string) => {
-        console.log(`Favorited marker: ${id}`);
-      },
     },
   },
 };
