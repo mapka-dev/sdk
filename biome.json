@@ -2,10 +2,20 @@
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "extends": ["@chyzwar/biome-config/react"],
   "files": {
-    "includes": ["**", "!**/examples/*/index.html"]
+    "includes": ["**", "!**/examples/*/index.html", "!lerna.json"]
   },
   "javascript": {
     "jsxRuntime": "transparent"
+  },
+  "markdown": {
+    "formatter": {
+      "enabled": false
+    }
+  },
+  "yaml": {
+    "formatter": {
+      "enabled": false
+    }
   },
   "assist": {
     "actions": {
