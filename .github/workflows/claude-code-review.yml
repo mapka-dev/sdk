@@ -2,26 +2,21 @@ name: "[PR] Claude Code Review"
 
 on:
   pull_request:
-    types: [opened, synchronize]
-    # Optional: Only run on specific file changes
-    paths:
-      - "packages/**/*.ts"
-      - "packages/**/*.tsx"
-      - "packages/**/*.js"
-      - "packages/**/*.jsx"
+    types: [opened, synchronize, ready_for_review, reopened]
 
 jobs:
   claude-review:
-    # Optional: Filter by PR author
-    # if: |
-    #   github.event.pull_request.user.login == 'external-contributor' ||
-    #   github.event.pull_request.user.login == 'new-developer' ||
-    #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
+    if: |
+      github.event.pull_request.author_association == 'OWNER' ||
+      github.event.pull_request.author_association == 'MEMBER' ||
+      github.event.pull_request.author_association == 'COLLABORATOR' ||
+      github.event.pull_request.author_association == 'CONTRIBUTOR' ||
+      github.event.pull_request.author_association == 'ADMIN'
 
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: write
+      pull-requests: read
       issues: read
       id-token: write
 
@@ -31,36 +26,39 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Run Claude Code Review
-        id: claude-review
+      - name: Normalize PR title and description
+        if: github.event.action == 'opened'
         uses: anthropics/claude-code-action@v1
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ github.event.pull_request.number }}
 
-            ## Step 1: Update PR Title and Description
-            Use `gh pr edit ${{ github.event.pull_request.number }}` to:
-            - Update the PR title to follow conventional commit style (e.g., "feat:", "fix:", "chore:", "refactor:", "docs:", "test:")
-            - Update the PR description with a minimal summary of changes, including:
-              - What was changed and why
-              - Any breaking changes or important notes
+            Use `gh pr view ${{ github.event.pull_request.number }}` to read the
+            current title and body, then use `gh pr edit ${{ github.event.pull_request.number }}`
+            to rewrite them:
 
-            ## Step 2: Code Review
-            Please review this pull request and provide feedback on:
-            - Code quality and best practices
-            - Potential bugs or issues
-            - Performance considerations
-            - Security concerns
+            - Title: conventional commit format, lowercase type, no scope,
+              imperative mood. Valid types: feat, fix, chore, refactor, docs,
+              test, perf, build, ci. Example: "feat: add spend-by-metric chart".
+            - Body: minimal summary — what changed and why, any breaking
+              changes or migration notes. Under 10 lines. Preserve any existing
+              test plan, linked issues, or reviewer notes the author already
+              wrote.
 
-            Use the repository's CLAUDE.md for guidance on style and conventions. Be constructive and helpful in your feedback.
-
-            Use `gh pr comment` with your Bash tool to leave your review as a comment on the PR.
-
-          # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
-          # or https://code.claude.com/docs/en/cli-reference for available options
+            Do not comment on the PR. Do not review the code. Only edit the
+            title and body.
           claude_args: |
-            --model opus
-            --allowed-tools "Bash(gh issue view:*),Bash(gh search:*),Bash(gh issue list:*),Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr list:*),Bash(gh pr edit:*)"
+            --model sonnet
+            --dangerously-skip-permissions
 
+      - name: Run Claude Code Review
+        id: claude-review
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          plugin_marketplaces: 'https://github.com/anthropics/claude-code.git'
+          plugins: 'code-review@claude-code-plugins'
+          prompt: '/code-review:code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }} --comment'
+          claude_args: '--dangerously-skip-permissions'
