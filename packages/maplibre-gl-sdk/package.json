@@ -30,12 +30,12 @@
   "author": "chyzwar",
   "license": "Apache-2.0",
   "dependencies": {
-    "@maplibre/maplibre-gl-style-spec": "^26.6.0",
+    "@maplibre/maplibre-gl-style-spec": "^26.8.0",
     "@types/geojson": "^7946.0.16",
     "es-toolkit": "^1.53.2",
     "html-to-image": "^1.11.13",
     "ky": "^2.2.0",
-    "maplibre-gl": "^6.17.0",
+    "maplibre-gl": "^6.18.0",
     "preact": "^11.2.0",
     "supercluster": "^9.1.0",
     "terra-draw": "^1.39.0",
@@ -52,7 +52,7 @@
     "lightningcss-cli": "^1.33.0",
     "nodemon": "^3.1.14",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "vite": "^8.3.7"
+    "vite": "^8.3.8"
   },
   "files": [
     "src/",
