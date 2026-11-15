@@ -6,6 +6,9 @@
   "author": "chyzwar",
   "license": "UNLICENSED",
   "private": true,
+  "engines": {
+    "node": "26.x"
+  },
   "scripts": {
     "dev": "runner dev",
     "lint": "runner lint",
@@ -25,7 +28,7 @@
     ]
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.6.6",
+    "@biomejs/biome": "^2.6.7",
     "@chyzwar/biome-config": "^0.4.4",
     "@chyzwar/runner": "^0.14.2",
     "@lerna-lite/cli": "^5.8.0",
@@ -53,5 +56,5 @@
   "lint-staged": {
     "*.{js,ts,tsx}": "yarn lint"
   },
-  "packageManager": "yarn@4.18.0"
+  "packageManager": "yarn@4.18.1"
 }

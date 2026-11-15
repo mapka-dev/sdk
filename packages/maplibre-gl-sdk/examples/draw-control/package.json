@@ -10,11 +10,11 @@
   },
   "dependencies": {
     "@mapka/maplibre-gl-sdk": "workspace:*",
-    "maplibre-gl": "^6.17.0"
+    "maplibre-gl": "^6.18.0"
   },
   "devDependencies": {
     "@typescript/native": "npm:typescript@^7.0.2",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "vite": "^8.3.7"
+    "vite": "^8.3.8"
   }
 }
